@@ -770,6 +770,22 @@ namespace CSharpx
             var y = (Either2Of2<T1, T3>)either;
             return new Either2Of2<T2, T3>(y.Value);
         }
+
+        /// <summary>
+        /// Maps both parts of a Either type.
+        /// Applies the first function if Either is 1Of2.
+        /// Otherwise applies the second function.
+        /// </summary>
+        public static Either<T2, T4> Bimap<T1, T2, T3, T4>(Func<T1, T2> func1, Func<T3, T4> func2, Either<T1, T3> either)
+        {
+            if (either.Tag == Either2Type.Either1Of2)
+            {
+                var x = (Either1Of2<T1, T3>)either;
+                return new Either1Of2<T2, T4>(func1(x.Value));
+            }
+            var y = (Either2Of2<T1, T3>)either;
+            return new Either2Of2<T2, T4>(func2(y.Value));
+        }
     }
 
     public static class EitherExtensions
