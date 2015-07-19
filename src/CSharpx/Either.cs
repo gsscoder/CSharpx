@@ -542,134 +542,139 @@ namespace CSharpx
 
     public static class Either
     {
-        public static Either<T1, T2> NewEither<T1, T2>(T1 value)
+        public static Either<T1, T2> New1Of2<T1, T2>(T1 value)
         {
             return new Either1Of2<T1, T2>(value);
         }
 
-        public static Either<T1, T2> NewEither<T1, T2>(T2 value)
+        public static Either<T1, T2> New2Of2<T1, T2>(T2 value)
         {
             return new Either2Of2<T1, T2>(value);
         }
 
-        public static Either<T1, T2, T3> NewEither<T1, T2, T3>(T1 value)
+        public static Either<T1, T2, T3> New1Of3<T1, T2, T3>(T1 value)
         {
             return new Either1Of3<T1, T2, T3>(value);
         }
 
-        public static Either<T1, T2, T3> NewEither<T1, T2, T3>(T2 value)
+        public static Either<T1, T2, T3> New2Of3<T1, T2, T3>(T2 value)
         {
             return new Either2Of3<T1, T2, T3>(value);
         }
 
-        public static Either<T1, T2, T3> NewEither<T1, T2, T3>(T3 value)
+        public static Either<T1, T2, T3> New3Of3<T1, T2, T3>(T3 value)
         {
             return new Either3Of3<T1, T2, T3>(value);
         }
 
-        public static Either<T1, T2, T3, T4> NewEither<T1, T2, T3, T4>(T1 value)
+        public static Either<T1, T2, T3, T4> New1Of4<T1, T2, T3, T4>(T1 value)
         {
             return new Either1Of4<T1, T2, T3, T4>(value);
         }
 
-        public static Either<T1, T2, T3, T4> NewEither<T1, T2, T3, T4>(T2 value)
+        public static Either<T1, T2, T3, T4> New2Of4<T1, T2, T3, T4>(T2 value)
         {
             return new Either2Of4<T1, T2, T3, T4>(value);
         }
 
-        public static Either<T1, T2, T3, T4> NewEither<T1, T2, T3, T4>(T3 value)
+        public static Either<T1, T2, T3, T4> New3Of4<T1, T2, T3, T4>(T3 value)
         {
             return new Either3Of4<T1, T2, T3, T4>(value);
         }
 
-        public static Either<T1, T2, T3, T4> NewEither<T1, T2, T3, T4>(T4 value)
+        public static Either<T1, T2, T3, T4> New4Of4<T1, T2, T3, T4>(T4 value)
         {
             return new Either4Of4<T1, T2, T3, T4>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5> NewEither<T1, T2, T3, T4, T5>(T1 value)
+        public static Either<T1, T2, T3, T4, T5> New1Of5<T1, T2, T3, T4, T5>(T1 value)
         {
             return new Either1Of5<T1, T2, T3, T4, T5>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5> NewEither<T1, T2, T3, T4, T5>(T2 value)
+        public static Either<T1, T2, T3, T4, T5> New2Of5<T1, T2, T3, T4, T5>(T2 value)
         {
             return new Either2Of5<T1, T2, T3, T4, T5>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5> NewEither<T1, T2, T3, T4, T5>(T3 value)
+        public static Either<T1, T2, T3, T4, T5> New3Of5<T1, T2, T3, T4, T5>(T3 value)
         {
             return new Either3Of5<T1, T2, T3, T4, T5>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5> NewEither<T1, T2, T3, T4, T5>(T4 value)
+        public static Either<T1, T2, T3, T4, T5> New4Of5<T1, T2, T3, T4, T5>(T4 value)
         {
             return new Either4Of5<T1, T2, T3, T4, T5>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5> NewEither<T1, T2, T3, T4, T5>(T5 value)
+        public static Either<T1, T2, T3, T4, T5> New5Of5<T1, T2, T3, T4, T5>(T5 value)
         {
             return new Either5Of5<T1, T2, T3, T4, T5>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6> NewEither<T1, T2, T3, T4, T5, T6>(T1 value)
+        public static Either<T1, T2, T3, T4, T5, T6> New1Of6<T1, T2, T3, T4, T5, T6>(T1 value)
         {
             return new Either1Of6<T1, T2, T3, T4, T5, T6>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6> NewEither<T1, T2, T3, T4, T5, T6>(T2 value)
+        public static Either<T1, T2, T3, T4, T5, T6> New2Of6<T1, T2, T3, T4, T5, T6>(T2 value)
         {
             return new Either2Of6<T1, T2, T3, T4, T5, T6>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6> NewEither<T1, T2, T3, T4, T5, T6>(T3 value)
+        public static Either<T1, T2, T3, T4, T5, T6> New3Of6<T1, T2, T3, T4, T5, T6>(T3 value)
         {
             return new Either3Of6<T1, T2, T3, T4, T5, T6>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6> NewEither<T1, T2, T3, T4, T5, T6>(T4 value)
+        public static Either<T1, T2, T3, T4, T5, T6> New4Of6<T1, T2, T3, T4, T5, T6>(T4 value)
         {
             return new Either4Of6<T1, T2, T3, T4, T5, T6>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6> NewEither<T1, T2, T3, T4, T5, T6>(T5 value)
+        public static Either<T1, T2, T3, T4, T5, T6> New5Of6<T1, T2, T3, T4, T5, T6>(T5 value)
         {
             return new Either5Of6<T1, T2, T3, T4, T5, T6>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6> NewEither<T1, T2, T3, T4, T5, T6>(T6 value)
+        public static Either<T1, T2, T3, T4, T5, T6> New6Of6<T1, T2, T3, T4, T5, T6>(T6 value)
         {
             return new Either6Of6<T1, T2, T3, T4, T5, T6>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6, T7> NewEither<T1, T2, T3, T4, T5, T6, T7>(T1 value)
+        public static Either<T1, T2, T3, T4, T5, T6, T7> New1Of7<T1, T2, T3, T4, T5, T6, T7>(T1 value)
         {
             return new Either1Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6, T7> NewEither<T1, T2, T3, T4, T5, T6, T7>(T2 value)
+        public static Either<T1, T2, T3, T4, T5, T6, T7> New2Of7<T1, T2, T3, T4, T5, T6, T7>(T2 value)
         {
             return new Either2Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6, T7> NewEither<T1, T2, T3, T4, T5, T6, T7>(T3 value)
+        public static Either<T1, T2, T3, T4, T5, T6, T7> New3Of7<T1, T2, T3, T4, T5, T6, T7>(T3 value)
         {
             return new Either3Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6, T7> NewEither<T1, T2, T3, T4, T5, T6, T7>(T4 value)
+        public static Either<T1, T2, T3, T4, T5, T6, T7> New4Of7<T1, T2, T3, T4, T5, T6, T7>(T4 value)
         {
             return new Either4Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6, T7> NewEither<T1, T2, T3, T4, T5, T6, T7>(T5 value)
+        public static Either<T1, T2, T3, T4, T5, T6, T7> New5Of7<T1, T2, T3, T4, T5, T6, T7>(T5 value)
         {
             return new Either5Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
 
-        public static Either<T1, T2, T3, T4, T5, T6, T7> NewEither<T1, T2, T3, T4, T5, T6, T7>(T6 value)
+        public static Either<T1, T2, T3, T4, T5, T6, T7> New6Of7<T1, T2, T3, T4, T5, T6, T7>(T6 value)
         {
             return new Either6Of7<T1, T2, T3, T4, T5, T6, T7>(value);
+        }
+
+        public static Either<T1, T2, T3, T4, T5, T6, T7> New7Of7<T1, T2, T3, T4, T5, T6, T7>(T7 value)
+        {
+            return new Either7Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
     }
 
