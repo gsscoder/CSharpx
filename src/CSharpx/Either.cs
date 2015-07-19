@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CSharpx
 {
@@ -786,6 +782,22 @@ namespace CSharpx
             var y = (Either2Of2<T1, T3>)either;
             return new Either2Of2<T2, T4>(func2(y.Value));
         }
+
+        /// <summary>
+        /// Maps both parts of a Either.
+        /// Applies the first function if Either is 1Of2.
+        /// Otherwise applies the second function
+        /// </summary>
+        public static T2 Choice<T1, T2, T3>(Func<T1, T2> func1, Func<T3, T2> func2, Either<T1, T3> either)
+        {
+            if (either.Tag == Either2Type.Either1Of2)
+            {
+                var x = (Either1Of2<T1, T3>)either;
+                return func1(x.Value);
+            }
+            var y = (Either2Of2<T1, T3>)either;
+            return func2(y.Value);
+        }
     }
 
     public static class EitherExtensions
@@ -931,5 +943,4 @@ namespace CSharpx
             ifSeventh(((Either7Of7<T1, T2, T3, T4, T5, T6, T7>)either).Value);
         }
     }
-
 }
