@@ -542,6 +542,7 @@ namespace CSharpx
 
     public static class Either
     {
+        #region Constructor methods
         public static Either<T1, T2> New1Of2<T1, T2>(T1 value)
         {
             return new Either1Of2<T1, T2>(value);
@@ -676,6 +677,7 @@ namespace CSharpx
         {
             return new Either7Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
+        #endregion
     }
 
     public static class EitherExtensions
