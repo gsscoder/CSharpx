@@ -713,6 +713,15 @@ namespace CSharpx
                 return new Either2Of2<T2, Exception>(ex);
             }
         }
+
+        /// <summary>
+        /// Attempts to cast an object.
+        /// Stores the cast value in 1Of2 if successful, otherwise stores the exception in 2Of2
+        /// </summary>
+        public static Either<T1, Exception> Cast<T1>(object obj)
+        {
+            return Protect(v => (T1)obj, obj);
+        }
     }
 
     public static class EitherExtensions
