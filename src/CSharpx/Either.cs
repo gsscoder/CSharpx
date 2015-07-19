@@ -1,10 +1,23 @@
-﻿using System;
+﻿#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
+#define CSHARPX_EITHER_3 // Comment this to remove Either<T1, T2, T3> and realted functions.
+#define CSHARPX_EITHER_4 // Comment this to remove Either<T1, T2, T3, T4> and realted functions.
+#define CSHARPX_EITHER_5 // Comment this to remove Either<T1, T2, T3, T4, T5> and realted functions.
+#define CSHARPX_EITHER_6 // Comment this to remove Either<T1, T2, T3, T6, T5. T6> and realted functions.
+#define CSHARPX_EITHER_7 // Comment this to remove Either<T1, T2, T3, T6, T5. T6, T7> and realted functions.
+
+using System;
 
 namespace CSharpx
 {
-    public enum Either2Type { Either1Of2, Either2Of2 }
+#if CSHARPX_PUBLIC
+    public
+#endif
+    enum Either2Type { Either1Of2, Either2Of2 }
 
-    public abstract class Either<T1, T2>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    abstract class Either<T1, T2>
     {
         private readonly Either2Type tag;
 
@@ -19,7 +32,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either1Of2<T1, T2> : Either<T1, T2>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either1Of2<T1, T2> : Either<T1, T2>
     {
         private readonly T1 value;
 
@@ -35,7 +51,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either2Of2<T1, T2> : Either<T1, T2>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either2Of2<T1, T2> : Either<T1, T2>
     {
         private readonly T2 value;
 
@@ -51,9 +70,16 @@ namespace CSharpx
         }
     }
 
-    public enum Either3Type { Either1Of3, Either2Of3, Either3Of3 }
+#if CSHARPX_EITHER_3
+#if CSHARPX_PUBLIC
+    public
+#endif
+    enum Either3Type { Either1Of3, Either2Of3, Either3Of3 }
 
-    public abstract class Either<T1, T2, T3>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    abstract class Either<T1, T2, T3>
     {
         private readonly Either3Type tag;
 
@@ -68,7 +94,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either1Of3<T1, T2, T3> : Either<T1, T2, T3>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either1Of3<T1, T2, T3> : Either<T1, T2, T3>
     {
         private readonly T1 value;
 
@@ -84,7 +113,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either2Of3<T1, T2, T3> : Either<T1, T2, T3>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either2Of3<T1, T2, T3> : Either<T1, T2, T3>
     {
         private readonly T2 value;
 
@@ -100,7 +132,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either3Of3<T1, T2, T3> : Either<T1, T2, T3>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either3Of3<T1, T2, T3> : Either<T1, T2, T3>
     {
         private readonly T3 value;
 
@@ -115,10 +150,18 @@ namespace CSharpx
             get { return value; }
         }
     }
+#endif
 
-    public enum Either4Type { Either1Of4, Either2Of4, Either3Of4, Either4Of4 }
+#if CSHARPX_EITHER_4
+#if CSHARPX_PUBLIC
+    public
+#endif
+    enum Either4Type { Either1Of4, Either2Of4, Either3Of4, Either4Of4 }
 
-    public abstract class Either<T1, T2, T3, T4>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    abstract class Either<T1, T2, T3, T4>
     {
         private readonly Either4Type tag;
 
@@ -133,7 +176,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either1Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either1Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
     {
         private readonly T1 value;
 
@@ -149,7 +195,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either2Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either2Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
     {
         private readonly T2 value;
 
@@ -165,7 +214,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either3Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either3Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
     {
         private readonly T3 value;
 
@@ -181,7 +233,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either4Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either4Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
     {
         private readonly T4 value;
 
@@ -196,10 +251,18 @@ namespace CSharpx
             get { return value; }
         }
     }
+#endif
 
-    public enum Either5Type { Either1Of5, Either2Of5, Either3Of5, Either4Of5, Either5Of5 }
+#if CSHARPX_EITHER_5
+#if CSHARPX_PUBLIC
+    public
+#endif
+    enum Either5Type { Either1Of5, Either2Of5, Either3Of5, Either4Of5, Either5Of5 }
 
-    public abstract class Either<T1, T2, T3, T4, T5>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    abstract class Either<T1, T2, T3, T4, T5>
     {
         private readonly Either5Type tag;
 
@@ -214,7 +277,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either1Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either1Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
     {
         private readonly T1 value;
 
@@ -230,7 +296,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either2Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either2Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
     {
         private readonly T2 value;
 
@@ -246,7 +315,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either3Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either3Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
     {
         private readonly T3 value;
 
@@ -262,7 +334,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either4Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either4Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
     {
         private readonly T4 value;
 
@@ -278,7 +353,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either5Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either5Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
     {
         private readonly T5 value;
 
@@ -294,9 +372,15 @@ namespace CSharpx
         }
     }
 
-    public enum Either6Type { Either1Of6, Either2Of6, Either3Of6, Either4Of6, Either5Of6, Either6Of6 }
+#if CSHARPX_PUBLIC
+    public
+#endif
+    enum Either6Type { Either1Of6, Either2Of6, Either3Of6, Either4Of6, Either5Of6, Either6Of6 }
 
-    public abstract class Either<T1, T2, T3, T4, T5, T6>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    abstract class Either<T1, T2, T3, T4, T5, T6>
     {
         private readonly Either6Type tag;
 
@@ -310,8 +394,13 @@ namespace CSharpx
             get { return this.tag; }
         }
     }
+#endif
 
-    public sealed class Either1Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
+#if CSHARPX_EITHER_6
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either1Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
     {
         private readonly T1 value;
 
@@ -327,7 +416,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either2Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either2Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
     {
         private readonly T2 value;
 
@@ -343,7 +435,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either3Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either3Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
     {
         private readonly T3 value;
 
@@ -359,7 +454,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either4Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either4Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
     {
         private readonly T4 value;
 
@@ -375,7 +473,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either5Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either5Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
     {
         private readonly T5 value;
 
@@ -391,7 +492,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either6Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either6Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
     {
         private readonly T6 value;
 
@@ -406,10 +510,18 @@ namespace CSharpx
             get { return value; }
         }
     }
+#endif
 
-    public enum Either7Type { Either1Of7, Either2Of7, Either3Of7, Either4Of7, Either5Of7, Either6Of7, Either7Of7 }
+#if CSHARPX_EITHER_7
+#if CSHARPX_PUBLIC
+    public
+#endif
+    enum Either7Type { Either1Of7, Either2Of7, Either3Of7, Either4Of7, Either5Of7, Either6Of7, Either7Of7 }
 
-    public abstract class Either<T1, T2, T3, T4, T5, T6, T7>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    abstract class Either<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly Either7Type tag;
 
@@ -424,7 +536,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either1Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either1Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly T1 value;
 
@@ -440,7 +555,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either2Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either2Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly T2 value;
 
@@ -456,7 +574,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either3Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either3Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly T3 value;
 
@@ -472,7 +593,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either4Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either4Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly T4 value;
 
@@ -488,7 +612,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either5Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either5Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly T5 value;
 
@@ -504,7 +631,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either6Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either6Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly T6 value;
 
@@ -520,7 +650,10 @@ namespace CSharpx
         }
     }
 
-    public sealed class Either7Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    sealed class Either7Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly T7 value;
 
@@ -535,8 +668,12 @@ namespace CSharpx
             get { return value; }
         }
     }
+#endif
 
-    public static class Either
+#if CSHARPX_PUBLIC
+    public
+#endif
+    static class Either
     {
         #region Constructor methods
         public static Either<T1, T2> New1Of2<T1, T2>(T1 value)
@@ -549,6 +686,7 @@ namespace CSharpx
             return new Either2Of2<T1, T2>(value);
         }
 
+#if CSHARPX_EITHER_3
         public static Either<T1, T2, T3> New1Of3<T1, T2, T3>(T1 value)
         {
             return new Either1Of3<T1, T2, T3>(value);
@@ -563,7 +701,9 @@ namespace CSharpx
         {
             return new Either3Of3<T1, T2, T3>(value);
         }
+#endif
 
+#if CSHARPX_EITHER_4
         public static Either<T1, T2, T3, T4> New1Of4<T1, T2, T3, T4>(T1 value)
         {
             return new Either1Of4<T1, T2, T3, T4>(value);
@@ -583,7 +723,9 @@ namespace CSharpx
         {
             return new Either4Of4<T1, T2, T3, T4>(value);
         }
+#endif
 
+#if CSHARPX_EITHER_5
         public static Either<T1, T2, T3, T4, T5> New1Of5<T1, T2, T3, T4, T5>(T1 value)
         {
             return new Either1Of5<T1, T2, T3, T4, T5>(value);
@@ -608,7 +750,9 @@ namespace CSharpx
         {
             return new Either5Of5<T1, T2, T3, T4, T5>(value);
         }
+#endif
 
+#if CSHARPX_EITHER_6
         public static Either<T1, T2, T3, T4, T5, T6> New1Of6<T1, T2, T3, T4, T5, T6>(T1 value)
         {
             return new Either1Of6<T1, T2, T3, T4, T5, T6>(value);
@@ -638,7 +782,9 @@ namespace CSharpx
         {
             return new Either6Of6<T1, T2, T3, T4, T5, T6>(value);
         }
+#endif
 
+#if CSHARPX_EITHER_7
         public static Either<T1, T2, T3, T4, T5, T6, T7> New1Of7<T1, T2, T3, T4, T5, T6, T7>(T1 value)
         {
             return new Either1Of7<T1, T2, T3, T4, T5, T6, T7>(value);
@@ -673,6 +819,7 @@ namespace CSharpx
         {
             return new Either7Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
+#endif
         #endregion
 
         /// <summary>
@@ -800,7 +947,10 @@ namespace CSharpx
         }
     }
 
-    public static class EitherExtensions
+#if CSHARPX_PUBLIC
+    public
+#endif
+    static class EitherExtensions
     {
         public static void Match<T1, T2>(this Either<T1, T2> either, Action<T1> ifFirst, Action<T2> ifSecond)
         {
@@ -812,6 +962,7 @@ namespace CSharpx
             ifSecond(((Either2Of2<T1, T2>)either).Value);
         }
 
+#if CSHARPX_EITHER_3
         public static void Match<T1, T2, T3>(this Either<T1, T2, T3> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird)
         {
@@ -827,7 +978,9 @@ namespace CSharpx
             }
             ifThird(((Either3Of3<T1, T2, T3>)either).Value);
         }
+#endif
 
+#if CSHARPX_EITHER_4
         public static void Match<T1, T2, T3, T4>(this Either<T1, T2, T3, T4> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird, Action<T4> ifFourth)
         {
@@ -848,7 +1001,9 @@ namespace CSharpx
             }
             ifFourth(((Either4Of4<T1, T2, T3, T4>)either).Value);
         }
+#endif
 
+#if CSHARPX_EITHER_5
         public static void Match<T1, T2, T3, T4, T5>(this Either<T1, T2, T3, T4, T5> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird, Action<T4> ifFourth, Action<T5> ifFifth)
         {
@@ -874,7 +1029,9 @@ namespace CSharpx
             }
             ifFifth(((Either5Of5<T1, T2, T3, T4, T5>)either).Value);
         }
+#endif
 
+#if CSHARPX_EITHER_6
         public static void Match<T1, T2, T3, T4, T5, T6>(this Either<T1, T2, T3, T4, T5, T6> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird, Action<T4> ifFourth, Action<T5> ifFifth, Action<T6> ifSixth)
         {
@@ -905,7 +1062,9 @@ namespace CSharpx
             }
             ifSixth(((Either6Of6<T1, T2, T3, T4, T5, T6>)either).Value);
         }
+#endif
 
+#if CSHARPX_EITHER_7
         public static void Match<T1, T2, T3, T4, T5, T6, T7>(this Either<T1, T2, T3, T4, T5, T6, T7> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird, Action<T4> ifFourth, Action<T5> ifFifth, Action<T6> ifSixth,
             Action<T7> ifSeventh)
@@ -942,5 +1101,6 @@ namespace CSharpx
             }
             ifSeventh(((Either7Of7<T1, T2, T3, T4, T5, T6, T7>)either).Value);
         }
+#endif
     }
 }
