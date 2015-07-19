@@ -722,6 +722,24 @@ namespace CSharpx
         {
             return Protect(v => (T1)obj, obj);
         }
+
+        //public static Either<T3, T2> Ap<T1, T2, T3>(Either<T1, T2> value, Func<Either<T1, T3>, T2> func)
+        //{
+        //}
+
+        /// <summary>
+        /// Transforms a Choice's first value by using a specified mapping function.
+        /// </summary>
+        public static Either<T2, T3> Map<T1, T2, T3>(Func<T1, T2> func, Either<T1, T3> either)
+        {
+            if (either.Tag == Either2Type.Either1Of2)
+            {
+                var x = (Either1Of2<T1, T3>)either;
+                return new Either1Of2<T2, T3>(func(x.Value));
+            }
+            var y = (Either2Of2<T1, T3>)either;
+            return new Either2Of2<T2, T3>(y.Value);
+        }
     }
 
     public static class EitherExtensions
