@@ -5,8 +5,8 @@ Every source file contains conditional compilation symbols to change type visibi
 and set other preferences.
 
 ## Either.cs
-- **C#** native implementation of F# `Choice` discriminated unions.
+- C# native implementation of F# `Choice` discriminated unions.
 - Import only required `Either<T1 ... T7>` type. 
 
 ## Maybe.cs
-- **C#** native implementation of F# 'T option' type.
+- C# native implementation of F# `T option` type.
