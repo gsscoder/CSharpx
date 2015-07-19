@@ -678,6 +678,20 @@ namespace CSharpx
             return new Either7Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
         #endregion
+
+        public static Func<T1, Either<T1, T2>> ReturnM<T1, T2>()
+        {
+            return New1Of2<T1, T2>;
+        }
+
+        public static T1 Get<T1, T2>(Either<T1, T2> either)
+        {
+            if (either.Tag == Either2Type.Either1Of2)
+            {
+                return ((Either1Of2<T1, T2>)either).Value;
+            }
+            throw new ArgumentException("either", string.Format("The either value was Either2Of2 {0}", either));
+        }
     }
 
     public static class EitherExtensions
