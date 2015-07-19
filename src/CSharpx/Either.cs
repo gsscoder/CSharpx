@@ -679,11 +679,17 @@ namespace CSharpx
         }
         #endregion
 
+        /// <summary>
+        /// Inject a value into the Either type.
+        /// </summary>
         public static Func<T1, Either<T1, T2>> ReturnM<T1, T2>()
         {
-            return New1Of2<T1, T2>;
+            return value => new Either1Of2<T1, T2>(value);
         }
 
+        /// <summary>
+        /// Wraps a function, encapsulates any exception thrown within to a Either.
+        /// </summary>
         public static T1 Get<T1, T2>(Either<T1, T2> either)
         {
             if (either.Tag == Either2Type.Either1Of2)
@@ -691,6 +697,21 @@ namespace CSharpx
                 return ((Either1Of2<T1, T2>)either).Value;
             }
             throw new ArgumentException("either", string.Format("The either value was Either2Of2 {0}", either));
+        }
+
+        /// <summary>
+        /// Wraps a function, encapsulates any exception thrown within to a Either.
+        /// </summary>
+        public static Either<T2, Exception> Protect<T1, T2>(Func<T1, T2> func, T1 value)
+        {
+            try
+            {
+                return new Either1Of2<T2, Exception>(func(value));
+            }
+            catch (Exception ex)
+            {
+                return new Either2Of2<T2, Exception>(ex);
+            }
         }
     }
 
