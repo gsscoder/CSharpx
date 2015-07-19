@@ -756,6 +756,20 @@ namespace CSharpx
             var y = (Either2Of2<T1, T3>)either;
             return new Either2Of2<T2, T3>(y.Value);
         }
+
+        /// <summary>
+        /// Monadic bind.
+        /// </summary>
+        public static Either<T2, T3> Bind<T1, T2, T3>(Func<T1, Either<T2, T3>> func, Either<T1, T3> either)
+        {
+            if (either.Tag == Either2Type.Either1Of2)
+            {
+                var x = (Either1Of2<T1, T3>)either;
+                return func(x.Value);
+            }
+            var y = (Either2Of2<T1, T3>)either;
+            return new Either2Of2<T2, T3>(y.Value);
+        }
     }
 
     public static class EitherExtensions
