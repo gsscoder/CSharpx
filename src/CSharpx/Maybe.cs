@@ -1,4 +1,5 @@
 ﻿#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
+#define CSHARPX_EITHER_FUNC // Comment this to remove dependency from Either.cs.
 
 using System;
 
@@ -45,7 +46,7 @@ namespace CSharpx
 #endif
     sealed class Nothing<T> : Maybe<T>
     {
-        public Nothing() : base(MaybeType.Nothing) { }
+        internal Nothing() : base(MaybeType.Nothing) { }
     }
 
 #if CSHARPX_PUBLIC
@@ -55,7 +56,7 @@ namespace CSharpx
     {
         private readonly T value;
 
-        public Just(T value)
+        internal Just(T value)
             : base(MaybeType.Just)
         {
             this.value = value;
@@ -81,6 +82,20 @@ namespace CSharpx
         {
             return new Just<T>(value);
         }
+
+#if CSHARPX_EITHER_FUNC
+        /// <summary>
+        /// Maps Choice 1Of2 to Some value, otherwise None.
+        /// </summary>
+        public static Maybe<T1> OfEither<T1, T2>(Either<T1, T2> either)
+        {
+            if (either.Tag == Either2Type.Either1Of2)
+            {
+                return new Just<T1>(((Either1Of2<T1, T2>)either).Value);
+            }
+            return new Nothing<T1>();
+        }
+#endif
     }
 
 #if CSHARPX_PUBLIC
