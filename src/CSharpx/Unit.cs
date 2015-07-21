@@ -1,8 +1,13 @@
-﻿using System;
+﻿#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
+
+using System;
 
 namespace CSharpx
 {
-    public struct Unit : IEquatable<Unit>
+#if CSHARPX_PUBLIC
+    public
+#endif
+    struct Unit : IEquatable<Unit>
     {
         private static readonly Unit @default = new Unit();
 
