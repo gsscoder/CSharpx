@@ -15,3 +15,6 @@ Source files are conceived to be manually added to other projects or by setting 
 
 ## EnumerableExtensions.cs
 - Most useful extension methods from code.google.com/p/morelinq/.
+
+## Unit.cs
+- Equivalent to F# `unit`.
