@@ -10,3 +10,6 @@ and set other preferences.
 
 ## Maybe.cs
 - C# native implementation of F# `T option` type.
+
+## EnumerableExtensions.cs
+- Most useful extension methods from code.google.com/p/morelinq/.
