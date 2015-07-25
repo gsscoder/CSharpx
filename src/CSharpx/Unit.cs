@@ -1,10 +1,11 @@
-﻿#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
+﻿//Use project level define(s) when referencing with Paket.
+//#define CSX_UNIT_INTERNAL // Uncomment this to set visibility to internal.
 
 using System;
 
 namespace CSharpx
 {
-#if CSHARPX_PUBLIC
+#if !CSX_UNIT_INTERNAL
     public
 #endif
     struct Unit : IEquatable<Unit>
