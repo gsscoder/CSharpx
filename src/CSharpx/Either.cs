@@ -1,5 +1,6 @@
 ﻿//Use project level define(s) when referencing with Paket.
 //#define CSX_EITHER_INTERNAL // Uncomment this to set visibility to internal.
+//#define CSX_REM_EITHER_BEYOND_2 // Uncomment this to add Either beyond <T1, T2>.
 //#define CSX_REM_EITHER_3 // Uncomment this to add Either<T1, T2, T3> and realted functions.
 //#define CSX_REM_EITHER_4 // Uncomment this to add Either<T1, T2, T3, T4> and realted functions.
 //#define CSX_REM_EITHER_5 // Uncomment this to add Either<T1, T2, T3, T4, T5> and realted functions.
@@ -72,6 +73,7 @@ namespace CSharpx
         }
     }
 
+#if !CSX_REM_EITHER_BEYOND_2
 #if !CSX_REM_EITHER_3
 #if !CSX_EITHER_INTERNAL
     public
@@ -671,6 +673,7 @@ namespace CSharpx
         }
     }
 #endif
+#endif
 
 #if !CSX_EITHER_INTERNAL
     public
@@ -688,6 +691,7 @@ namespace CSharpx
             return new Either2Of2<T1, T2>(value);
         }
 
+#if !CSX_REM_EITHER_BEYOND_2
 #if !CSX_REM_EITHER_3
         public static Either<T1, T2, T3> New1Of3<T1, T2, T3>(T1 value)
         {
@@ -821,6 +825,7 @@ namespace CSharpx
         {
             return new Either7Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
+#endif
 #endif
         #endregion
 
@@ -975,6 +980,7 @@ namespace CSharpx
             ifSecond(((Either2Of2<T1, T2>)either).Value);
         }
 
+#if !CSX_REM_EITHER_BEYOND_2
 #if !CSX_REM_EITHER_3
         public static void Match<T1, T2, T3>(this Either<T1, T2, T3> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird)
@@ -1114,6 +1120,7 @@ namespace CSharpx
             }
             ifSeventh(((Either7Of7<T1, T2, T3, T4, T5, T6, T7>)either).Value);
         }
+#endif
 #endif
     }
 }
