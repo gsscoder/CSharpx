@@ -1,11 +1,11 @@
 ﻿//Use project level define(s) when referencing with Paket.
-//#define CSX_EITHER_INTERNAL // Comment this to set visibility to public.
-//#define CSX_REM_EITHER_3 // Comment this to add Either<T1, T2, T3> and realted functions.
-//#define CSX_REM_EITHER_4 // Comment this to add Either<T1, T2, T3, T4> and realted functions.
-//#define CSX_REM_EITHER_5 // Comment this to add Either<T1, T2, T3, T4, T5> and realted functions.
-//#define CSX_REM_EITHER_6 // Comment this to add Either<T1, T2, T3, T6, T5. T6> and realted functions.
-//#define CSX_REM_EITHER_7 // Comment this to add Either<T1, T2, T3, T6, T5. T6, T7> and realted functions.
-//#define CSX_REM_MAYBE_FUNC // Comment this to add dependency from Maybe.cs.
+//#define CSX_EITHER_INTERNAL // Uncomment this to set visibility to internal.
+//#define CSX_REM_EITHER_3 // Uncomment this to add Either<T1, T2, T3> and realted functions.
+//#define CSX_REM_EITHER_4 // Uncomment this to add Either<T1, T2, T3, T4> and realted functions.
+//#define CSX_REM_EITHER_5 // Uncomment this to add Either<T1, T2, T3, T4, T5> and realted functions.
+//#define CSX_REM_EITHER_6 // Uncomment this to add Either<T1, T2, T3, T6, T5. T6> and realted functions.
+//#define CSX_REM_EITHER_7 // Uncomment this to add Either<T1, T2, T3, T6, T5. T6, T7> and realted functions.
+//#define CSX_REM_MAYBE_FUNC // Uncomment this to remove dependency to Maybe.cs.
 
 using System;
 
