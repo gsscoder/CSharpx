@@ -18,3 +18,6 @@ Source files are conceived to be manually added to other projects or by setting 
 
 ## Unit.cs
 - Equivalent to F# `unit`.
+
+## Identity.cs
+- Identity monadic type.
