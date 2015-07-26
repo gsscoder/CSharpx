@@ -18,7 +18,7 @@ namespace CSharpx
 #if !CSX_ENUM_INTERNAL
     public
 #endif
-    static partial class EnumerableExtensions
+    static class EnumerableExtensions
     {
 #if !CSX_ENUM_REM_STD_FUNC
         private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
