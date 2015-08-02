@@ -103,9 +103,9 @@ namespace CSharpx
         {
             if (either.Tag == Either2Type.Either1Of2)
             {
-                return new Just<T1>(((Either1Of2<T1, T2>)either).Value);
+                return Maybe.Just(((Either1Of2<T1, T2>)either).Value);
             }
-            return new Nothing<T1>();
+            return Maybe.Nothing<T1>();
         }
 #endif
     }
