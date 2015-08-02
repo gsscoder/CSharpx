@@ -189,5 +189,19 @@ namespace CSharpx
         {
             return maybe.Tag == MaybeType.Just;
         }
+
+        public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, out T1 value1, out T2 value2)
+        {
+            Tuple<T1, T2> value;
+            if (maybe.MatchJust(out value))
+            {
+                value1 = value.Item1;
+                value2 = value.Item2;
+                return true;
+            }
+            value1 = default(T1);
+            value2 = default(T2);
+            return false;
+        }
     }
 }
