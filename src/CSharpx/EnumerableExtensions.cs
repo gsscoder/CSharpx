@@ -325,6 +325,19 @@ namespace CSharpx
                     : Maybe.Nothing<T>();
             }
         }
+
+        /// <summary>
+        /// Turns an empty sequence to Nothing, otherwise Just(sequence).
+        /// </summary>
+        public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator())
+            {
+                return e.MoveNext()
+                    ? Maybe.Just(source)
+                    : Maybe.Nothing<IEnumerable<T>>();
+            }
+        }
 #endif
 
 #if !CSX_REM_EXTRA_FUNC
