@@ -203,5 +203,15 @@ namespace CSharpx
             value2 = default(T2);
             return false;
         }
+
+        public static void Do<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, Action<T1, T2> action)
+        {
+            T1 value1;
+            T2 value2;
+            if (maybe.MatchJust(out value1, out value2))
+            {
+                action(value1, value2);
+            }
+        }
     }
 }
