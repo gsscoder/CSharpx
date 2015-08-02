@@ -84,6 +84,17 @@ namespace CSharpx
             return new Just<T>(value);
         }
 
+        public static Maybe<Tuple<T1, T2>> Merge<T1, T2>(Maybe<T1> first, Maybe<T2> second)
+        {
+            T1 value1;
+            T2 value2;
+            if (first.MatchJust(out value1) && second.MatchJust(out value2))
+            {
+                return Maybe.Just(Tuple.Create(value1, value2));
+            }
+            return Maybe.Nothing<Tuple<T1, T2>>();
+        }
+
 #if !CSX_REM_EITHER_FUNC
         /// <summary>
         /// Maps Choice 1Of2 to Some value, otherwise None.
