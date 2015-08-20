@@ -170,7 +170,7 @@ namespace CSharpx
                         resultValue => resultSelector(sourceValue, resultValue)));
         }
 
-        public static T FromJust<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
+        public static T FromJustStrict<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
         {
             T value;
             if (maybe.MatchJust(out value))
