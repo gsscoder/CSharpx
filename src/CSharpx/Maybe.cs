@@ -3,6 +3,8 @@
 //#define CSX_REM_EITHER_FUNC // Uncomment this to remove dependency to Either.cs.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CSharpx
 {
@@ -331,6 +333,19 @@ namespace CSharpx
             {
                 action(value1, value2);
             }
+        }
+
+        /// <summary>
+        /// Returns an empty list when given <see cref="CSharpx.Nothing{T}"/> or a singleton list when given a <see cref="CSharpx.Just{T}"/>.
+        /// </summary>
+        public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> maybe)
+        {
+            T value;
+            if (maybe.MatchJust(out value))
+            {
+                return Enumerable.Empty<T>().Concat(new[] { value });
+            }
+            return Enumerable.Empty<T>();
         }
     }
 }
