@@ -211,6 +211,18 @@ namespace CSharpx
             ifNothing();
         }
 
+        public static void Match<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, Action<T1, T2> ifJust, Action ifNothing)
+        {
+            T1 value1;
+            T2 value2;
+            if (maybe.MatchJust(out value1, out value2))
+            {
+                ifJust(value1, value2);
+                return;
+            }
+            ifNothing();
+        }
+
         public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, out T1 value1, out T2 value2)
         {
             Tuple<T1, T2> value;
