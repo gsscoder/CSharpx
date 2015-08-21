@@ -180,7 +180,7 @@ namespace CSharpx
             return default(T);
         }
 
-        public static T FromJustStrict<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
+        public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
         {
             T value;
             if (maybe.MatchJust(out value))
