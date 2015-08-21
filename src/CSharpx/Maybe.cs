@@ -200,6 +200,17 @@ namespace CSharpx
             return maybe.Tag == MaybeType.Just;
         }
 
+        public static void Match<T>(this Maybe<T> maybe, Action<T> ifJust, Action ifNothing)
+        {
+            T value;
+            if (maybe.MatchJust(out value))
+            {
+                ifJust(value);
+                return;
+            }
+            ifNothing();
+        }
+
         public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, out T1 value1, out T2 value2)
         {
             Tuple<T1, T2> value;
