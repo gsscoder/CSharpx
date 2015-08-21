@@ -136,7 +136,7 @@ namespace CSharpx
                 : Maybe.Nothing<T2>();
         }
 
-        public static T2 MapMaybe<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
+        public static T2 MapMaybeOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
         {
             T1 value1;
             return maybe.MatchJust(out value1)
