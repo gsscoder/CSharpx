@@ -191,7 +191,7 @@ namespace CSharpx
         /// <summary>
         /// If contains a values executes a mapping function over it, othervalue returns <paramref name="noneValue"/>.
         /// </summary>
-        public static T2 MapMaybeOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
+        public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
         {
             T1 value1;
             return maybe.MatchJust(out value1)
