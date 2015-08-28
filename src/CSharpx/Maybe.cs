@@ -147,6 +147,19 @@ namespace CSharpx
         }
         #endregion
 
+        #region Functor
+        /// <summary>
+        /// Transforms an maybe value by using a specified mapping function.
+        /// </summary>
+        public static Maybe<T2> Map<T1, T2>(Maybe<T1> maybe, Func<T1, T2> func)
+        {
+            T1 value1;
+            return maybe.MatchJust(out value1)
+                ? Maybe.Just(func(value1))
+                : Maybe.Nothing<T2>();
+        }
+        #endregion
+
         /// <summary>
         /// If both maybes contain a value, it merges them into a maybe with a tupled value.
         /// </summary>
