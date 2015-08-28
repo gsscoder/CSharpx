@@ -31,19 +31,19 @@ Target "BuildTest" (fun _ ->
         |> MSBuildDebug testDir "Build"
         |> Log "TestBuild-Output: "
 )
-*)
 
 Target "Test" (fun _ ->
     //trace "Running Tests..."
-    !! (testDir @@ "\CommandLine.Tests.dll")
+    !! (testDir @@ "\CSharpx.Tests.dll")
       |> xUnit2 (fun p -> {p with HtmlOutputPath = Some(testDir @@ "xunit.html")})
 )
+*)
 
 // Dependencies
 "Clean"
-    //==> "BuildLib"
-    ==> "BuildTest"
-    ==> "Test"
+    ==> "BuildLib"
+    //==> "BuildTest"
+    //==> "Test"
     ==> "Default"
 
 RunTargetOrDefault "Default"
