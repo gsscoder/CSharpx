@@ -25,10 +25,11 @@ namespace CSharpx.Tests
                             ((Just<int>)maybeInt).Value.ShouldBeEquivalentTo(x);
                             break;
                         default:
+                            default(int).ShouldBeEquivalentTo(x);
                             maybeInt.Should().BeOfType<Nothing<int>>();
                             break;
                     }
-                });
+                }).QuickCheck();
         }
     }
 }
