@@ -19,6 +19,12 @@ NUGET
       System.Threading (>= 4.0.10)
       System.Threading.Tasks (>= 4.0.10)
       System.Xml.XDocument (>= 4.0.10)
+    FsCheck (2.0.7)
+      FSharp.Core (>= 3.1.2.5)
+    FsCheck.Xunit (2.0.7)
+      FsCheck (>= 2.0.7)
+      xunit (>= 1.9.2)
+    FSharp.Core (4.0.0.1)
     System.Collections (4.0.10)
       System.Diagnostics.Debug (>= 4.0.0) - framework: dnxcore50
       System.Resources.ResourceManager (>= 4.0.0) - framework: dnxcore50
