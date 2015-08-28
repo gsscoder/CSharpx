@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace CSharpx
 {
+    #region Maybe Type
     /// <summary>
     /// Discriminator for <see cref="CSharpx.Maybe"/>.
     /// </summary>
@@ -18,7 +19,7 @@ namespace CSharpx
 
     /// <summary>
     /// The Maybe type models an optional value. A value of type Maybe a either contains a value of type a (represented as Just a),
-    /// or it is empty (represented as Nothing). 
+    /// or it is empty (represented as Nothing).
     /// </summary>
 #if !CSX_MAYBE_INTERNAL
     public
@@ -40,6 +41,7 @@ namespace CSharpx
             get { return tag; }
         }
 
+        #region Basic Match Methods
         /// <summary>
         /// Matches an empty value returning <c>true</c>.
         /// </summary>
@@ -58,7 +60,9 @@ namespace CSharpx
                 : default(T);
             return Tag == MaybeType.Just;
         }
+        #endregion
     }
+    #endregion
 
     /// <summary>
     /// Models a <see cref="CSharpx.Maybe"/> when in empty state.
@@ -104,6 +108,7 @@ namespace CSharpx
 #endif
     static class Maybe
     {
+        #region Value Constructors
         /// <summary>
         /// Builds the empty case of <see cref="CSharpx.Maybe"/>.
         /// </summary>
@@ -119,6 +124,7 @@ namespace CSharpx
         {
             return new Just<T>(value);
         }
+        #endregion
 
         /// <summary>
         /// If both maybes contain a value, it merges them into a maybe with a tupled value.
