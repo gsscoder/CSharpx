@@ -138,10 +138,10 @@ namespace CSharpx
         /// <summary>
         /// Sequentially compose two actions, passing any value produced by the first as an argument to the second.
         /// </summary>
-        public static Maybe<T2> Bind<T1, T2>(Maybe<T1> value, Func<T1, Maybe<T2>> func)
+        public static Maybe<T2> Bind<T1, T2>(Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
         {
             T1 value1;
-            return value.MatchJust(out value1)
+            return maybe.MatchJust(out value1)
                 ? func(value1)
                 : Maybe.Nothing<T2>();
         }
