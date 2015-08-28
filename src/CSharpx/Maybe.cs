@@ -251,7 +251,7 @@ namespace CSharpx
         public static Maybe<TResult> Select<TSource, TResult>(
             this Maybe<TSource> maybe, Func<TSource, TResult> selector)
         {
-            return maybe.Map(selector);
+            return Maybe.Map(maybe, selector);
         }
 
         /// <summary>
