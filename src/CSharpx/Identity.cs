@@ -1,4 +1,4 @@
-﻿//Use project level define(s) when referencing with Paket.
+//Use project level define(s) when referencing with Paket.
 //#define CSX_IDENTITY_INTERNAL // Uncomment this to set visibility to internal.
 
 using System;

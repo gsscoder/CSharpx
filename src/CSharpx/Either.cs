@@ -1,4 +1,4 @@
-﻿//Use project level define(s) when referencing with Paket.
+//Use project level define(s) when referencing with Paket.
 //#define CSX_EITHER_INTERNAL // Uncomment this to set visibility to internal.
 //#define CSX_REM_EITHER_BEYOND_2 // Uncomment this to add Either beyond <T1, T2>.
 //#define CSX_REM_EITHER_3 // Uncomment this to add Either<T1, T2, T3> and realted functions.
