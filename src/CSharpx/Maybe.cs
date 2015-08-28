@@ -126,6 +126,27 @@ namespace CSharpx
         }
         #endregion
 
+        #region Monad
+        /// <summary>
+        /// Inject a value into the monadic <see cref="CSharpx.Maybe{T}"/> type.
+        /// </summary>
+        public static Maybe<T> Return<T>(T value)
+        {
+            return Equals(value, default(T)) ? Maybe.Nothing<T>() : Maybe.Just(value);
+        }
+
+        /// <summary>
+        /// Sequentially compose two actions, passing any value produced by the first as an argument to the second.
+        /// </summary>
+        public static Maybe<T2> Bind<T1, T2>(Maybe<T1> value, Func<T1, Maybe<T2>> func)
+        {
+            T1 value1;
+            return value.MatchJust(out value1)
+                ? func(value1)
+                : Maybe.Nothing<T2>();
+        }
+        #endregion
+
         /// <summary>
         /// If both maybes contain a value, it merges them into a maybe with a tupled value.
         /// </summary>
@@ -164,12 +185,12 @@ namespace CSharpx
     static class MaybeExtensions
     {
         /// <summary>
-        /// Equivalent to Return or Unit operation.
+        /// Equivalent to monadic <see cref="CSharpx.Maybe.Return{T}"/> operation.
         /// Builds a <see cref="CSharpx.Just{T}"/> value in case <paramref name="value"/> is different from its default.
         /// </summary>
         public static Maybe<T> ToMaybe<T>(this T value)
         {
-            return Equals(value, default(T)) ? Maybe.Nothing<T>() : Maybe.Just(value);
+            return Maybe.Return(value);
         }
 
         /// <summary>
@@ -177,10 +198,7 @@ namespace CSharpx
         /// </summary>
         public static Maybe<T2> Bind<T1, T2>(this Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
         {
-            T1 value1;
-            return maybe.MatchJust(out value1)
-                ? func(value1)
-                : Maybe.Nothing<T2>();
+            return Maybe.Bind(maybe, func);
         }
 
         /// <summary>
