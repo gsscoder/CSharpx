@@ -5,3 +5,4 @@ nuget FluentAssertions
 nuget xunit
 nuget xunit.runner.visualstudio version_in_path: true
 nuget xunit.runner.console
+nuget FsCheck.Xunit

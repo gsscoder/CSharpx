@@ -1,3 +1,4 @@
 FluentAssertions
 xunit
 xunit.runner.visualstudio
+FsCheck.Xunit
