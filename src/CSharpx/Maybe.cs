@@ -8,17 +8,22 @@ using System.Linq;
 
 namespace CSharpx
 {
+    #region Maybe Type
     /// <summary>
     /// Discriminator for <see cref="CSharpx.Maybe"/>.
     /// </summary>
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
-    enum MaybeType { Just, Nothing }
+    enum MaybeType
+    {
+        Just,
+        Nothing
+    }
 
     /// <summary>
     /// The Maybe type models an optional value. A value of type Maybe a either contains a value of type a (represented as Just a),
-    /// or it is empty (represented as Nothing). 
+    /// or it is empty (represented as Nothing).
     /// </summary>
 #if !CSX_MAYBE_INTERNAL
     public
@@ -35,11 +40,9 @@ namespace CSharpx
         /// <summary>
         /// Type discriminator.
         /// </summary>
-        public MaybeType Tag
-        {
-            get { return tag; }
-        }
+        public MaybeType Tag { get { return tag; } }
 
+        #region Basic Match Methods
         /// <summary>
         /// Matches an empty value returning <c>true</c>.
         /// </summary>
@@ -53,12 +56,12 @@ namespace CSharpx
         /// </summary>
         public bool MatchJust(out T value)
         {
-            value = Tag == MaybeType.Just
-                ? ((Just<T>)this).Value
-                : default(T);
+            value = Tag == MaybeType.Just ? ((Just<T>)this).Value : default(T);
             return Tag == MaybeType.Just;
         }
+        #endregion
     }
+    #endregion
 
     /// <summary>
     /// Models a <see cref="CSharpx.Maybe"/> when in empty state.
@@ -66,9 +69,12 @@ namespace CSharpx
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
-    sealed class Nothing<T> : Maybe<T>
+        sealed class Nothing<T> : Maybe<T>
     {
-        internal Nothing() : base(MaybeType.Nothing) { }
+        internal Nothing()
+            : base(MaybeType.Nothing)
+        {
+        }
     }
 
     /// <summary>
@@ -77,7 +83,7 @@ namespace CSharpx
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
-    sealed class Just<T> : Maybe<T>
+        sealed class Just<T> : Maybe<T>
     {
         private readonly T value;
 
@@ -104,6 +110,7 @@ namespace CSharpx
 #endif
     static class Maybe
     {
+        #region Value Case Constructors
         /// <summary>
         /// Builds the empty case of <see cref="CSharpx.Maybe"/>.
         /// </summary>
@@ -119,6 +126,37 @@ namespace CSharpx
         {
             return new Just<T>(value);
         }
+        #endregion
+
+        #region Monad
+        /// <summary>
+        /// Inject a value into the monadic <see cref="CSharpx.Maybe{T}"/> type.
+        /// </summary>
+        public static Maybe<T> Return<T>(T value)
+        {
+            return Equals(value, default(T)) ? Maybe.Nothing<T>() : Maybe.Just(value);
+        }
+
+        /// <summary>
+        /// Sequentially compose two actions, passing any value produced by the first as an argument to the second.
+        /// </summary>
+        public static Maybe<T2> Bind<T1, T2>(Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
+        {
+            T1 value1;
+            return maybe.MatchJust(out value1) ? func(value1) : Maybe.Nothing<T2>();
+        }
+        #endregion
+
+        #region Functor
+        /// <summary>
+        /// Transforms an maybe value by using a specified mapping function.
+        /// </summary>
+        public static Maybe<T2> Map<T1, T2>(Maybe<T1> maybe, Func<T1, T2> func)
+        {
+            T1 value1;
+            return maybe.MatchJust(out value1) ? Maybe.Just(func(value1)) : Maybe.Nothing<T2>();
+        }
+        #endregion
 
         /// <summary>
         /// If both maybes contain a value, it merges them into a maybe with a tupled value.
@@ -158,34 +196,28 @@ namespace CSharpx
     static class MaybeExtensions
     {
         /// <summary>
-        /// Equivalent to Return or Unit operation.
+        /// Equivalent to monadic <see cref="CSharpx.Maybe.Return{T}"/> operation.
         /// Builds a <see cref="CSharpx.Just{T}"/> value in case <paramref name="value"/> is different from its default.
         /// </summary>
         public static Maybe<T> ToMaybe<T>(this T value)
         {
-            return Equals(value, default(T)) ? Maybe.Nothing<T>() : Maybe.Just(value);
+            return Maybe.Return(value);
         }
 
         /// <summary>
-        /// Invokes a function on an optional value that itself yields a maybe.
+        /// Invokes a function on this maybe value that itself yields a maybe.
         /// </summary>
         public static Maybe<T2> Bind<T1, T2>(this Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
         {
-            T1 value1;
-            return maybe.MatchJust(out value1)
-                ? func(value1)
-                : Maybe.Nothing<T2>();
+            return Maybe.Bind(maybe, func);
         }
 
         /// <summary>
-        /// Transforms an option value by using a specified mapping function.
+        /// Transforms this maybe value by using a specified mapping function.
         /// </summary>
         public static Maybe<T2> Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func)
         {
-            T1 value1;
-            return maybe.MatchJust(out value1)
-                ? Maybe.Just(func(value1))
-                : Maybe.Nothing<T2>();
+            return Maybe.Map(maybe, func);
         }
 
         /// <summary>
@@ -194,9 +226,7 @@ namespace CSharpx
         public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
         {
             T1 value1;
-            return maybe.MatchJust(out value1)
-                ? func(value1)
-                : noneValue;
+            return maybe.MatchJust(out value1) ? func(value1) : noneValue;
         }
 
         /// <summary>
@@ -215,9 +245,10 @@ namespace CSharpx
         /// Map operation compatible with Linq.
         /// </summary>
         public static Maybe<TResult> Select<TSource, TResult>(
-            this Maybe<TSource> maybe, Func<TSource, TResult> selector)
+            this Maybe<TSource> maybe,
+            Func<TSource, TResult> selector)
         {
-            return maybe.Map(selector);
+            return Maybe.Map(maybe, selector);
         }
 
         /// <summary>
@@ -228,10 +259,10 @@ namespace CSharpx
             Func<TSource, Maybe<TValue>> valueSelector,
             Func<TSource, TValue, TResult> resultSelector)
         {
-            return maybe.Bind(
-                sourceValue => valueSelector(sourceValue)
-                    .Map(
-                        resultValue => resultSelector(sourceValue, resultValue)));
+            return
+                maybe.Bind(
+                    sourceValue =>
+                        valueSelector(sourceValue).Map(resultValue => resultSelector(sourceValue, resultValue)));
         }
 
         /// <summary>
