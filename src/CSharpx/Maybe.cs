@@ -195,118 +195,7 @@ namespace CSharpx
 #endif
     static class MaybeExtensions
     {
-        /// <summary>
-        /// Equivalent to monadic <see cref="CSharpx.Maybe.Return{T}"/> operation.
-        /// Builds a <see cref="CSharpx.Just{T}"/> value in case <paramref name="value"/> is different from its default.
-        /// </summary>
-        public static Maybe<T> ToMaybe<T>(this T value)
-        {
-            return Maybe.Return(value);
-        }
-
-        /// <summary>
-        /// Invokes a function on this maybe value that itself yields a maybe.
-        /// </summary>
-        public static Maybe<T2> Bind<T1, T2>(this Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
-        {
-            return Maybe.Bind(maybe, func);
-        }
-
-        /// <summary>
-        /// Transforms this maybe value by using a specified mapping function.
-        /// </summary>
-        public static Maybe<T2> Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func)
-        {
-            return Maybe.Map(maybe, func);
-        }
-
-        /// <summary>
-        /// If contains a values executes a mapping function over it, othervalue returns <paramref name="noneValue"/>.
-        /// </summary>
-        public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
-        {
-            T1 value1;
-            return maybe.MatchJust(out value1) ? func(value1) : noneValue;
-        }
-
-        /// <summary>
-        /// If contans a value executes an <see cref="System.Action{T}"/> delegate over it.
-        /// </summary>
-        public static void Do<T>(this Maybe<T> maybe, Action<T> action)
-        {
-            T value;
-            if (maybe.MatchJust(out value))
-            {
-                action(value);
-            }
-        }
-
-        /// <summary>
-        /// Map operation compatible with Linq.
-        /// </summary>
-        public static Maybe<TResult> Select<TSource, TResult>(
-            this Maybe<TSource> maybe,
-            Func<TSource, TResult> selector)
-        {
-            return Maybe.Map(maybe, selector);
-        }
-
-        /// <summary>
-        /// Bind operation compatible with Linq.
-        /// </summary>
-        public static Maybe<TResult> SelectMany<TSource, TValue, TResult>(
-            this Maybe<TSource> maybe,
-            Func<TSource, Maybe<TValue>> valueSelector,
-            Func<TSource, TValue, TResult> resultSelector)
-        {
-            return
-                maybe.Bind(
-                    sourceValue =>
-                        valueSelector(sourceValue).Map(resultValue => resultSelector(sourceValue, resultValue)));
-        }
-
-        /// <summary>
-        /// Extracts the element out of a <see cref="CSharpx.Just{T}"/> and returns a default value if its argument is <see cref="CSharpx.Nothing{T}"/>.
-        /// </summary>
-        public static T FromJust<T>(this Maybe<T> maybe)
-        {
-            T value;
-            if (maybe.MatchJust(out value))
-            {
-                return value;
-            }
-            return default(T);
-        }
-
-        /// <summary>
-        /// Extracts the element out of a <see cref="CSharpx.Just{T}"/> and throws an error if its argument is <see cref="CSharpx.Nothing{T}"/>.
-        /// </summary>
-        public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
-        {
-            T value;
-            if (maybe.MatchJust(out value))
-            {
-                return value;
-            }
-            throw exceptionToThrow ?? new ArgumentException("Value empty.");
-        }
-
-        /// <summary>
-        /// Returns <c>true</c> iffits argument is of the form <see cref="CSharpx.Nothing{T}"/>.
-        /// </summary>
-        public static bool IsNothing<T>(this Maybe<T> maybe)
-        {
-            return maybe.Tag == MaybeType.Nothing;
-        }
-
-        /// <summary>
-        /// Returns <c>true</c> iffits argument is of the form <see cref="CSharpx.Just{T}"/>.
-        /// </summary>
-        public static bool IsJust<T>(this Maybe<T> maybe)
-        {
-            return maybe.Tag == MaybeType.Just;
-        }
-
+        #region Alternative Match Methods
         /// <summary>
         /// Provides pattern matching using <see cref="System.Action"/> delegates.
         /// </summary>
@@ -352,6 +241,71 @@ namespace CSharpx
             value2 = default(T2);
             return false;
         }
+        #endregion
+
+        /// <summary>
+        /// Equivalent to monadic <see cref="CSharpx.Maybe.Return{T}"/> operation.
+        /// Builds a <see cref="CSharpx.Just{T}"/> value in case <paramref name="value"/> is different from its default.
+        /// </summary>
+        public static Maybe<T> ToMaybe<T>(this T value)
+        {
+            return Maybe.Return(value);
+        }
+
+        /// <summary>
+        /// Invokes a function on this maybe value that itself yields a maybe.
+        /// </summary>
+        public static Maybe<T2> Bind<T1, T2>(this Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
+        {
+            return Maybe.Bind(maybe, func);
+        }
+
+        /// <summary>
+        /// Transforms this maybe value by using a specified mapping function.
+        /// </summary>
+        public static Maybe<T2> Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func)
+        {
+            return Maybe.Map(maybe, func);
+        }
+
+        #region Linq Operators
+        /// <summary>
+        /// Map operation compatible with Linq.
+        /// </summary>
+        public static Maybe<TResult> Select<TSource, TResult>(
+            this Maybe<TSource> maybe,
+            Func<TSource, TResult> selector)
+        {
+            return Maybe.Map(maybe, selector);
+        }
+
+        /// <summary>
+        /// Bind operation compatible with Linq.
+        /// </summary>
+        public static Maybe<TResult> SelectMany<TSource, TValue, TResult>(
+            this Maybe<TSource> maybe,
+            Func<TSource, Maybe<TValue>> valueSelector,
+            Func<TSource, TValue, TResult> resultSelector)
+        {
+            return maybe
+                .Bind(sourceValue =>
+                        valueSelector(sourceValue)
+                            .Map(resultValue => resultSelector(sourceValue, resultValue)));
+        }
+        #endregion
+
+        #region Do Semantic
+        /// <summary>
+        /// If contans a value executes an <see cref="System.Action{T}"/> delegate over it.
+        /// </summary>
+        public static void Do<T>(this Maybe<T> maybe, Action<T> action)
+        {
+            T value;
+            if (maybe.MatchJust(out value))
+            {
+                action(value);
+            }
+        }
 
         /// <summary>
         /// If contans a value executes an <see cref="System.Action{T1, T2}"/> delegate over it.
@@ -364,6 +318,58 @@ namespace CSharpx
             {
                 action(value1, value2);
             }
+        }
+        #endregion
+
+        /// <summary>
+        /// Returns <c>true</c> iffits argument is of the form <see cref="CSharpx.Just{T}"/>.
+        /// </summary>
+        public static bool IsJust<T>(this Maybe<T> maybe)
+        {
+            return maybe.Tag == MaybeType.Just;
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> iffits argument is of the form <see cref="CSharpx.Nothing{T}"/>.
+        /// </summary>
+        public static bool IsNothing<T>(this Maybe<T> maybe)
+        {
+            return maybe.Tag == MaybeType.Nothing;
+        }
+
+        /// <summary>
+        /// Extracts the element out of a <see cref="CSharpx.Just{T}"/> and returns a default value if its argument is <see cref="CSharpx.Nothing{T}"/>.
+        /// </summary>
+        public static T FromJust<T>(this Maybe<T> maybe)
+        {
+            T value;
+            if (maybe.MatchJust(out value))
+            {
+                return value;
+            }
+            return default(T);
+        }
+
+        /// <summary>
+        /// Extracts the element out of a <see cref="CSharpx.Just{T}"/> and throws an error if its argument is <see cref="CSharpx.Nothing{T}"/>.
+        /// </summary>
+        public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
+        {
+            T value;
+            if (maybe.MatchJust(out value))
+            {
+                return value;
+            }
+            throw exceptionToThrow ?? new ArgumentException("Value empty.");
+        }
+
+        /// <summary>
+        /// If contains a values executes a mapping function over it, othervalue returns <paramref name="noneValue"/>.
+        /// </summary>
+        public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
+        {
+            T1 value1;
+            return maybe.MatchJust(out value1) ? func(value1) : noneValue;
         }
 
         /// <summary>
