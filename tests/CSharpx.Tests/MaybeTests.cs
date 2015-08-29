@@ -29,7 +29,7 @@ namespace CSharpx.Tests
                             maybeInt.Should().BeOfType<Nothing<int>>();
                             break;
                     }
-                }).QuickCheck();
+                }).QuickCheckThrowOnFailure();
         }
     }
 }
