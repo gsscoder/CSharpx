@@ -103,9 +103,9 @@ namespace CSharpx
         /// <summary>
         /// Inject a value into the Either type.
         /// </summary>
-        public static Func<T1, Either<T1, T2>> ReturnM<T1, T2>()
+        public static Either<T1, T2> Return<T1, T2>(T2 value)
         {
-            return value => new Left<T1, T2>(value);
+            return Either.Right<T1, T2>(value);
         }
 
         /// <summary>
