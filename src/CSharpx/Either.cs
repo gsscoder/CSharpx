@@ -110,6 +110,22 @@ namespace CSharpx
         }
         #endregion
 
+        #region Applicative
+        /// <summary>
+        /// Transforms a Either's right value by using a specified mapping function.
+        /// </summary>
+        public static Either<TLeft, TResult> Map<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, TResult> func)
+        {
+            if (either.Tag == EitherType.Right)
+            {
+                var x = (Right<TLeft, TRight>)either;
+                return new Right<TLeft, TResult>(func(x.Value));
+            }
+            var y = (Left<TLeft, TRight>)either;
+            return new Left<TLeft, TResult>(y.Value);
+        }
+        #endregion
+
         /// <summary>
         /// Wraps a function, encapsulates any exception thrown within to a Either.
         /// </summary>
@@ -164,20 +180,6 @@ namespace CSharpx
             }
             var g = (Right<TLeft, TRight>)value;
             return new Right<T3, TRight>(g.Value);
-        }
-
-        /// <summary>
-        /// Transforms a Either's first value by using a specified mapping function.
-        /// </summary>
-        public static Either<TRight, T3> Map<TLeft, TRight, T3>(Func<TLeft, TRight> func, Either<TLeft, T3> either)
-        {
-            if (either.Tag == EitherType.Left)
-            {
-                var x = (Left<TLeft, T3>)either;
-                return new Left<TRight, T3>(func(x.Value));
-            }
-            var y = (Right<TLeft, T3>)either;
-            return new Right<TRight, T3>(y.Value);
         }
 
         /// <summary>
