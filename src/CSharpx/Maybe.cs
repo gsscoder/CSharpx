@@ -174,15 +174,15 @@ namespace CSharpx
 
 #if !CSX_REM_EITHER_FUNC
         /// <summary>
-        /// Maps Choice 1Of2 to Some value, otherwise None.
+        /// Maps Either Right value to Maybe Just, otherwise Maybe Nothing.
         /// </summary>
-        public static Maybe<T1> OfEither<T1, T2>(Either<T1, T2> either)
+        public static Maybe<TRight> OfEither<TLeft, TRight>(Either<TLeft, TRight> either)
         {
-            if (either.Tag == Either2Type.Either1Of2)
+            if (either.Tag == EitherType.Right)
             {
-                return Maybe.Just(((Either1Of2<T1, T2>)either).Value);
+                return Maybe.Just(((Right<TLeft, TRight>)either).Value);
             }
-            return Maybe.Nothing<T1>();
+            return Maybe.Nothing<TRight>();
         }
 #endif
     }
