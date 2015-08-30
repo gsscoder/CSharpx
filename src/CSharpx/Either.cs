@@ -135,8 +135,8 @@ namespace CSharpx
             {
                 return Either.Right<TLeft, TResult>(func(right));
             }
-            var y = (Left<TLeft, TRight>)either;
-            return Either.Left<TLeft, TResult>(y.Value);
+            var x = (Left<TLeft, TRight>)either;
+            return Either.Left<TLeft, TResult>(x.Value);
         }
         #endregion
 
@@ -152,8 +152,8 @@ namespace CSharpx
             {
                 return Either.Right<TLeft1, TRight1>(mapRight(right));
             }
-            var y = (Left<TLeft, TRight>)either;
-            return Either.Left<TLeft1, TRight1>(mapLeft(y.Value));
+            var x = (Left<TLeft, TRight>)either;
+            return Either.Left<TLeft1, TRight1>(mapLeft(x.Value));
         }
         #endregion
 
@@ -190,22 +190,6 @@ namespace CSharpx
         public static Either<Exception, TRight> Cast<TRight>(object obj)
         {
             return Either.Try(() => (TRight)obj);
-        }
-
-        /// <summary>
-        /// Maps both parts of a Either.
-        /// Applies the first function if Either is 1Of2.
-        /// Otherwise applies the second function
-        /// </summary>
-        public static TRight Choice<TLeft, TRight, T3>(Func<TLeft, TRight> func1, Func<T3, TRight> func2, Either<TLeft, T3> either)
-        {
-            if (either.Tag == EitherType.Left)
-            {
-                var x = (Left<TLeft, T3>)either;
-                return func1(x.Value);
-            }
-            var y = (Right<TLeft, T3>)either;
-            return func2(y.Value);
         }
 
 #if !CSX_REM_MAYBE_FUNC
