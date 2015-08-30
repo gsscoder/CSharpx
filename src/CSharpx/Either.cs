@@ -155,15 +155,15 @@ namespace CSharpx
         /// <summary>
         /// Wraps a function, encapsulates any exception thrown within to a Either.
         /// </summary>
-        public static Either<TRight, Exception> Protect<TLeft, TRight>(Func<TLeft, TRight> func, TLeft value)
+        public static Either<Exception, TRight> Try<TRight>(Func<TRight> func)
         {
             try
             {
-                return new Left<TRight, Exception>(func(value));
+                return new Right<Exception, TRight>(func());
             }
             catch (Exception ex)
             {
-                return new Right<TRight, Exception>(ex);
+                return new Left<Exception, TRight>(ex);
             }
         }
 
@@ -171,7 +171,7 @@ namespace CSharpx
         /// Attempts to cast an object.
         /// Stores the cast value in 1Of2 if successful, otherwise stores the exception in 2Of2
         /// </summary>
-        public static Either<TLeft, Exception> Cast<TLeft>(object obj)
+        public static Either<Exception, TRight> Cast<TRight>(object obj)
         {
             return Protect(v => (TLeft)obj, obj);
         }
