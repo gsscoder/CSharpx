@@ -229,6 +229,16 @@ namespace CSharpx
 #endif
     static class EitherExtensions
     {
+        public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            return either.Tag == EitherType.Left;
+        }
+
+        public static bool IsRight<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            return either.Tag == EitherType.Right;
+        }
+
         public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifFirst, Action<TRight> ifSecond)
         {
             if (either.Tag == EitherType.Left)
