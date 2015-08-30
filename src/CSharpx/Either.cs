@@ -108,9 +108,23 @@ namespace CSharpx
         {
             return Either.Right<TLeft, TRight>(value);
         }
+
+        /// <summary>
+        /// Monadic bind.
+        /// </summary>
+        public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, Either<TLeft, TResult>> func)
+        {
+            if (either.Tag == EitherType.Right)
+            {
+                var x = (Right<TLeft, TRight>)either;
+                return func(x.Value);
+            }
+            var y = (Left<TLeft, TRight>)either;
+            return new Left<TLeft, TResult>(y.Value);
+        }
         #endregion
 
-        #region Applicative
+        #region Functor
         /// <summary>
         /// Transforms a Either's right value by using a specified mapping function.
         /// </summary>
@@ -180,20 +194,6 @@ namespace CSharpx
             }
             var g = (Right<TLeft, TRight>)value;
             return new Right<T3, TRight>(g.Value);
-        }
-
-        /// <summary>
-        /// Monadic bind.
-        /// </summary>
-        public static Either<TRight, T3> Bind<TLeft, TRight, T3>(Func<TLeft, Either<TRight, T3>> func, Either<TLeft, T3> either)
-        {
-            if (either.Tag == EitherType.Left)
-            {
-                var x = (Left<TLeft, T3>)either;
-                return func(x.Value);
-            }
-            var y = (Right<TLeft, T3>)either;
-            return new Right<TRight, T3>(y.Value);
         }
 
         /// <summary>
