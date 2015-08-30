@@ -147,26 +147,25 @@ namespace CSharpx
         /// </summary>
         public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either, Func<TLeft, TLeft1> mapLeft, Func<TRight, TRight1> mapRight)
         {
-            if (either.Tag == EitherType.Right)
+            TRight right;
+            if (either.MatchRight(out right))
             {
-                var x = (Right<TLeft, TRight>)either;
-                return new Right<TLeft1, TRight1>(mapRight(x.Value));
+                return Either.Right<TLeft1, TRight1>(mapRight(right));
             }
             var y = (Left<TLeft, TRight>)either;
-            return new Left<TLeft1, TRight1>(mapLeft(y.Value));
+            return Either.Left<TLeft1, TRight1>(mapLeft(y.Value));
         }
         #endregion
 
         /// <summary>
-        /// Wraps a function, encapsulates any exception thrown within to a Either.
+        /// Returns a Either Right or fail with an exception.
         /// </summary>
-        public static TLeft Get<TLeft, TRight>(Either<TLeft, TRight> either)
+        public static TRight GetOrFail<TLeft, TRight>(Either<TLeft, TRight> either)
         {
-            if (either.Tag == EitherType.Left)
-            {
-                return ((Left<TLeft, TRight>)either).Value;
-            }
-            throw new ArgumentException("either", string.Format("The either value was Either2Of2 {0}", either));
+            TRight value;
+            if (either.MatchRight(out value))
+                return value;
+            throw new ArgumentException("either", string.Format("The either value was Left {0}", either));
         }
 
         /// <summary>
