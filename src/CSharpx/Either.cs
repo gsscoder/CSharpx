@@ -9,21 +9,21 @@ namespace CSharpx
 #if !CSX_EITHER_INTERNAL
     public
 #endif
-    enum Either2Type { Either1Of2, Either2Of2 }
+    enum EitherType { Left, Right }
 
 #if !CSX_EITHER_INTERNAL
     public
 #endif
     abstract class Either<T1, T2>
     {
-        private readonly Either2Type tag;
+        private readonly EitherType tag;
 
-        protected Either(Either2Type tag)
+        protected Either(EitherType tag)
         {
             this.tag = tag;
         }
 
-        public Either2Type Tag
+        public EitherType Tag
         {
             get { return this.tag; }
         }
@@ -32,12 +32,12 @@ namespace CSharpx
 #if !CSX_EITHER_INTERNAL
     public
 #endif
-    sealed class Either1Of2<T1, T2> : Either<T1, T2>
+    sealed class Left<T1, T2> : Either<T1, T2>
     {
         private readonly T1 value;
 
-        internal Either1Of2(T1 value)
-            : base(Either2Type.Either1Of2)
+        internal Left(T1 value)
+            : base(EitherType.Left)
         {
             this.value = value;
         }
@@ -51,12 +51,12 @@ namespace CSharpx
 #if !CSX_EITHER_INTERNAL
     public
 #endif
-    sealed class Either2Of2<T1, T2> : Either<T1, T2>
+    sealed class Right<T1, T2> : Either<T1, T2>
     {
         private readonly T2 value;
 
-        internal Either2Of2(T2 value)
-            : base(Either2Type.Either2Of2)
+        internal Right(T2 value)
+            : base(EitherType.Right)
         {
             this.value = value;
         }
@@ -72,15 +72,15 @@ namespace CSharpx
 #endif
     static class Either
     {
-        #region Constructor methods
-        public static Either<T1, T2> New1Of2<T1, T2>(T1 value)
+        #region Value Case Constructors
+        public static Either<T1, T2> Left<T1, T2>(T1 value)
         {
-            return new Either1Of2<T1, T2>(value);
+            return new Left<T1, T2>(value);
         }
 
-        public static Either<T1, T2> New2Of2<T1, T2>(T2 value)
+        public static Either<T1, T2> Right<T1, T2>(T2 value)
         {
-            return new Either2Of2<T1, T2>(value);
+            return new Right<T1, T2>(value);
         }
         #endregion
 
@@ -89,7 +89,7 @@ namespace CSharpx
         /// </summary>
         public static Func<T1, Either<T1, T2>> ReturnM<T1, T2>()
         {
-            return value => new Either1Of2<T1, T2>(value);
+            return value => new Left<T1, T2>(value);
         }
 
         /// <summary>
@@ -97,9 +97,9 @@ namespace CSharpx
         /// </summary>
         public static T1 Get<T1, T2>(Either<T1, T2> either)
         {
-            if (either.Tag == Either2Type.Either1Of2)
+            if (either.Tag == EitherType.Left)
             {
-                return ((Either1Of2<T1, T2>)either).Value;
+                return ((Left<T1, T2>)either).Value;
             }
             throw new ArgumentException("either", string.Format("The either value was Either2Of2 {0}", either));
         }
@@ -111,11 +111,11 @@ namespace CSharpx
         {
             try
             {
-                return new Either1Of2<T2, Exception>(func(value));
+                return new Left<T2, Exception>(func(value));
             }
             catch (Exception ex)
             {
-                return new Either2Of2<T2, Exception>(ex);
+                return new Right<T2, Exception>(ex);
             }
         }
 
@@ -133,19 +133,19 @@ namespace CSharpx
         /// </summary>
         public static Either<T3, T2> Ap<T1, T2, T3>(Either<T1, T2> value, Either<Func<T1, T3>, T2> func)
         {
-            if (func.Tag == Either2Type.Either1Of2 && value.Tag == Either2Type.Either1Of2)
+            if (func.Tag == EitherType.Left && value.Tag == EitherType.Left)
             {
-                var f = (Either1Of2<Func<T1, T3>, T2>)func;
-                var x = (Either1Of2<T1, T2>)value;
-                return new Either1Of2<T3, T2>(f.Value(x.Value));
+                var f = (Left<Func<T1, T3>, T2>)func;
+                var x = (Left<T1, T2>)value;
+                return new Left<T3, T2>(f.Value(x.Value));
             }
-            if (func.Tag == Either2Type.Either2Of2)
+            if (func.Tag == EitherType.Right)
             {
-                var e = (Either2Of2<Func<T1, T3>, T2>)func;
-                return new Either2Of2<T3, T2>(e.Value);
+                var e = (Right<Func<T1, T3>, T2>)func;
+                return new Right<T3, T2>(e.Value);
             }
-            var g = (Either2Of2<T1, T2>)value;
-            return new Either2Of2<T3, T2>(g.Value);
+            var g = (Right<T1, T2>)value;
+            return new Right<T3, T2>(g.Value);
         }
 
         /// <summary>
@@ -153,13 +153,13 @@ namespace CSharpx
         /// </summary>
         public static Either<T2, T3> Map<T1, T2, T3>(Func<T1, T2> func, Either<T1, T3> either)
         {
-            if (either.Tag == Either2Type.Either1Of2)
+            if (either.Tag == EitherType.Left)
             {
-                var x = (Either1Of2<T1, T3>)either;
-                return new Either1Of2<T2, T3>(func(x.Value));
+                var x = (Left<T1, T3>)either;
+                return new Left<T2, T3>(func(x.Value));
             }
-            var y = (Either2Of2<T1, T3>)either;
-            return new Either2Of2<T2, T3>(y.Value);
+            var y = (Right<T1, T3>)either;
+            return new Right<T2, T3>(y.Value);
         }
 
         /// <summary>
@@ -167,13 +167,13 @@ namespace CSharpx
         /// </summary>
         public static Either<T2, T3> Bind<T1, T2, T3>(Func<T1, Either<T2, T3>> func, Either<T1, T3> either)
         {
-            if (either.Tag == Either2Type.Either1Of2)
+            if (either.Tag == EitherType.Left)
             {
-                var x = (Either1Of2<T1, T3>)either;
+                var x = (Left<T1, T3>)either;
                 return func(x.Value);
             }
-            var y = (Either2Of2<T1, T3>)either;
-            return new Either2Of2<T2, T3>(y.Value);
+            var y = (Right<T1, T3>)either;
+            return new Right<T2, T3>(y.Value);
         }
 
         /// <summary>
@@ -183,13 +183,13 @@ namespace CSharpx
         /// </summary>
         public static Either<T2, T4> Bimap<T1, T2, T3, T4>(Func<T1, T2> func1, Func<T3, T4> func2, Either<T1, T3> either)
         {
-            if (either.Tag == Either2Type.Either1Of2)
+            if (either.Tag == EitherType.Left)
             {
-                var x = (Either1Of2<T1, T3>)either;
-                return new Either1Of2<T2, T4>(func1(x.Value));
+                var x = (Left<T1, T3>)either;
+                return new Left<T2, T4>(func1(x.Value));
             }
-            var y = (Either2Of2<T1, T3>)either;
-            return new Either2Of2<T2, T4>(func2(y.Value));
+            var y = (Right<T1, T3>)either;
+            return new Right<T2, T4>(func2(y.Value));
         }
 
         /// <summary>
@@ -199,12 +199,12 @@ namespace CSharpx
         /// </summary>
         public static T2 Choice<T1, T2, T3>(Func<T1, T2> func1, Func<T3, T2> func2, Either<T1, T3> either)
         {
-            if (either.Tag == Either2Type.Either1Of2)
+            if (either.Tag == EitherType.Left)
             {
-                var x = (Either1Of2<T1, T3>)either;
+                var x = (Left<T1, T3>)either;
                 return func1(x.Value);
             }
-            var y = (Either2Of2<T1, T3>)either;
+            var y = (Right<T1, T3>)either;
             return func2(y.Value);
         }
 
@@ -213,9 +213,9 @@ namespace CSharpx
         {
             if (maybe.Tag == MaybeType.Just)
             {
-                return new Either1Of2<T1, T2>(((Just<T1>)maybe).Value);
+                return new Left<T1, T2>(((Just<T1>)maybe).Value);
             }
-            return new Either2Of2<T1, T2>(second);
+            return new Right<T1, T2>(second);
         }
 #endif
     }
@@ -227,12 +227,12 @@ namespace CSharpx
     {
         public static void Match<T1, T2>(this Either<T1, T2> either, Action<T1> ifFirst, Action<T2> ifSecond)
         {
-            if (either.Tag == Either2Type.Either1Of2)
+            if (either.Tag == EitherType.Left)
             {
-                ifFirst(((Either1Of2<T1, T2>)either).Value);
+                ifFirst(((Left<T1, T2>)either).Value);
                 return;
             }
-            ifSecond(((Either2Of2<T1, T2>)either).Value);
+            ifSecond(((Right<T1, T2>)either).Value);
         }
     }
 }
