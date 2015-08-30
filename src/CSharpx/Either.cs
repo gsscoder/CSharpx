@@ -104,9 +104,9 @@ namespace CSharpx
         /// <summary>
         /// Inject a value into the Either type.
         /// </summary>
-        public static Either<TLeft, TRight> Return<TLeft, TRight>(TRight value)
+        public static Either<string, TRight> Return<TRight>(TRight value)
         {
-            return Either.Right<TLeft, TRight>(value);
+            return Either.Right<string, TRight>(value);
         }
 
         /// <summary>
@@ -243,9 +243,9 @@ namespace CSharpx
         /// Equivalent to monadic <see cref="CSharpx.Either.Return{TLeft, TRight}"/> operation.
         /// Builds a <see cref="CSharpx.Right{TLeft, TRight}"/> value in case <paramref name="value"/> by default.
         /// </summary>
-        public static Either<TLeft,TRight> ToEither<TLeft, TRight>(this TRight value)
+        public static Either<string, TRight> ToEither<TRight>(this TRight value)
         {
-            return Either.Return<TLeft, TRight>(value);
+            return Either.Return<TRight>(value);
         }
 
         public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(
