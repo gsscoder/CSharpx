@@ -1,5 +1,5 @@
 # CSharpx
-Functional programming and other utilities for C# (_work in progress_).
+Functional programming and other utilities for C# (_pre-release_).
 
 Every source file contains conditional compilation symbols to change type visibility from public to internal
 and set other preferences.
@@ -10,15 +10,24 @@ Source files are conceived to be manually added to other projects or by setting 
 - C# native implementation of F# `'T option` / Haskell `Data.Maybe a` type.
 
 ## Either.cs
-- **This type will be ASAP strongly refactored, please don't use it untile this message disappears**.
-- C# native implementation of F# `Choice` discriminated unions.
-- Import only required `Either<T1 ... T7>` type.
+- C# native implementation of Haskell `Data.Either (Left a) (Right b)` type.
+- Similar also to F# `Choice<A, B>`.
+- Like in Haskell the convention is to let `Right` case hold the value and `Left` keep track of error or similar data.
+- If you want a better implementation of this kind of data, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie),
+named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 ## EnumerableExtensions.cs
 - Most useful extension methods from code.google.com/p/morelinq/.
+- With other useful methods too.
 
 ## Unit.cs
 - Equivalent to F# `unit`.
 
 ## Identity.cs
 - Identity monadic type.
+- The use of this monad can be easly replaced by direct function application.
+
+# Note
+- Actually `Maybe.cs` and `EnumerableExtensions.cs` are the more mature implementations.
+- I'm working for adding tests, time allowing.
+- Please report any your thought.
