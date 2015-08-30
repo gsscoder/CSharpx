@@ -100,6 +100,7 @@ namespace CSharpx
         }
         #endregion
 
+        #region Monad
         /// <summary>
         /// Inject a value into the Either type.
         /// </summary>
@@ -107,6 +108,7 @@ namespace CSharpx
         {
             return Either.Right<TLeft, TRight>(value);
         }
+        #endregion
 
         /// <summary>
         /// Wraps a function, encapsulates any exception thrown within to a Either.
