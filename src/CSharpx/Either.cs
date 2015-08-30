@@ -114,13 +114,13 @@ namespace CSharpx
         /// </summary>
         public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, Either<TLeft, TResult>> func)
         {
-            if (either.Tag == EitherType.Right)
+            TRight right;
+            if (either.MatchRight(out right))
             {
-                var x = (Right<TLeft, TRight>)either;
-                return func(x.Value);
+                return func(right);
             }
             var y = (Left<TLeft, TRight>)either;
-            return new Left<TLeft, TResult>(y.Value);
+            return Either.Left<TLeft, TResult>(y.Value);
         }
         #endregion
 
@@ -136,7 +136,7 @@ namespace CSharpx
                 return Either.Right<TLeft, TResult>(func(right));
             }
             var y = (Left<TLeft, TRight>)either;
-            return new Left<TLeft, TResult>(y.Value);
+            return Either.Left<TLeft, TResult>(y.Value);
         }
         #endregion
 
