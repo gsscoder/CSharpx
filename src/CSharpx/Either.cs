@@ -194,8 +194,6 @@ namespace CSharpx
             return Either.Try(() => (TRight)obj);
         }
 
-
-
         /// <summary>
         /// Maps both parts of a Either.
         /// Applies the first function if Either is 1Of2.
@@ -213,13 +211,13 @@ namespace CSharpx
         }
 
 #if !CSX_REM_MAYBE_FUNC
-        public static Either<TLeft, TRight> OfMaybe<TLeft, TRight>(Maybe<TLeft> maybe, TRight second)
+        public static Either<TLeft, TRight> OfMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
         {
             if (maybe.Tag == MaybeType.Just)
             {
-                return new Left<TLeft, TRight>(((Just<TLeft>)maybe).Value);
+                return new Right<TLeft, TRight>(((Just<TRight>)maybe).Value);
             }
-            return new Right<TLeft, TRight>(second);
+            return new Left<TLeft, TRight>(left);
         }
 #endif
     }
@@ -239,14 +237,14 @@ namespace CSharpx
             return either.Tag == EitherType.Right;
         }
 
-        public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifFirst, Action<TRight> ifSecond)
+        public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifLeft, Action<TRight> ifRight)
         {
             if (either.Tag == EitherType.Left)
             {
-                ifFirst(((Left<TLeft, TRight>)either).Value);
+                ifLeft(((Left<TLeft, TRight>)either).Value);
                 return;
             }
-            ifSecond(((Right<TLeft, TRight>)either).Value);
+            ifRight(((Right<TLeft, TRight>)either).Value);
         }
     }
 }
