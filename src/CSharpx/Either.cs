@@ -197,9 +197,9 @@ namespace CSharpx
         {
             if (maybe.Tag == MaybeType.Just)
             {
-                return new Right<TLeft, TRight>(((Just<TRight>)maybe).Value);
+                return Either.Right<TLeft, TRight>(((Just<TRight>)maybe).Value);
             }
-            return new Left<TLeft, TRight>(left);
+            return Either.Left<TLeft, TRight>(left);
         }
 #endif
     }
