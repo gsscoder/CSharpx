@@ -44,20 +44,20 @@ namespace CSharpx
 
         #region Basic Match Methods
         /// <summary>
-        /// Matches an empty value returning <c>true</c>.
-        /// </summary>
-        public bool MatchNothing()
-        {
-            return Tag == MaybeType.Nothing;
-        }
-
-        /// <summary>
         /// Matches a value returning <c>true</c> and value itself via output parameter.
         /// </summary>
         public bool MatchJust(out T value)
         {
             value = Tag == MaybeType.Just ? ((Just<T>)this).Value : default(T);
             return Tag == MaybeType.Just;
+        }
+
+        /// <summary>
+        /// Matches an empty value returning <c>true</c>.
+        /// </summary>
+        public bool MatchNothing()
+        {
+            return Tag == MaybeType.Nothing;
         }
         #endregion
     }
