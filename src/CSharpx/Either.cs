@@ -15,7 +15,7 @@ namespace CSharpx
 #if !CSX_EITHER_INTERNAL
     public
 #endif
-    abstract class Either<T1, T2>
+    abstract class Either<TLeft, TRight>
     {
         private readonly EitherType tag;
 
@@ -30,15 +30,15 @@ namespace CSharpx
         }
 
         #region Basic Match Methods
-        public bool MatchLeft(out T1 value)
+        public bool MatchLeft(out TLeft value)
         {
-            value = Tag == EitherType.Left ? ((Left<T1, T2>)this).Value : default(T1);
+            value = Tag == EitherType.Left ? ((Left<TLeft, TRight>)this).Value : default(TLeft);
             return Tag == EitherType.Left;
         }
 
-        public bool MatchRight(out T2 value)
+        public bool MatchRight(out TRight value)
         {
-            value = Tag == EitherType.Right ? ((Right<T1, T2>)this).Value : default(T2);
+            value = Tag == EitherType.Right ? ((Right<TLeft, TRight>)this).Value : default(TRight);
             return Tag == EitherType.Right;
         }
         #endregion
@@ -47,17 +47,17 @@ namespace CSharpx
 #if !CSX_EITHER_INTERNAL
     public
 #endif
-    sealed class Left<T1, T2> : Either<T1, T2>
+    sealed class Left<TLeft, TRight> : Either<TLeft, TRight>
     {
-        private readonly T1 value;
+        private readonly TLeft value;
 
-        internal Left(T1 value)
+        internal Left(TLeft value)
             : base(EitherType.Left)
         {
             this.value = value;
         }
 
-        public T1 Value
+        public TLeft Value
         {
             get { return value; }
         }
@@ -66,17 +66,17 @@ namespace CSharpx
 #if !CSX_EITHER_INTERNAL
     public
 #endif
-    sealed class Right<T1, T2> : Either<T1, T2>
+    sealed class Right<TLeft, TRight> : Either<TLeft, TRight>
     {
-        private readonly T2 value;
+        private readonly TRight value;
 
-        internal Right(T2 value)
+        internal Right(TRight value)
             : base(EitherType.Right)
         {
             this.value = value;
         }
 
-        public T2 Value
+        public TRight Value
         {
             get { return value; }
         }
@@ -89,33 +89,33 @@ namespace CSharpx
     static class Either
     {
         #region Value Case Constructors
-        public static Either<T1, T2> Left<T1, T2>(T1 value)
+        public static Either<TLeft, TRight> Left<TLeft, TRight>(TLeft value)
         {
-            return new Left<T1, T2>(value);
+            return new Left<TLeft, TRight>(value);
         }
 
-        public static Either<T1, T2> Right<T1, T2>(T2 value)
+        public static Either<TLeft, TRight> Right<TLeft, TRight>(TRight value)
         {
-            return new Right<T1, T2>(value);
+            return new Right<TLeft, TRight>(value);
         }
         #endregion
 
         /// <summary>
         /// Inject a value into the Either type.
         /// </summary>
-        public static Either<T1, T2> Return<T1, T2>(T2 value)
+        public static Either<TLeft, TRight> Return<TLeft, TRight>(TRight value)
         {
-            return Either.Right<T1, T2>(value);
+            return Either.Right<TLeft, TRight>(value);
         }
 
         /// <summary>
         /// Wraps a function, encapsulates any exception thrown within to a Either.
         /// </summary>
-        public static T1 Get<T1, T2>(Either<T1, T2> either)
+        public static TLeft Get<TLeft, TRight>(Either<TLeft, TRight> either)
         {
             if (either.Tag == EitherType.Left)
             {
-                return ((Left<T1, T2>)either).Value;
+                return ((Left<TLeft, TRight>)either).Value;
             }
             throw new ArgumentException("either", string.Format("The either value was Either2Of2 {0}", either));
         }
@@ -123,15 +123,15 @@ namespace CSharpx
         /// <summary>
         /// Wraps a function, encapsulates any exception thrown within to a Either.
         /// </summary>
-        public static Either<T2, Exception> Protect<T1, T2>(Func<T1, T2> func, T1 value)
+        public static Either<TRight, Exception> Protect<TLeft, TRight>(Func<TLeft, TRight> func, TLeft value)
         {
             try
             {
-                return new Left<T2, Exception>(func(value));
+                return new Left<TRight, Exception>(func(value));
             }
             catch (Exception ex)
             {
-                return new Right<T2, Exception>(ex);
+                return new Right<TRight, Exception>(ex);
             }
         }
 
@@ -139,57 +139,57 @@ namespace CSharpx
         /// Attempts to cast an object.
         /// Stores the cast value in 1Of2 if successful, otherwise stores the exception in 2Of2
         /// </summary>
-        public static Either<T1, Exception> Cast<T1>(object obj)
+        public static Either<TLeft, Exception> Cast<TLeft>(object obj)
         {
-            return Protect(v => (T1)obj, obj);
+            return Protect(v => (TLeft)obj, obj);
         }
 
         /// <summary>
         /// Sequential application.
         /// </summary>
-        public static Either<T3, T2> Ap<T1, T2, T3>(Either<T1, T2> value, Either<Func<T1, T3>, T2> func)
+        public static Either<T3, TRight> Ap<TLeft, TRight, T3>(Either<TLeft, TRight> value, Either<Func<TLeft, T3>, TRight> func)
         {
             if (func.Tag == EitherType.Left && value.Tag == EitherType.Left)
             {
-                var f = (Left<Func<T1, T3>, T2>)func;
-                var x = (Left<T1, T2>)value;
-                return new Left<T3, T2>(f.Value(x.Value));
+                var f = (Left<Func<TLeft, T3>, TRight>)func;
+                var x = (Left<TLeft, TRight>)value;
+                return new Left<T3, TRight>(f.Value(x.Value));
             }
             if (func.Tag == EitherType.Right)
             {
-                var e = (Right<Func<T1, T3>, T2>)func;
-                return new Right<T3, T2>(e.Value);
+                var e = (Right<Func<TLeft, T3>, TRight>)func;
+                return new Right<T3, TRight>(e.Value);
             }
-            var g = (Right<T1, T2>)value;
-            return new Right<T3, T2>(g.Value);
+            var g = (Right<TLeft, TRight>)value;
+            return new Right<T3, TRight>(g.Value);
         }
 
         /// <summary>
         /// Transforms a Either's first value by using a specified mapping function.
         /// </summary>
-        public static Either<T2, T3> Map<T1, T2, T3>(Func<T1, T2> func, Either<T1, T3> either)
+        public static Either<TRight, T3> Map<TLeft, TRight, T3>(Func<TLeft, TRight> func, Either<TLeft, T3> either)
         {
             if (either.Tag == EitherType.Left)
             {
-                var x = (Left<T1, T3>)either;
-                return new Left<T2, T3>(func(x.Value));
+                var x = (Left<TLeft, T3>)either;
+                return new Left<TRight, T3>(func(x.Value));
             }
-            var y = (Right<T1, T3>)either;
-            return new Right<T2, T3>(y.Value);
+            var y = (Right<TLeft, T3>)either;
+            return new Right<TRight, T3>(y.Value);
         }
 
         /// <summary>
         /// Monadic bind.
         /// </summary>
-        public static Either<T2, T3> Bind<T1, T2, T3>(Func<T1, Either<T2, T3>> func, Either<T1, T3> either)
+        public static Either<TRight, T3> Bind<TLeft, TRight, T3>(Func<TLeft, Either<TRight, T3>> func, Either<TLeft, T3> either)
         {
             if (either.Tag == EitherType.Left)
             {
-                var x = (Left<T1, T3>)either;
+                var x = (Left<TLeft, T3>)either;
                 return func(x.Value);
             }
-            var y = (Right<T1, T3>)either;
-            return new Right<T2, T3>(y.Value);
+            var y = (Right<TLeft, T3>)either;
+            return new Right<TRight, T3>(y.Value);
         }
 
         /// <summary>
@@ -197,15 +197,15 @@ namespace CSharpx
         /// Applies the first function if Either is 1Of2.
         /// Otherwise applies the second function.
         /// </summary>
-        public static Either<T2, T4> Bimap<T1, T2, T3, T4>(Func<T1, T2> func1, Func<T3, T4> func2, Either<T1, T3> either)
+        public static Either<TRight, T4> Bimap<TLeft, TRight, T3, T4>(Func<TLeft, TRight> func1, Func<T3, T4> func2, Either<TLeft, T3> either)
         {
             if (either.Tag == EitherType.Left)
             {
-                var x = (Left<T1, T3>)either;
-                return new Left<T2, T4>(func1(x.Value));
+                var x = (Left<TLeft, T3>)either;
+                return new Left<TRight, T4>(func1(x.Value));
             }
-            var y = (Right<T1, T3>)either;
-            return new Right<T2, T4>(func2(y.Value));
+            var y = (Right<TLeft, T3>)either;
+            return new Right<TRight, T4>(func2(y.Value));
         }
 
         /// <summary>
@@ -213,25 +213,25 @@ namespace CSharpx
         /// Applies the first function if Either is 1Of2.
         /// Otherwise applies the second function
         /// </summary>
-        public static T2 Choice<T1, T2, T3>(Func<T1, T2> func1, Func<T3, T2> func2, Either<T1, T3> either)
+        public static TRight Choice<TLeft, TRight, T3>(Func<TLeft, TRight> func1, Func<T3, TRight> func2, Either<TLeft, T3> either)
         {
             if (either.Tag == EitherType.Left)
             {
-                var x = (Left<T1, T3>)either;
+                var x = (Left<TLeft, T3>)either;
                 return func1(x.Value);
             }
-            var y = (Right<T1, T3>)either;
+            var y = (Right<TLeft, T3>)either;
             return func2(y.Value);
         }
 
 #if !CSX_REM_MAYBE_FUNC
-        public static Either<T1, T2> OfMaybe<T1, T2>(Maybe<T1> maybe, T2 second)
+        public static Either<TLeft, TRight> OfMaybe<TLeft, TRight>(Maybe<TLeft> maybe, TRight second)
         {
             if (maybe.Tag == MaybeType.Just)
             {
-                return new Left<T1, T2>(((Just<T1>)maybe).Value);
+                return new Left<TLeft, TRight>(((Just<TLeft>)maybe).Value);
             }
-            return new Right<T1, T2>(second);
+            return new Right<TLeft, TRight>(second);
         }
 #endif
     }
@@ -241,14 +241,14 @@ namespace CSharpx
 #endif
     static class EitherExtensions
     {
-        public static void Match<T1, T2>(this Either<T1, T2> either, Action<T1> ifFirst, Action<T2> ifSecond)
+        public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifFirst, Action<TRight> ifSecond)
         {
             if (either.Tag == EitherType.Left)
             {
-                ifFirst(((Left<T1, T2>)either).Value);
+                ifFirst(((Left<TLeft, TRight>)either).Value);
                 return;
             }
-            ifSecond(((Right<T1, T2>)either).Value);
+            ifSecond(((Right<TLeft, TRight>)either).Value);
         }
     }
 }
