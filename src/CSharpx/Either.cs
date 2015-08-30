@@ -6,6 +6,7 @@ using System;
 
 namespace CSharpx
 {
+    #region Either Type
 #if !CSX_EITHER_INTERNAL
     public
 #endif
@@ -27,6 +28,20 @@ namespace CSharpx
         {
             get { return this.tag; }
         }
+
+        #region Basic Match Methods
+        public bool MatchLeft(out T1 value)
+        {
+            value = Tag == EitherType.Left ? ((Left<T1, T2>)this).Value : default(T1);
+            return Tag == EitherType.Left;
+        }
+
+        public bool MatchRight(out T2 value)
+        {
+            value = Tag == EitherType.Right ? ((Right<T1, T2>)this).Value : default(T2);
+            return Tag == EitherType.Right;
+        }
+        #endregion
     }
 
 #if !CSX_EITHER_INTERNAL
@@ -66,6 +81,7 @@ namespace CSharpx
             get { return value; }
         }
     }
+    #endregion
 
 #if !CSX_EITHER_INTERNAL
     public
