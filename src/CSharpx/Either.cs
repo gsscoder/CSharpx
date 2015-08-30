@@ -167,6 +167,12 @@ namespace CSharpx
         {
             return Either.Map(either, selector);
         }
+
+        public static Either<TLeft, TResult> SelectMany<TLeft, TRight, TResult>(this Either<TLeft, TRight> result,
+            Func<TRight, Either<TLeft, TResult>> func)
+        {
+            return Either.Bind(result, func);
+        }
         #endregion
 
         /// <summary>
