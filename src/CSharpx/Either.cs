@@ -140,6 +140,24 @@ namespace CSharpx
         }
         #endregion
 
+        #region Bifunctor
+        /// <summary>
+        /// Maps both parts of a Either type.
+        /// Applies the first function if Either is Left.
+        /// Otherwise applies the second function.
+        /// </summary>
+        public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either, Func<TRight, TRight1> mapRight, Func<TLeft, TLeft1> mapLeft)
+        {
+            if (either.Tag == EitherType.Right)
+            {
+                var x = (Right<TLeft, TRight>)either;
+                return new Right<TLeft1, TRight1>(mapRight(x.Value));
+            }
+            var y = (Left<TLeft, TRight>)either;
+            return new Left<TLeft1, TRight1>(mapLeft(y.Value));
+        }
+        #endregion
+
         /// <summary>
         /// Wraps a function, encapsulates any exception thrown within to a Either.
         /// </summary>
@@ -173,24 +191,10 @@ namespace CSharpx
         /// </summary>
         public static Either<Exception, TRight> Cast<TRight>(object obj)
         {
-            return Protect(v => (TLeft)obj, obj);
+            return Either.Try(() => (TRight)obj);
         }
 
-        /// <summary>
-        /// Maps both parts of a Either type.
-        /// Applies the first function if Either is 1Of2.
-        /// Otherwise applies the second function.
-        /// </summary>
-        public static Either<TRight, T4> Bimap<TLeft, TRight, T3, T4>(Func<TLeft, TRight> func1, Func<T3, T4> func2, Either<TLeft, T3> either)
-        {
-            if (either.Tag == EitherType.Left)
-            {
-                var x = (Left<TLeft, T3>)either;
-                return new Left<TRight, T4>(func1(x.Value));
-            }
-            var y = (Right<TLeft, T3>)either;
-            return new Right<TRight, T4>(func2(y.Value));
-        }
+
 
         /// <summary>
         /// Maps both parts of a Either.
