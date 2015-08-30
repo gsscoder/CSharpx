@@ -142,11 +142,10 @@ namespace CSharpx
 
         #region Bifunctor
         /// <summary>
-        /// Maps both parts of a Either type.
-        /// Applies the first function if Either is Left.
+        /// Maps both parts of a Either type. Applies the first function if Either is Left.
         /// Otherwise applies the second function.
         /// </summary>
-        public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either, Func<TRight, TRight1> mapRight, Func<TLeft, TLeft1> mapLeft)
+        public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either, Func<TLeft, TLeft1> mapLeft, Func<TRight, TRight1> mapRight)
         {
             if (either.Tag == EitherType.Right)
             {
@@ -246,6 +245,28 @@ namespace CSharpx
         public static Either<TLeft,TRight> ToEither<TLeft, TRight>(this TRight value)
         {
             return Either.Return<TLeft, TRight>(value);
+        }
+
+        public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(
+            this Either<TLeft, TRight> either,
+            Func<TRight, Either<TLeft, TResult>> func)
+        {
+            return Either.Bind(either, func);
+        }
+
+        public static Either<TLeft, TResult> Map<TLeft, TRight, TResult>(
+            this Either<TLeft, TRight> either,
+            Func<TRight, TResult> func)
+        {
+            return Either.Map(either, func);
+        }
+
+        public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(
+            this Either<TLeft, TRight> either,
+            Func<TLeft, TLeft1> mapLeft,
+            Func<TRight, TRight1> mapRight)
+        {
+            return Either.Bimap(either, mapLeft, mapRight);
         }
 
         public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
