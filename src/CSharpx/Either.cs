@@ -130,10 +130,10 @@ namespace CSharpx
         /// </summary>
         public static Either<TLeft, TResult> Map<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, TResult> func)
         {
-            if (either.Tag == EitherType.Right)
+            TRight right;
+            if (either.MatchRight(out right))
             {
-                var x = (Right<TLeft, TRight>)either;
-                return new Right<TLeft, TResult>(func(x.Value));
+                return Either.Right<TLeft, TResult>(func(right));
             }
             var y = (Left<TLeft, TRight>)either;
             return new Left<TLeft, TResult>(y.Value);
