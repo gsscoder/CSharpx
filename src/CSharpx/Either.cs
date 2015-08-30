@@ -177,26 +177,6 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Sequential application.
-        /// </summary>
-        public static Either<T3, TRight> Ap<TLeft, TRight, T3>(Either<TLeft, TRight> value, Either<Func<TLeft, T3>, TRight> func)
-        {
-            if (func.Tag == EitherType.Left && value.Tag == EitherType.Left)
-            {
-                var f = (Left<Func<TLeft, T3>, TRight>)func;
-                var x = (Left<TLeft, TRight>)value;
-                return new Left<T3, TRight>(f.Value(x.Value));
-            }
-            if (func.Tag == EitherType.Right)
-            {
-                var e = (Right<Func<TLeft, T3>, TRight>)func;
-                return new Right<T3, TRight>(e.Value);
-            }
-            var g = (Right<TLeft, TRight>)value;
-            return new Right<T3, TRight>(g.Value);
-        }
-
-        /// <summary>
         /// Maps both parts of a Either type.
         /// Applies the first function if Either is 1Of2.
         /// Otherwise applies the second function.
