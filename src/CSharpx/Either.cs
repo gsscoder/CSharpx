@@ -110,6 +110,18 @@ namespace CSharpx
         }
 
         /// <summary>
+        /// Fail with a message. Not part of mathematical definition of a monad.
+        /// </summary>
+        public static Either<string, TRight> Fail<TRight>(string message)
+        {
+            Func<Either<string, TRight>> makeImpure = () => {
+                throw new Exception(message);
+                return Either.Left<string, TRight>(message);
+            };
+            return makeImpure();
+        }
+
+        /// <summary>
         /// Monadic bind.
         /// </summary>
         public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, Either<TLeft, TResult>> func)
