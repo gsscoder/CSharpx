@@ -227,16 +227,7 @@ namespace CSharpx
 #endif
     static class EitherExtensions
     {
-        public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
-        {
-            return either.Tag == EitherType.Left;
-        }
-
-        public static bool IsRight<TLeft, TRight>(this Either<TLeft, TRight> either)
-        {
-            return either.Tag == EitherType.Right;
-        }
-
+        #region Alternative Match Methods
         public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifLeft, Action<TRight> ifRight)
         {
             if (either.Tag == EitherType.Left)
@@ -245,6 +236,26 @@ namespace CSharpx
                 return;
             }
             ifRight(((Right<TLeft, TRight>)either).Value);
+        }
+        #endregion
+
+        /// <summary>
+        /// Equivalent to monadic <see cref="CSharpx.Either.Return{TLeft, TRight}"/> operation.
+        /// Builds a <see cref="CSharpx.Right{TLeft, TRight}"/> value in case <paramref name="value"/> by default.
+        /// </summary>
+        public static Either<TLeft,TRight> ToEither<TLeft, TRight>(this TRight value)
+        {
+            return Either.Return<TLeft, TRight>(value);
+        }
+
+        public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            return either.Tag == EitherType.Left;
+        }
+
+        public static bool IsRight<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            return either.Tag == EitherType.Right;
         }
     }
 }
