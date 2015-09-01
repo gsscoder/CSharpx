@@ -137,8 +137,8 @@ namespace CSharpx
             {
                 return func(right);
             }
-            var y = (Left<TLeft, TRight>)either;
-            return Either.Left<TLeft, TResult>(y.Value);
+            var x = (Left<TLeft, TRight>)either;
+            return Either.Left<TLeft, TResult>(x.Value);
         }
         #endregion
 
