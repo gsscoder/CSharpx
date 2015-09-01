@@ -248,9 +248,10 @@ namespace CSharpx
         #region Alternative Match Methods
         public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifLeft, Action<TRight> ifRight)
         {
-            if (either.Tag == EitherType.Left)
+            TLeft left;
+            if (either.MatchLeft(out left))
             {
-                ifLeft(((Left<TLeft, TRight>)either).Value);
+                ifLeft(left);
                 return;
             }
             ifRight(((Right<TLeft, TRight>)either).Value);
