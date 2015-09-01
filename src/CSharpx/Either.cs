@@ -10,7 +10,17 @@ namespace CSharpx
 #if !CSX_EITHER_INTERNAL
     public
 #endif
-    enum EitherType { Left, Right }
+    enum EitherType
+    {
+        /// <summary>
+        /// Failed computation case.
+        /// </summary>
+        Left,
+        /// <summary>
+        /// Sccessful computation case.
+        /// </summary>
+        Right
+    }
 
 #if !CSX_EITHER_INTERNAL
     public
