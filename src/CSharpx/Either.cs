@@ -256,6 +256,11 @@ namespace CSharpx
             return Either.Left<TLeft, TRight>(left);
         }
 #endif
+
+        private static TLeft GetLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            return ((Left<TLeft, TRight>)either).Value;
+        }
     }
 
 #if !CSX_EITHER_INTERNAL
