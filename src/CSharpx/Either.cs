@@ -112,7 +112,7 @@ namespace CSharpx
 
         #region Monad
         /// <summary>
-        /// Inject a value into the Either type.
+        /// Inject a value into the Either type, returning Right case.
         /// </summary>
         public static Either<string, TRight> Return<TRight>(TRight value)
         {
@@ -137,8 +137,7 @@ namespace CSharpx
             {
                 return func(right);
             }
-            var x = (Left<TLeft, TRight>)either;
-            return Either.Left<TLeft, TResult>(x.Value);
+            return Either.Left<TLeft, TResult>(either.GetLeft());
         }
         #endregion
 
@@ -153,8 +152,7 @@ namespace CSharpx
             {
                 return Either.Right<TLeft, TResult>(func(right));
             }
-            var x = (Left<TLeft, TRight>)either;
-            return Either.Left<TLeft, TResult>(x.Value);
+            return Either.Left<TLeft, TResult>(either.GetLeft());
         }
         #endregion
 
@@ -170,8 +168,7 @@ namespace CSharpx
             {
                 return Either.Right<TLeft1, TRight1>(mapRight(right));
             }
-            var x = (Left<TLeft, TRight>)either;
-            return Either.Left<TLeft1, TRight1>(mapLeft(x.Value));
+            return Either.Left<TLeft1, TRight1>(mapLeft(either.GetLeft()));
         }
         #endregion
 
