@@ -114,11 +114,7 @@ namespace CSharpx
         /// </summary>
         public static Either<string, TRight> Fail<TRight>(string message)
         {
-            Func<Either<string, TRight>> makeImpure = () => {
-                throw new Exception(message);
-                return Either.Left<string, TRight>(message);
-            };
-            return makeImpure();
+            throw new Exception(message);
         }
 
         /// <summary>
