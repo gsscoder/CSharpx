@@ -205,6 +205,24 @@ namespace CSharpx
         }
 
         /// <summary>
+        /// Returns a Either Left or a defualt value.
+        /// </summary>
+        public static TLeft GetLeftOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TLeft @default)
+        {
+            TLeft value;
+            return either.MatchLeft(out value) ? value : @default;
+        }
+
+        /// <summary>
+        /// Returns a Either Right or a defualt value.
+        /// </summary>
+        public static TRight GetRightOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TRight @default)
+        {
+            TRight value;
+            return either.MatchRight(out value) ? value : @default;
+        }
+
+        /// <summary>
         /// Wraps a function, encapsulates any exception thrown within to a Either.
         /// </summary>
         public static Either<Exception, TRight> Try<TRight>(Func<TRight> func)
