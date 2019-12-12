@@ -22,10 +22,10 @@ namespace CSharpx.Tests
                     switch (maybeInt.Tag)
                     {
                         case MaybeType.Just:
-                            ((Just<int>)maybeInt).Value.ShouldBeEquivalentTo(x);
+                            ((Just<int>)maybeInt).Value.Should().Be(x);
                             break;
                         default:
-                            default(int).ShouldBeEquivalentTo(x);
+                            default(int).Should().Be(x);
                             maybeInt.Should().BeOfType<Nothing<int>>();
                             break;
                     }

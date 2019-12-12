@@ -1,8 +1,0 @@
-source https://nuget.org/api/v2
-
-nuget FAKE
-nuget FluentAssertions
-nuget xunit
-nuget xunit.runner.visualstudio version_in_path: true
-nuget xunit.runner.console
-nuget FsCheck.Xunit
