@@ -27,8 +27,9 @@ namespace CSharpx
             var collection = source as ICollection<TSource>; // Optimization for collections
             if (collection != null)
             {
-                if (collection.Count != count)
+                if (collection.Count != count) {
                     throw errorSelector(collection.Count.CompareTo(count), count);
+                }
                 return source;
             }
 
@@ -42,14 +43,12 @@ namespace CSharpx
             foreach (var element in source)
             {
                 iterations++;
-                if (iterations > count)
-                {
+                if (iterations > count) {
                     throw errorSelector(1, count);
                 }
                 yield return element;
             }
-            if (iterations != count)
-            {
+            if (iterations != count) {
                 throw errorSelector(-1, count);
             }
         }
@@ -119,14 +118,17 @@ namespace CSharpx
             using (var iter = sequence.GetEnumerator())
             {
                 // yield the first part of the sequence
-                while (iter.MoveNext() && ++index < startIndex)
+                while (iter.MoveNext() && ++index < startIndex) {
                     yield return iter.Current;
+                }
                 // skip the next part (up to count items)
-                while (++index < endIndex && iter.MoveNext())
+                while (++index < endIndex && iter.MoveNext()) {
                     continue;
+                }
                 // yield the remainder of the sequence
-                while (iter.MoveNext())
+                while (iter.MoveNext()) {
                     yield return iter.Current;
+                }
             }
         }
 
@@ -202,11 +204,12 @@ namespace CSharpx
             }
 
             var elements = new T[count];
-            foreach (var e in AssertCountImpl(source.Index(), count, OnFolderSourceSizeErrorSelector))
+            foreach (var e in AssertCountImpl(
+                source.Index(), count, OnFolderSourceSizeErrorSelector)) {
                 elements[e.Key] = e.Value;
+            }
 
-            switch (count)
-            {
+            switch (count) {
                 case 1: return folder1(elements[0]);
                 case 2: return folder2(elements[0], elements[1]);
                 case 3: return folder3(elements[0], elements[1], elements[2]);
@@ -234,8 +237,7 @@ namespace CSharpx
             if (source == null) throw new ArgumentNullException("source");
             if (action == null) throw new ArgumentNullException("action");
 
-            foreach (var element in source)
-            {
+            foreach (var element in source) {
                 action(element);
             }
         }
@@ -259,14 +261,13 @@ namespace CSharpx
             Debug.Assert(source != null);
             Debug.Assert(resultSelector != null);
 
-            using (var e = source.GetEnumerator())
-            {
-                if (!e.MoveNext())
+            using (var e = source.GetEnumerator()) {
+                if (!e.MoveNext()) {
                     yield break;
+                }
 
                 var previous = e.Current;
-                while (e.MoveNext())
-                {
+                while (e.MoveNext()) {
                     yield return resultSelector(previous, e.Current);
                     previous = e.Current;
                 }
@@ -302,8 +303,7 @@ namespace CSharpx
             var sb = new StringBuilder();
             var i = 0;
 
-            foreach (var value in source)
-            {
+            foreach (var value in source) {
                 if (i++ > 0) sb.Append(delimiter);
                 append(sb, value);
             }
@@ -318,8 +318,7 @@ namespace CSharpx
         /// </summary>
         public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
         {
-            using (var e = source.GetEnumerator())
-            {
+            using (var e = source.GetEnumerator()) {
                 return e.MoveNext()
                     ? Maybe.Just(e.Current)
                     : Maybe.Nothing<T>();
@@ -331,8 +330,7 @@ namespace CSharpx
         /// </summary>
         public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
         {
-            using (var e = source.GetEnumerator())
-            {
+            using (var e = source.GetEnumerator()) {
                 return e.MoveNext()
                     ? Maybe.Just(source)
                     : Maybe.Nothing<IEnumerable<T>>();
@@ -346,13 +344,15 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
         {
-            using (var e = source.GetEnumerator())
-            {
-                if (e.MoveNext())
-                    while (e.MoveNext())
+            using (var e = source.GetEnumerator()) {
+                if (e.MoveNext()) {
+                    while (e.MoveNext()) {
                         yield return e.Current;
-                else
+                    }
+                }
+                else {
                     throw new ArgumentException("Source sequence cannot be empty.", "source");
+                }
             }
         }
 
@@ -363,9 +363,11 @@ namespace CSharpx
         {
             using (var e = source.GetEnumerator())
             {
-                if (e.MoveNext())
-                    while (e.MoveNext())
+                if (e.MoveNext()) {
+                    while (e.MoveNext()) {
                         yield return e.Current;
+                    }
+                }
             }
         }
 
@@ -382,15 +384,14 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
         {
-            if (source is MaterializedEnumerable<T> || source.GetType().IsArray)
-            {
+            if (source is MaterializedEnumerable<T> || source.GetType().IsArray) {
                 return source;
             }
             return new MaterializedEnumerable<T>(source);
         }
 
         private class MaterializedEnumerable<T> : IEnumerable<T>
-        {
+{
             private readonly ICollection<T> inner;
 
             public MaterializedEnumerable(IEnumerable<T> enumerable)
