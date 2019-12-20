@@ -345,7 +345,7 @@ namespace CSharpx
         /// <summary>
         /// Extracts the element out of a <see cref="CSharpx.Just{T}"/> and throws an error if its argument is <see cref="CSharpx.Nothing{T}"/>.
         /// </summary>
-        public static T FromJustOrFail<T>(this Maybe<T> maybe,  exceptionToThrow = null)
+        public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
         {
             T value;
             if (maybe.MatchJust(out value)) {
