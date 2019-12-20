@@ -196,7 +196,7 @@ namespace CSharpx
             if (either.MatchRight(out value)) {
                 return value;
             }
-            throw new ArgumentException("either", string.Format("The either value was Left {0}", either));
+            throw new ArgumentException(nameof(either), string.Format("The either value was Left {0}", either));
         }
 
         /// <summary>

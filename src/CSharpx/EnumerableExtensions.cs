@@ -59,9 +59,9 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<TResult> Cartesian<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
         {
-            if (first == null) throw new ArgumentNullException("first");
-            if (second == null) throw new ArgumentNullException("second");
-            if (resultSelector == null) throw new ArgumentNullException("resultSelector");
+            if (first == null) throw new ArgumentNullException(nameof(first));
+            if (second == null) throw new ArgumentNullException(nameof(second));
+            if (resultSelector == null) throw new ArgumentNullException(nameof(resultSelector));
 
             return from item1 in first
                    from item2 in second // TODO buffer to avoid multiple enumerations
@@ -234,8 +234,8 @@ namespace CSharpx
         /// <typeparam name="T">The type of the elements in the sequence</typeparam>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (action == null) throw new ArgumentNullException("action");
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (action == null) throw new ArgumentNullException(nameof(action));
 
             foreach (var element in source) {
                 action(element);
@@ -250,8 +250,8 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<TResult> Pairwise<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TSource, TResult> resultSelector)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (resultSelector == null) throw new ArgumentNullException("resultSelector");
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (resultSelector == null) throw new ArgumentNullException(nameof(resultSelector));
 
             return PairwiseImpl(source, resultSelector);
         }
@@ -289,7 +289,7 @@ namespace CSharpx
         /// </summary>
         public static string ToDelimitedString<TSource>(this IEnumerable<TSource> source, string delimiter)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            if (source == null) throw new ArgumentNullException(nameof(source));
 
             return ToDelimitedStringImpl(source, delimiter, (sb, e) => sb.Append(e));
         }
@@ -351,7 +351,7 @@ namespace CSharpx
                     }
                 }
                 else {
-                    throw new ArgumentException("Source sequence cannot be empty.", "source");
+                    throw new ArgumentException("Source sequence cannot be empty.", nameof(source));
                 }
             }
         }
