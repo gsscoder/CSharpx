@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.FSharp.Core;
 using FsCheck;
 
-namespace CSharpx.Tests
+namespace CSharpx.Tests.Fakes
 {
     static class ArbitraryIntegers
     {

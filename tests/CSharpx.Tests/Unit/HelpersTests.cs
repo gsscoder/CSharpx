@@ -1,7 +1,7 @@
 using Xunit;
 using FluentAssertions;
 
-namespace CSharpx.Tests
+namespace CSharpx.Tests.Unit
 {
     public class HelpersTests
     {

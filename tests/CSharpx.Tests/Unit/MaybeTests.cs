@@ -1,8 +1,9 @@
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
+using CSharpx.Tests.Fakes;
 
-namespace CSharpx.Tests
+namespace CSharpx.Tests.Unit
 {
     public class MaybeTests
     {
