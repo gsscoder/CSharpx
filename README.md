@@ -1,6 +1,6 @@
 # CSharpx
 
-Functional programming and other utilities for C#.
+Functional programming and other utilities for C#, following *don't reinvent the wheel* philosophy.
 
 Every source file contains conditional compilation symbols to change type visibility from public to internal
 and set other preferences.
