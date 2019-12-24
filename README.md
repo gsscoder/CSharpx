@@ -33,6 +33,13 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 - Identity monadic type.
 - The use of this monad can be easly replaced by direct function application.
 
+## SetOnce.cs
+- Types to allow setting of a value only once.
+- Included thread-safe implementation.
+
+## Helpers.cs
+- General purpose extension methods.
+
 ### Notes
 
 - Actually `Maybe.cs` and `EnumerableExtensions.cs` are the more mature implementations.
