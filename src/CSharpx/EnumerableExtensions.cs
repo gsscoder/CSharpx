@@ -391,7 +391,7 @@ namespace CSharpx
         }
 
         private class MaterializedEnumerable<T> : IEnumerable<T>
-{
+        {
             private readonly ICollection<T> inner;
 
             public MaterializedEnumerable(IEnumerable<T> enumerable)
@@ -408,6 +408,15 @@ namespace CSharpx
             {
                 return GetEnumerator();
             }
+        }
+
+        /// <summary>
+        /// Selects a random element.
+        /// </summary>
+        public static T Choice<T>(this IEnumerable<T> source)
+        {
+            var index = new Random().Next(source.Count() - 1);
+            return source.ElementAt(index);
         }
 #endif
     }

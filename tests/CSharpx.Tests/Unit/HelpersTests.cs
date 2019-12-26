@@ -22,7 +22,6 @@ namespace CSharpx.Tests.Unit
                 .Should().BeEquivalentTo(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             (new string[] { "b", "e", "g", "a", "h", "j", "l", "c", "d", "f" }.Sort())
                 .Should().BeEquivalentTo(new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "l", "j" });
-
         }
     }
 }

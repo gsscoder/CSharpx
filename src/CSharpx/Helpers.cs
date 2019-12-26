@@ -3,6 +3,7 @@
 //#define CSX_ARRAY_EXT_INTERNAL // Uncomment this to set ArrayExtensions accessibility to internal.
 
 using System;
+using System.Linq;
 
 namespace CSharpx
 {
@@ -20,6 +21,15 @@ namespace CSharpx
             }
             return true;
         }
+
+        public static string Repeat(this string @string, int count)
+        {
+            if (count < 0) {
+                throw new ArgumentException(nameof(count));
+            }
+
+            return string.Join(" ", Enumerable.Repeat(@string, count).ToArray());
+        }
     }
 
 #if !CSX_ARRAY_EXT_INTERNAL
@@ -33,6 +43,12 @@ namespace CSharpx
             Array.Copy(array, copy, array.Length);
             Array.Sort(copy);
             return copy;
+        }
+
+        public static T Choice<T>(this T[] array)
+        {
+            var index = new Random().Next(array.Length - 1);
+            return array[index];
         }
     }
 }
