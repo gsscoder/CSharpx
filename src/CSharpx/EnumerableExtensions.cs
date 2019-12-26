@@ -231,7 +231,6 @@ namespace CSharpx
         /// <summary>
         /// Immediately executes the given action on each element in the source sequence.
         /// </summary>
-        /// <typeparam name="T">The type of the elements in the sequence</typeparam>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
