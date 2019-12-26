@@ -374,7 +374,7 @@ namespace CSharpx
         /// <summary>
         /// Captures current state of a sequence.
         /// </summary>
-        public static IEnumerable<T> Memorize<T>(this IEnumerable<T> source)
+        public static IEnumerable<T> Memoize<T>(this IEnumerable<T> source)
         {
             return source.GetType().IsArray ? source : source.ToArray();
         }
