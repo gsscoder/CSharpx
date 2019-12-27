@@ -39,7 +39,3 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 ## Helpers.cs
 - General purpose extension methods.
-
-### Notes
-
-- Actually `Maybe.cs` and `EnumerableExtensions.cs` are the more mature implementations.
