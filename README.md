@@ -34,9 +34,11 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 - The use of this monad can be easly replaced by direct function application.
 
 ## SetOnce.cs
+
 - Types to allow setting of a value only once.
 - Included thread-safe implementation.
 
 ## Helpers.cs
+
 - Mainly general purpose extension methods.
 - Contains `System.String` extensions to generate test data.
