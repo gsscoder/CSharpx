@@ -6,13 +6,23 @@ namespace CSharpx.Tests.Unit
     public class HelpersTests
     {
         [Fact]
-        public void Should_allow_only_alphanumeric_characters()
+        public void Should_detect_alphanumeric_characters()
         {
             "hello".IsAlphanumeric().Should().BeTrue();
             "0123456789".IsAlphanumeric().Should().BeTrue();
             "hello01234".IsAlphanumeric().Should().BeTrue();
             "hello.tests".IsAlphanumeric().Should().BeFalse();
             "hello tests".IsAlphanumeric().Should().BeFalse();
+        }
+
+        [Fact]
+        public void Should_detect_whitespace_characters()
+        {
+            "hello01234".ContainsWhiteSpace().Should().BeFalse();
+            "hello.tests".ContainsWhiteSpace().Should().BeFalse();
+            "hello tests".ContainsWhiteSpace().Should().BeTrue();
+            "hello\ntests".ContainsWhiteSpace().Should().BeTrue();
+            "hello\ttests".ContainsWhiteSpace().Should().BeTrue();
         }
 
         [Fact]

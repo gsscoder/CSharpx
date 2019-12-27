@@ -29,6 +29,21 @@ namespace CSharpx
         }
 
         /// <summary>
+        /// Checks if a string is contains any kind of whitespaces.
+        /// </summary>
+        /// <param name="@string">The string to check.</param>
+        /// <returns>True if contains whitspaces, otherwise false</returns>
+        public static bool ContainsWhiteSpace(this string @string)
+        {
+            foreach (var @char in @string.ToCharArray()) {
+                if (char.IsWhiteSpace(@char)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Repeats a string for a given number of times using a seperator.
         /// </summary>
         /// <param name="@string">THe string to repeat</param>
