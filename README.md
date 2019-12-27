@@ -21,7 +21,7 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 ## EnumerableExtensions.cs
 
-- Most useful extension methods from code.google.com/p/morelinq/.
+- Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
 - With other useful methods too.
 
 ## Unit.cs
