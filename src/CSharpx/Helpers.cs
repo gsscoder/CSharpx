@@ -103,7 +103,7 @@ namespace CSharpx
         /// <returns>The mangled word.</returns>
         public static string Mangle(this string word)
         {
-            if (word.Contains(' ')) {
+            if (word.ContainsWhiteSpace()) {
                 throw new ArgumentException(nameof(word));
             }
 
