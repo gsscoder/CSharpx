@@ -7,6 +7,8 @@ and set other preferences.
 
 Source files are conceived to be manually added to other projects or by setting a reference via [Paket](http://fsprojects.github.io/Paket/).
 
+If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way.
+
 ## Maybe.cs
 
 - C# native implementation of F# `'T option` / Haskell `data Maybe a = Just a | Nothing` type.
