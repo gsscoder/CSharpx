@@ -38,4 +38,5 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 - Included thread-safe implementation.
 
 ## Helpers.cs
-- General purpose extension methods.
+- Mainly general purpose extension methods.
+- Contains `System.String` extensions to generate test data.
