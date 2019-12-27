@@ -43,6 +43,11 @@ namespace CSharpx
             }
         }
 
+        public bool HasValue
+        {
+            get { return _set; }
+        }
+
         public static implicit operator T(SetOnce<T> instance) => instance.Value;
     }
 
@@ -92,6 +97,11 @@ namespace CSharpx
         }
 
         public static implicit operator T(SafeSetOnce<T> instance) => instance.Value;
+
+        public bool HasValue
+        {
+            get { return _set; }
+        }
     }
 #endif
 }

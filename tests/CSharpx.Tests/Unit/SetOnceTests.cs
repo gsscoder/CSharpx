@@ -54,6 +54,24 @@ namespace CSharpx.Tests.Unit
 
             ((int)sut.Value).Should().Be(value);
         }
+
+        [Fact]
+        public void If_value_is_unset_HasValue_should_be_false()
+        {
+            var sut = new SetOnce<string>();
+
+            sut.HasValue.Should().BeFalse();
+        }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
+        public void If_value_is_set_HasValue_should_be_true(string value)
+        {
+            var sut = new SetOnce<string>();
+
+            sut.Value = value;
+
+            sut.HasValue.Should().BeTrue();
+        }
     }
 
     public class SafeSetOnceTests
@@ -102,6 +120,24 @@ namespace CSharpx.Tests.Unit
             sut.Value = value;
 
             ((int)sut.Value).Should().Be(value);
+        }
+
+        [Fact]
+        public void If_value_is_unset_HasValue_should_be_false()
+        {
+            var sut = new SafeSetOnce<string>();
+
+            sut.HasValue.Should().BeFalse();
+        }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
+        public void If_value_is_set_HasValue_should_be_true(string value)
+        {
+            var sut = new SafeSetOnce<string>();
+
+            sut.Value = value;
+
+            sut.HasValue.Should().BeTrue();
         }
     } 
 }
