@@ -26,6 +26,20 @@ namespace CSharpx.Tests.Unit
         }
 
         [Fact]
+        public void Should_sanitize_strings_normalizing_white_spaces()
+        {
+            "hello tests@".Sanitize().Should().Be("hello tests");
+            "hello\ttests@".Sanitize().Should().Be("hello tests");
+        }
+
+        [Fact]
+        public void Should_sanitize_strings_without_normalizing_white_spaces()
+        {
+            "hello\ntests@".Sanitize(normalizeWhiteSpace: false).Should().Be("hello\ntests");
+            "hello\ttests@".Sanitize(normalizeWhiteSpace: false).Should().Be("hello\ttests");
+        }
+
+        [Fact]
         public void Should_sort_arrays()
         {
             (new int[] { 7, 3, 1, 2, 5, 4, 0, 6, 9, 8 }.Sort())

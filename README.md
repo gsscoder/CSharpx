@@ -70,5 +70,9 @@ server.PortNumber = 8080; // will throw InvalidOperationException
 ```csharp
 Console.WriteLine(
     "I want to change a word".ApplyToWord(4, word => word.Mangle()));
-// will print something like: I want to change &a word
+// will print something like: 'I want to change &a word'
+
+Console.WriteLine(
+    "\t[hello\nREADME@\t".Sanitize(normalizeWhiteSpace: true));
+// will print: ' hello README '
 ```

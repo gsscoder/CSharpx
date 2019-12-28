@@ -29,7 +29,7 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Checks if a string is contains any kind of whitespaces.
+        /// Checks if a string is contains any kind of white spaces.
         /// </summary>
         /// <param name="@string">The string to check.</param>
         /// <returns>True if contains whitspaces, otherwise false</returns>
@@ -154,6 +154,32 @@ namespace CSharpx
                     if (enumerator.MoveNext())
                     {
                         yield return (string)enumerator.Current;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sanitizes a string removing non alphanumeric characters and optionally normalizing
+        /// white spaces.
+        /// </summary>
+        /// <param name="@string">The string to sanitize.</param>
+        /// <param name="normalizeWhiteSpace">If false will avoid normalizing white spaces.</param>
+        /// <returns></returns>
+        public static string Sanitize(this string @string, bool normalizeWhiteSpace = true)
+        {
+            return _().Aggregate<char, string>(string.Empty, (s, c) => $"{s}{c}");
+            IEnumerable<char> _() {
+                foreach (var @char in @string) {
+                    if (Char.IsLetterOrDigit(@char)) {
+                        yield return @char;
+                    }
+                    else if (Char.IsWhiteSpace(@char)) {
+                        if (normalizeWhiteSpace) {
+                            yield return ' ';
+                        } else {
+                            yield return @char;
+                        }
                     }
                 }
             }
