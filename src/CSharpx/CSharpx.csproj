@@ -4,11 +4,14 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>Functional programming and other utilities for C#</Title>
-    <Version>0.3.0</Version>
+    <Description>Functional programming and other utilities for C#</Description>
+    <Version>1.0.0-rc0</Version>
     <Authors>gsscoder</Authors>
     <Copyright>Copyright © Giacomo Stelluti Scala, 2015-2019</Copyright>
     <PackageProjectUrl>https://github.com/gsscoder/csharpx</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gsscoder/csharpx</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>functional;utility;api;library</PackageTags>  
     <Company />
   </PropertyGroup>
 
