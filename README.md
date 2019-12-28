@@ -12,6 +12,13 @@ If you can't customize it enough using compiler directives, please tell me or fo
 ## Maybe.cs
 
 - C# native implementation of F# `'T option` / Haskell `data Maybe a = Just a | Nothing` type.
+```csharp
+var greet = true;
+var value = greet ? Maybe.Return("world") : Maybe.Nothing<string>();
+value.Match(
+    who => Console.WriteLine($"hello {who}!"),
+    () => Environment.Exit(1));
+```
 
 ## Either.cs
 
@@ -39,8 +46,29 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 - Types to allow setting of a value only once.
 - Included thread-safe implementation.
+```csharp
+class Server
+{
+    private SetOnce<int> _portNumber = new SetOnce<int>();
+    public int PortNumber
+    {
+        get { return _portNumber.Value; }
+        set { _portNumber.Value = value; }
+    }
+    // ...
+}
+
+var server = new Server();
+server.PortNumber = 6060;
+server.PortNumber = 8080; // will throw InvalidOperationException
+```
 
 ## Helpers.cs
 
 - Mainly general purpose extension methods.
 - Contains `System.String` extensions to generate test data.
+```csharp
+Console.WriteLine(
+    "I want to change a word".ApplyToWord(4, word => word.Mangle()));
+// will print something like: I want to change &a word
+```
