@@ -47,7 +47,6 @@ namespace CSharpx.Tests.Unit
         [InlineData("hello this is a test", new object[] {'!', "!!", 10}, "hello ! this !! is 10 a test")]
         public void Should_intersperse_values(string value, object[] values, string expected)
         {
-            // "hello this is a test".Intersperse('!', "!!", 10).Should().Be("hello ! this !! is 10 a test");
             value.Intersperse(values).Should().Be(expected);
         }
     }
