@@ -9,6 +9,7 @@
     <Authors>gsscoder</Authors>
     <Copyright>Copyright © Giacomo Stelluti Scala, 2015-2019</Copyright>
     <PackageProjectUrl>https://github.com/gsscoder/csharpx</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/gsscoder/CSharpx/master/assets/icon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/gsscoder/csharpx</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>functional;utility;api;library</PackageTags>  
