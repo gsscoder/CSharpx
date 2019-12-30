@@ -9,6 +9,13 @@ Source files are conceived to be manually added to other projects or by setting 
 
 If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way.
 
+## Install via NuGet
+
+If you prefer, you can install it via NuGet:
+```sh
+dotnet add package CSharpx --version 1.2.0-rc2
+```
+
 ## [EnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/EnumerableExtensions.cs)
 
 - Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
