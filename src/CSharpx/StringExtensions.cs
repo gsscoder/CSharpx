@@ -41,7 +41,7 @@ namespace CSharpx
         /// <summary>
         /// Checks if a string is contains any kind of white spaces.
         /// </summary>
-        public static bool ContainsWhiteSpace(this string @string)
+        public static bool IsWhiteSpace(this string @string)
         {
             foreach (var @char in @string.ToCharArray()) {
                 if (char.IsWhiteSpace(@char)) {
@@ -94,7 +94,7 @@ namespace CSharpx
         /// </summary>
         public static string Mangle(this string word)
         {
-            if (word.ContainsWhiteSpace()) throw new ArgumentException(nameof(word));
+            if (word.IsWhiteSpace()) throw new ArgumentException(nameof(word));
 
             var nonAlphanumeric =
                 new string[] {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "="}.Choice();

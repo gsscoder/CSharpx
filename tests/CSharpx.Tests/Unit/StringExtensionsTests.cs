@@ -35,7 +35,7 @@ namespace CSharpx.Tests.Unit
         [InlineData("hello\ttests", true)]
         public void Should_detect_whitespace_characters(string value, bool expected)
         {
-            value.ContainsWhiteSpace().Should().Be(expected);
+            value.IsWhiteSpace().Should().Be(expected);
         }
 
         [Theory]
