@@ -414,7 +414,7 @@ namespace CSharpx
         }
 
         /// <summary>
-        ///Ttakes an element and a sequence and `intersperses' that element between its elements.
+        /// Takes an element and a sequence and `intersperses' that element between its elements.
         /// </summary>
         public static IEnumerable<T> Intersperse<T>(this IEnumerable<T> source, T element)
         {

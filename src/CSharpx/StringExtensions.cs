@@ -112,25 +112,27 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Inserts strings of an array between words of a string.
+        /// Takes a value and a string and `intersperses' that value between its words.
         /// </summary>
-        public static string BetweenWords(this string @string, params string[] texts)
+        public static string Intersperse(this string @string, params object[] values)
         {
-            if (texts.Length == 0) {
+            if (values.Length == 0) {
                 return @string;
             }
-
-            var words = @string.Split().ToArray();
-            return string.Join(" ", Generate());
-
-            IEnumerable<string> Generate()
-            {
-                var enumerator = texts.GetEnumerator();
-                for (var i = 0; i < words.Length; i++) {
-                    yield return words[i];
-                    if (enumerator.MoveNext())
-                    {
-                        yield return (string)enumerator.Current;
+            return string.Join(" ", _());
+            IEnumerable<string> _() {
+                var words = @string.Split();
+                var count = words.Length;
+                var last = count - 1;
+                for (var i = 0; i < count; i++) {
+                    yield return words.ElementAt(i);
+                    if (i < values.Length) {
+                        var element = values[i];
+                        if (element.GetType() == typeof(string)) {
+                            yield return (string)element;
+                        } else {
+                            yield return element.ToString();
+                        }
                     }
                 }
             }

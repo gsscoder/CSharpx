@@ -38,5 +38,11 @@ namespace CSharpx.Tests.Unit
             "hello\ntests@".Sanitize(normalizeWhiteSpace: false).Should().Be("hello\ntests");
             "hello\ttests@".Sanitize(normalizeWhiteSpace: false).Should().Be("hello\ttests");
         }
+
+        [Fact]
+        public void Should_intersperse_values()
+        {
+            "hello this is a test".Intersperse('!', "!!", 10).Should().Be("hello ! this !! is 10 a test");
+        }
     }
 }
