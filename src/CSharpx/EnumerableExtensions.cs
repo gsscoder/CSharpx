@@ -1,8 +1,6 @@
 //Use project level define(s) when referencing with Paket.
 //#define CSX_ENUM_INTERNAL // Uncomment this to set visibility to internal.
-//#define CSX_ENUM_REM_STD_FUNC // Uncomment this to remove standard functions.
 //#define CSX_REM_MAYBE_FUNC // Uncomment this to remove dependency to Maybe.cs.
-//#define CSX_REM_EXTRA_FUNC // Uncomment this to extra functions.
 
 using System;
 using System.Collections;
@@ -20,7 +18,6 @@ namespace CSharpx
 #endif
     static class EnumerableExtensions
     {
-#if !CSX_ENUM_REM_STD_FUNC
         private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
         {
@@ -309,7 +306,6 @@ namespace CSharpx
 
             return sb.ToString();
         }
-#endif
 
 #if !CSX_REM_MAYBE_FUNC
         /// <summary>
@@ -337,7 +333,6 @@ namespace CSharpx
         }
 #endif
 
-#if !CSX_REM_EXTRA_FUNC
         /// <summary>
         /// Return everything except first element and throws exception if empty.
         /// </summary>
@@ -417,6 +412,5 @@ namespace CSharpx
             var index = new Random().Next(source.Count() - 1);
             return source.ElementAt(index);
         }
-#endif
     }
 }
