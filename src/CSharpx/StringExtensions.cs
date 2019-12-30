@@ -61,9 +61,9 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Gets a random index of a word that optionally satisfies a function.
+        /// Selects a random index of a word that optionally satisfies a function.
         /// </summary>
-        public static int RandomWordIndex(this string @string, Func<string, bool> validator = null)
+        public static int ChoiceOfIndex(this string @string, Func<string, bool> validator = null)
         {
             Func<string, bool> _nullValidator = _ => true;
             var _validator = validator ?? _nullValidator;
@@ -73,7 +73,7 @@ namespace CSharpx
             if (_validator(words[index])) {
                 return index;
             }
-            return RandomWordIndex(@string, validator);
+            return ChoiceOfIndex(@string, validator);
         }
 
         /// <summary>
