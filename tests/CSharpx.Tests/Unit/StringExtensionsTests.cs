@@ -60,5 +60,14 @@ namespace CSharpx.Tests.Unit
         {
             value.Intersperse(values).Should().Be(expected);
         }
+
+        [Theory]
+        [InlineData("hello", 0, "", "")]
+        [InlineData("hello", 1, "", "hello")]
+        [InlineData("hello", 5, " ", "hello hello hello hello hello")]
+        public void Should_replicate(string value, uint count, string separator, string expected)
+        {
+            value.Replicate(count, separator).Should().Be(expected);
+        }
     }
 }

@@ -2,6 +2,7 @@
 //#define CSX_STRING_EXT_INTERNAL // Uncomment this to set StringExtensions accessibility to internal.
 
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -58,7 +59,12 @@ namespace CSharpx
         {
             if (separator == null) throw new ArgumentNullException(nameof(separator));
 
-            return string.Join(separator, Enumerable.Repeat(@string, (int)count).ToArray());
+            var builder = new StringBuilder();
+            for (var i = 0; i < count; i++) {
+                builder.Append(@string);
+                builder.Append(separator);
+            }
+            return builder.ToString(0, builder.Length - separator.Length);
         }
 
         /// <summary>
