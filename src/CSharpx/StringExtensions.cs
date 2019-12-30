@@ -39,15 +39,13 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Repeats a string for a given number of times using a seperator.
+        /// Replicates a string for a given number of times using a seperator.
         /// </summary>
-        public static string Repeat(this string @string, int count, string separator = " ")
+        public static string Replicate(this string @string, uint count, string separator = " ")
         {
-            if (count < 0) {
-                throw new ArgumentException(nameof(count));
-            }
+            if (separator == null) throw new ArgumentNullException(nameof(separator));
 
-            return string.Join(separator, Enumerable.Repeat(@string, count).ToArray());
+            return string.Join(separator, Enumerable.Repeat(@string, (int)count).ToArray());
         }
 
         /// <summary>
