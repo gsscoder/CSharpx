@@ -9,7 +9,7 @@ Source files are conceived to be manually added to other projects or by setting 
 
 If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way.
 
-## EnumerableExtensions.cs
+## [EnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/EnumerableExtensions.cs)
 
 - Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
 - With other useful methods too.
@@ -20,7 +20,7 @@ var element = sequence.Choice();
 // will choose a random element
 ```
 
-## Maybe.cs
+## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
 
 - Encapsulates an optional value that can contain a value or being empty.
 - C# native implementation of F# `'T option` / Haskell `data Maybe a = Just a | Nothing` type.
@@ -32,7 +32,7 @@ value.Match(
     () => Environment.Exit(1));
 ```
 
-## Either.cs
+## [Either](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Either.cs)
 
 -- Represents a value that can contain either a value or an error.
 - C# native implementation of Haskell `data Either a b = Left a | Right b` type.
@@ -41,7 +41,7 @@ value.Match(
 - If you want a more complete implementation of this kind of types, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie),
 named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
-## SetOnce.cs
+## [SetOnce](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/SetOnce.cs)
 
 - Types to allow setting of a value only once.
 - Included thread-safe implementation.
@@ -62,9 +62,18 @@ server.PortNumber = 6060;
 server.PortNumber = 8080; // will throw InvalidOperationException
 ```
 
-## ArrayExtensions.cs and StringExtensions.cs
+## [ArrayExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/ArrayExtensions.cs)
 
-- Mainly general purpose extension methods.
+- Few array helper methods.
+```csharp
+    var array = new int[] {2, 0, 4, 1, 3};
+    var sorted = array.Sort(); // sort as pure function
+    // will result in: {0, 1, 2, 3, 4}
+```
+
+## [StringExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/StringExtensions.cs)
+
+- General purpose string manipulation extensions.
 ```csharp
 Console.WriteLine(
     "I want to change a word".ApplyAt(4, word => word.Mangle()));
