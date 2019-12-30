@@ -96,7 +96,7 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<TSource> Prepend<TSource>(this IEnumerable<TSource> source, TSource value)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            if (source == null) throw new ArgumentNullException(nameof(source));
 
             return LinqEnumerable.Concat(LinqEnumerable.Repeat(value, 1), source);
         }
@@ -106,7 +106,7 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<T> Concat<T>(this T head, IEnumerable<T> tail)
         {
-            if (tail == null) throw new ArgumentNullException("tail");
+            if (tail == null) throw new ArgumentNullException(nameof(tail));
 
             return tail.Prepend(head);
         }
@@ -116,7 +116,7 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> head, T tail)
         {
-            if (head == null) throw new ArgumentNullException("head");
+            if (head == null) throw new ArgumentNullException(nameof(head));
 
             return LinqEnumerable.Concat(head, LinqEnumerable.Repeat(tail, 1));
         }
@@ -127,9 +127,9 @@ namespace CSharpx
         /// <typeparam name="T">The type of the elements of the sequence</typeparam>
         public static IEnumerable<T> Exclude<T>(this IEnumerable<T> sequence, int startIndex, int count)
         {
-            if (sequence == null) throw new ArgumentNullException("sequence");
-            if (startIndex < 0) throw new ArgumentOutOfRangeException("startIndex");
-            if (count < 0) throw new ArgumentOutOfRangeException("count");
+            if (sequence == null) throw new ArgumentNullException(nameof(sequence));
+            if (startIndex < 0) throw new ArgumentOutOfRangeException(nameof(startIndex));
+            if (count < 0) throw new ArgumentOutOfRangeException(nameof(count));
 
             return ExcludeImpl(sequence, startIndex, count);
         }
@@ -217,7 +217,7 @@ namespace CSharpx
             Func<T, T, T, TResult> folder3,
             Func<T, T, T, T, TResult> folder4)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            if (source == null) throw new ArgumentNullException(nameof(source));
             if (count == 1 && folder1 == null
                 || count == 2 && folder2 == null
                 || count == 3 && folder3 == null
@@ -246,8 +246,8 @@ namespace CSharpx
         static Exception OnFolderSourceSizeError(int cmp, int count)
         {
             var message = cmp < 0
-                        ? "Sequence contains too few elements when exactly {0} {1} expected."
-                        : "Sequence contains too many elements when exactly {0} {1} expected.";
+                        ? "Sequence contains too few elements when exactly {0} {1} expected"
+                        : "Sequence contains too many elements when exactly {0} {1} expected";
             return new Exception(string.Format(message, count.ToString("N0"), count == 1 ? "was" : "were"));
         }
 
@@ -345,7 +345,7 @@ namespace CSharpx
                     }
                 }
                 else {
-                    throw new ArgumentException("Source sequence cannot be empty.", nameof(source));
+                    throw new ArgumentException("Source sequence cannot be empty", nameof(source));
                 }
             }
         }
