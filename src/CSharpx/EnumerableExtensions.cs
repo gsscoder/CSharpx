@@ -86,9 +86,9 @@ namespace CSharpx
             if (second == null) throw new ArgumentNullException(nameof(second));
             if (resultSelector == null) throw new ArgumentNullException(nameof(resultSelector));
 
-            return from item1 in first
-                   from item2 in second // TODO buffer to avoid multiple enumerations
-                   select resultSelector(item1, item2);
+            return from element1 in first
+                   from element2 in second // TODO buffer to avoid multiple enumerations
+                   select resultSelector(element1, element2);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace CSharpx
                 while (iter.MoveNext() && ++index < startIndex) {
                     yield return iter.Current;
                 }
-                // skip the next part (up to count items)
+                // skip the next part (up to count elements)
                 while (++index < endIndex && iter.MoveNext()) {
                     continue;
                 }
@@ -172,7 +172,7 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<KeyValuePair<int, TSource>> Index<TSource>(this IEnumerable<TSource> source, int startIndex)
         {
-            return source.Select((item, index) => new KeyValuePair<int, TSource>(startIndex + index, item));
+            return source.Select((element, index) => new KeyValuePair<int, TSource>(startIndex + index, element));
         }
 
         /// <summary>
