@@ -19,8 +19,7 @@ value.Match(
     who => Console.WriteLine($"hello {who}!"),
     () => Environment.Exit(1));
 ```
-- If you want a better implementation of this kind of types, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie),
-named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
+- If you want a more complete implementation of this kind of types, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie), named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 ## EnumerableExtensions.cs
 
