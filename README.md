@@ -65,8 +65,3 @@ Console.WriteLine(
     "\t[hello\nREADME@\t".Sanitize(normalizeWhiteSpace: true));
 // will print: ' hello README '
 ```
-
-## Unit.cs and Identity.cs
-
-- Equivalent to F# `unit` (essentially C# `void`).
-- Identity monadic type (use of this monad can be easly replaced by direct function application).
