@@ -112,19 +112,6 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Reduces a collection of strings to a collection of words.
-        /// </summary>
-        public static IEnumerable<string> ToWords(this IEnumerable<string> collection)
-        {
-            foreach (var element in collection) {
-                var words = element.Split();
-                foreach (var word in words) {
-                    yield return word;
-                }
-            }
-        }
-
-        /// <summary>
         /// Takes a value and a string and `intersperses' that value between its words.
         /// </summary>
         public static string Intersperse(this string @string, params object[] values)

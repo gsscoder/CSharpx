@@ -52,7 +52,7 @@ namespace CSharpx
             {
                 if (collection.Count != count) {
                     throw errorSelector(collection.Count.CompareTo(count), count);
-                }
+                }   
                 return source;
             }
 
@@ -426,6 +426,19 @@ namespace CSharpx
                 yield return source.ElementAt(i);
                 if (i != last) {
                     yield return element;
+                }
+            }
+        }
+        /// <summary>
+        /// Reduces a sequence of strings to a sequence of parts, splitted by space,
+        /// of each original string.
+        /// </summary>
+        public static IEnumerable<string> FlattenOnce(this IEnumerable<string> source)
+        {
+            foreach (var element in source) {
+                var parts = element.Split();
+                foreach (var part in parts) {
+                    yield return part;
                 }
             }
         }

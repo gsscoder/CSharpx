@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
@@ -27,6 +29,16 @@ namespace CSharpx.Tests.Unit
                     item => item.Should().Be(value),
                     item => item.Should().Be(4)
                 );
+        }
+
+        [Theory]
+        [InlineData(
+            new string[] {"word1 word2 word3", "word4 word5 word6"},
+            new string[] {"word1", "word2", "word3", "word4", "word5", "word6"})]
+        public void Should_flatten_string_sequence(
+            IEnumerable<string> value, IEnumerable<string> expected)
+        {
+            value.FlattenOnce().Should().BeEquivalentTo(expected);
         }
     }
 }
