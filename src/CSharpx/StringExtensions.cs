@@ -53,9 +53,7 @@ namespace CSharpx
         /// </summary>
         public static string ApplyToWord(this string @string, int index, Func<string, string> modifier)
         {
-            if (index < 0) {
-                throw new ArgumentException(nameof(index));
-            }
+            if (index < 0) throw new ArgumentException(nameof(index));
 
             var words = @string.Split().ToArray();
             words[index] = modifier(words[index]);
@@ -83,9 +81,7 @@ namespace CSharpx
         /// </summary>
         public static string Mangle(this string word)
         {
-            if (word.ContainsWhiteSpace()) {
-                throw new ArgumentException(nameof(word));
-            }
+            if (word.ContainsWhiteSpace()) throw new ArgumentException(nameof(word));
 
             var nonAlphanumeric =
                 new string[] {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "="}.Choice();
