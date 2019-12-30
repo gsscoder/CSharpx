@@ -119,8 +119,8 @@ namespace CSharpx
             if (values.Length == 0) {
                 return @string;
             }
-            return string.Join(" ", _());
-            IEnumerable<string> _() {
+            return string.Join(" ", impl());
+            IEnumerable<string> impl() {
                 var words = @string.Split();
                 var count = words.Length;
                 var last = count - 1;
@@ -144,8 +144,8 @@ namespace CSharpx
         /// </summary>
         public static string Sanitize(this string @string, bool normalizeWhiteSpace = true)
         {
-            return _().Aggregate<char, string>(string.Empty, (s, c) => $"{s}{c}");
-            IEnumerable<char> _() {
+            return impl().Aggregate<char, string>(string.Empty, (s, c) => $"{s}{c}");
+            IEnumerable<char> impl() {
                 foreach (var @char in @string) {
                     if (Char.IsLetterOrDigit(@char)) {
                         yield return @char;
