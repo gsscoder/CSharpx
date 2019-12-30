@@ -13,6 +13,19 @@ namespace CSharpx
     static class StringExtensions
     {
         /// <summary>
+        /// Checks if a string is composed only by letter characters.
+        /// </summary>
+        public static bool IsAlpha(this string @string)
+        {
+            foreach (var @char in @string.ToCharArray()) {
+                if (!char.IsLetter(@char) || char.IsWhiteSpace(@char)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Checks if a string is composed only by alphanumeric characters.
         /// </summary>
         public static bool IsAlphanumeric(this string @string)

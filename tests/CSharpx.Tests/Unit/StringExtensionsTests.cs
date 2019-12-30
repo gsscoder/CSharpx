@@ -7,6 +7,17 @@ namespace CSharpx.Tests.Unit
     {
         [Theory]
         [InlineData("hello", true)]
+        [InlineData("0123456789", false)]
+        [InlineData("hello01234", false)]
+        [InlineData("hello.tests", false)]
+        [InlineData("hello tests", false)]
+        public void Should_detect_letter_characters(string value, bool expected)
+        {
+            value.IsAlpha().Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("hello", true)]
         [InlineData("0123456789", true)]
         [InlineData("hello01234", true)]
         [InlineData("hello.tests", false)]
