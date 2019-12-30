@@ -18,6 +18,32 @@ namespace CSharpx
 #endif
     static class EnumerableExtensions
     {
+#if !CSX_REM_MAYBE_FUNC
+        /// <summary>
+        /// Safe function that returns Just(first element) or None.
+        /// </summary>
+        public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator()) {
+                return e.MoveNext()
+                    ? Maybe.Just(e.Current)
+                    : Maybe.Nothing<T>();
+            }
+        }
+
+        /// <summary>
+        /// Turns an empty sequence to Nothing, otherwise Just(sequence).
+        /// </summary>
+        public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator()) {
+                return e.MoveNext()
+                    ? Maybe.Just(source)
+                    : Maybe.Nothing<IEnumerable<T>>();
+            }
+        }
+#endif
+
         private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
         {
@@ -306,32 +332,6 @@ namespace CSharpx
 
             return sb.ToString();
         }
-
-#if !CSX_REM_MAYBE_FUNC
-        /// <summary>
-        /// Safe function that returns Just(first element) or None.
-        /// </summary>
-        public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
-        {
-            using (var e = source.GetEnumerator()) {
-                return e.MoveNext()
-                    ? Maybe.Just(e.Current)
-                    : Maybe.Nothing<T>();
-            }
-        }
-
-        /// <summary>
-        /// Turns an empty sequence to Nothing, otherwise Just(sequence).
-        /// </summary>
-        public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
-        {
-            using (var e = source.GetEnumerator()) {
-                return e.MoveNext()
-                    ? Maybe.Just(source)
-                    : Maybe.Nothing<IEnumerable<T>>();
-            }
-        }
-#endif
 
         /// <summary>
         /// Return everything except first element and throws exception if empty.
