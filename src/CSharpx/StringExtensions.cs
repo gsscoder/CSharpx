@@ -15,9 +15,9 @@ namespace CSharpx
         /// <summary>
         /// Determines if a string is composed only by letter characters.
         /// </summary>
-        public static bool IsAlpha(this string @string)
+        public static bool IsAlpha(this string value)
         {
-            foreach (var @char in @string.ToCharArray()) {
+            foreach (var @char in value.ToCharArray()) {
                 if (!char.IsLetter(@char) || char.IsWhiteSpace(@char)) {
                     return false;
                 }
@@ -28,9 +28,9 @@ namespace CSharpx
         /// <summary>
         /// Determines if a string is composed only by alphanumeric characters.
         /// </summary>
-        public static bool IsAlphanumeric(this string @string)
+        public static bool IsAlphanumeric(this string value)
         {
-            foreach (var @char in @string.ToCharArray()) {
+            foreach (var @char in value.ToCharArray()) {
                 if (!char.IsLetterOrDigit(@char) || char.IsWhiteSpace(@char)) {
                     return false;
                 }
@@ -41,9 +41,9 @@ namespace CSharpx
         /// <summary>
         /// Determines if a string is contains any kind of white spaces.
         /// </summary>
-        public static bool IsWhiteSpace(this string @string)
+        public static bool IsWhiteSpace(this string value)
         {
-            foreach (var @char in @string.ToCharArray()) {
+            foreach (var @char in value.ToCharArray()) {
                 if (char.IsWhiteSpace(@char)) {
                     return true;
                 }
@@ -54,13 +54,13 @@ namespace CSharpx
         /// <summary>
         /// Replicates a string for a given number of times using a seperator.
         /// </summary>
-        public static string Replicate(this string @string, uint count, string separator = " ")
+        public static string Replicate(this string value, uint count, string separator = " ")
         {
             if (separator == null) throw new ArgumentNullException(nameof(separator));
 
             var builder = new StringBuilder();
             for (var i = 0; i < count; i++) {
-                builder.Append(@string);
+                builder.Append(value);
                 builder.Append(separator);
             }
             return builder.ToString(0, builder.Length - separator.Length);
@@ -69,11 +69,11 @@ namespace CSharpx
         /// <summary>
         /// Applies a given function to nth-word of string.
         /// </summary>
-        public static string ApplyAt(this string @string, int index, Func<string, string> modifier)
+        public static string ApplyAt(this string value, int index, Func<string, string> modifier)
         {
             if (index < 0) throw new ArgumentException(nameof(index));
 
-            var words = @string.Split().ToArray();
+            var words = value.Split().ToArray();
             words[index] = modifier(words[index]);
             return string.Join(" ", words);
         }
@@ -81,17 +81,17 @@ namespace CSharpx
         /// <summary>
         /// Selects a random index of a word that optionally satisfies a function.
         /// </summary>
-        public static int ChoiceOfIndex(this string @string, Func<string, bool> validator = null)
+        public static int ChoiceOfIndex(this string value, Func<string, bool> validator = null)
         {
             Func<string, bool> _nullValidator = _ => true;
             var _validator = validator ?? _nullValidator;
 
-            var words = @string.Split();
+            var words = value.Split();
             var index = new Random().Next(0,  words.Length - 1);
             if (_validator(words[index])) {
                 return index;
             }
-            return ChoiceOfIndex(@string, validator);
+            return ChoiceOfIndex(value, validator);
         }
 
         /// <summary>
@@ -101,8 +101,9 @@ namespace CSharpx
         {
             if (word.IsWhiteSpace()) throw new ArgumentException(nameof(word));
 
-            var nonAlphanumeric =
-                new string[] {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "="}.Choice();
+            var chars =
+                new char[] {'!', '"', '£', '$', '%', '&', '/', '(', ')', '='};
+            var nonAlphanumeric = (new Random()).Next(0, chars.Length - 1);
             var prefix = new Random().Next(0, 1);
             if (prefix == 1) {
                 return $"{word}{nonAlphanumeric}";
@@ -113,14 +114,14 @@ namespace CSharpx
         /// <summary>
         /// Takes a value and a string and `intersperses' that value between its words.
         /// </summary>
-        public static string Intersperse(this string @string, params object[] values)
+        public static string Intersperse(this string value, params object[] values)
         {
             if (values.Length == 0) {
-                return @string;
+                return value;
             }
             return string.Join(" ", impl());
             IEnumerable<string> impl() {
-                var words = @string.Split();
+                var words = value.Split();
                 var count = words.Length;
                 var last = count - 1;
                 for (var i = 0; i < count; i++) {
@@ -141,11 +142,11 @@ namespace CSharpx
         /// Sanitizes a string removing non alphanumeric characters and optionally normalizing
         /// white spaces.
         /// </summary>
-        public static string Sanitize(this string @string, bool normalizeWhiteSpace = true)
+        public static string Sanitize(this string value, bool normalizeWhiteSpace = true)
         {
             return impl().Aggregate<char, string>(string.Empty, (s, c) => $"{s}{c}");
             IEnumerable<char> impl() {
-                foreach (var @char in @string) {
+                foreach (var @char in value) {
                     if (Char.IsLetterOrDigit(@char)) {
                         yield return @char;
                     }
