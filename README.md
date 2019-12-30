@@ -1,4 +1,4 @@
-# CSharpx
+# <img src="/assets/icon.png" height="30px" alt="CSharpx Logo"> CSharpx
 
 Functional programming and other utilities for C#, following *don't reinvent the wheel* philosophy.
 
