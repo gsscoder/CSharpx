@@ -19,12 +19,6 @@ value.Match(
     who => Console.WriteLine($"hello {who}!"),
     () => Environment.Exit(1));
 ```
-
-## Either.cs
-
-- C# native implementation of Haskell `data Either a b = Left a | Right b` type.
-- Similar also to F# `Choice<'T, 'U>`.
-- Like in Haskell the convention is to let `Right` case hold the value and `Left` keep track of error or similar data.
 - If you want a better implementation of this kind of types, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie),
 named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
@@ -38,15 +32,6 @@ var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
 var element = sequence.Choice();
 // will choose a random element
 ```
-
-## Unit.cs
-
-- Equivalent to F# `unit`.
-
-## Identity.cs
-
-- Identity monadic type.
-- The use of this monad can be easly replaced by direct function application.
 
 ## SetOnce.cs
 
@@ -81,3 +66,8 @@ Console.WriteLine(
     "\t[hello\nREADME@\t".Sanitize(normalizeWhiteSpace: true));
 // will print: ' hello README '
 ```
+
+## Unit.cs and Identity.cs
+
+- Equivalent to F# `unit` (essentially C# `void`).
+- Identity monadic type (use of this monad can be easly replaced by direct function application).
