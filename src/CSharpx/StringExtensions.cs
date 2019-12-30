@@ -13,7 +13,7 @@ namespace CSharpx
     static class StringExtensions
     {
         /// <summary>
-        /// Checks if a string is composed only by letter characters.
+        /// Determines if a string is composed only by letter characters.
         /// </summary>
         public static bool IsAlpha(this string @string)
         {
@@ -26,7 +26,7 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Checks if a string is composed only by alphanumeric characters.
+        /// Determines if a string is composed only by alphanumeric characters.
         /// </summary>
         public static bool IsAlphanumeric(this string @string)
         {
@@ -39,7 +39,7 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Checks if a string is contains any kind of white spaces.
+        /// Determines if a string is contains any kind of white spaces.
         /// </summary>
         public static bool IsWhiteSpace(this string @string)
         {
