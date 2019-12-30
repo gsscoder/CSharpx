@@ -412,5 +412,22 @@ namespace CSharpx
             var index = new Random().Next(source.Count() - 1);
             return source.ElementAt(index);
         }
+
+        /// <summary>
+        ///Ttakes an element and a sequence and `intersperses' that element between its elements.
+        /// </summary>
+        public static IEnumerable<T> Intersperse<T>(this IEnumerable<T> source, T element)
+        {
+            if (element == null) throw new ArgumentNullException(nameof(element));
+
+            var count = source.Count();
+            var last = count - 1;
+            for (var i = 0; i < count; i++) {
+                yield return source.ElementAt(i);
+                if (i != last) {
+                    yield return element;
+                }
+            }
+        }
     }
 }

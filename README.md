@@ -32,6 +32,10 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 - Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
 - With other useful methods too.
+```CSharp
+var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
+// will result in {0, 5, 1, 5, 2, 5, 3, 5, 4}
+```
 
 ## Unit.cs
 
