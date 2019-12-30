@@ -429,6 +429,19 @@ namespace CSharpx
                 }
             }
         }
+
+        /// <summary>
+        /// Flattens a sequence by one level.
+        /// </summary>
+        public static IEnumerable<T> FlattenOnce<T>(this IEnumerable<IEnumerable<T>> source)
+        {
+            foreach (var element in source) {
+                foreach (var subelement in element) {
+                    yield return subelement;
+                }
+            }
+        }
+
         /// <summary>
         /// Reduces a sequence of strings to a sequence of parts, splitted by space,
         /// of each original string.

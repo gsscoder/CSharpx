@@ -31,6 +31,19 @@ namespace CSharpx.Tests.Unit
                 );
         }
 
+        [Fact]
+        public void Should_flatten_sequence_by_one_level()
+        {
+            var sequence = new List<IEnumerable<int>>()
+                {
+                    new int[] {0, 1, 2},
+                    new int[] {3, 4, 5},
+                    new int[] {6, 7, 8}
+                };
+
+            sequence.FlattenOnce().Should().BeEquivalentTo(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8});
+        }
+
         [Theory]
         [InlineData(
             new string[] {"word1 word2 word3", "word4 word5 word6"},
