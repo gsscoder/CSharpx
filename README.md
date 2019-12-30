@@ -35,6 +35,8 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 ```CSharp
 var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
 // will result in {0, 5, 1, 5, 2, 5, 3, 5, 4}
+var element = sequence.Choice();
+// will choose a random element
 ```
 
 ## Unit.cs
@@ -67,10 +69,9 @@ server.PortNumber = 6060;
 server.PortNumber = 8080; // will throw InvalidOperationException
 ```
 
-## Helpers.cs
+## ArrayExtensions.cs and StringExtensions.cs
 
 - Mainly general purpose extension methods.
-- Contains `System.String` extensions to generate test data.
 ```csharp
 Console.WriteLine(
     "I want to change a word".ApplyToWord(4, word => word.Mangle()));
