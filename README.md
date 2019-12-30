@@ -9,18 +9,6 @@ Source files are conceived to be manually added to other projects or by setting 
 
 If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way.
 
-## Maybe.cs
-
-- C# native implementation of F# `'T option` / Haskell `data Maybe a = Just a | Nothing` type.
-```csharp
-var greet = true;
-var value = greet ? Maybe.Return("world") : Maybe.Nothing<string>();
-value.Match(
-    who => Console.WriteLine($"hello {who}!"),
-    () => Environment.Exit(1));
-```
-- If you want a more complete implementation of this kind of types, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie), named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
-
 ## EnumerableExtensions.cs
 
 - Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
@@ -31,6 +19,27 @@ var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
 var element = sequence.Choice();
 // will choose a random element
 ```
+
+## Maybe.cs
+
+- Encapsulates an optional value that can contain a value or being empty.
+- C# native implementation of F# `'T option` / Haskell `data Maybe a = Just a | Nothing` type.
+```csharp
+var greet = true;
+var value = greet ? Maybe.Return("world") : Maybe.Nothing<string>();
+value.Match(
+    who => Console.WriteLine($"hello {who}!"),
+    () => Environment.Exit(1));
+```
+
+## Either.cs
+
+-- Represents a value that can contain either a value or an error.
+- C# native implementation of Haskell `data Either a b = Left a | Right b` type.
+- Similar also to F# `Choice<'T, 'U>`.
+- Like in Haskell the convention is to let `Right` case hold the value and `Left` keep track of error or similar data.
+- If you want a more complete implementation of this kind of types, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie),
+named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 ## SetOnce.cs
 

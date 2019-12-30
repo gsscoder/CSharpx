@@ -1,5 +1,6 @@
 //Use project level define(s) when referencing with Paket.
 //#define CSX_MAYBE_INTERNAL // Uncomment this to set visibility to internal.
+//#define CSX_REM_EITHER_FUNC // Uncomment this to remove dependency to Either.cs.
 
 using System;
 using System.Collections.Generic;
@@ -169,6 +170,19 @@ namespace CSharpx
             }
             return Maybe.Nothing<Tuple<T1, T2>>();
         }
+
+#if !CSX_REM_EITHER_FUNC
+        /// <summary>
+        /// Maps Either Right value to Maybe Just, otherwise Maybe Nothing.
+        /// </summary>
+        public static Maybe<TRight> OfEither<TLeft, TRight>(Either<TLeft, TRight> either)
+        {
+            if (either.Tag == EitherType.Right) {
+                return Maybe.Just(((Right<TLeft, TRight>)either).Value);
+            }
+            return Maybe.Nothing<TRight>();
+        }
+#endif
     }
 
     /// <summary>
