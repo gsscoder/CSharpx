@@ -67,7 +67,7 @@ server.PortNumber = 8080; // will throw InvalidOperationException
 - Mainly general purpose extension methods.
 ```csharp
 Console.WriteLine(
-    "I want to change a word".ApplyToWord(4, word => word.Mangle()));
+    "I want to change a word".ApplyAt(4, word => word.Mangle()));
 // will print something like: 'I want to change &a word'
 
 Console.WriteLine(

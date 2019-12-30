@@ -51,7 +51,7 @@ namespace CSharpx
         /// <summary>
         /// Applies a given function to nth-word of string.
         /// </summary>
-        public static string ApplyToWord(this string @string, int index, Func<string, string> modifier)
+        public static string ApplyAt(this string @string, int index, Func<string, string> modifier)
         {
             if (index < 0) throw new ArgumentException(nameof(index));
 
