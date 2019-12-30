@@ -1,6 +1,5 @@
-//Use project level define(s) when referencing with Paket.
-//#define CSX_MAYBE_INTERNAL // Uncomment this to set visibility to internal.
-//#define CSX_REM_EITHER_FUNC // Uncomment this to remove dependency to Either.cs.
+//#define CSX_MAYBE_INTERNAL // Uncomment or define at build time set accessibility to internal.
+//#define CSX_REM_EITHER_FUNC // Uncomment or define at build time to remove dependency to Either.cs.
 
 using System;
 using System.Collections.Generic;

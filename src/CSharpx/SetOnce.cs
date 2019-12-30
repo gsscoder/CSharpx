@@ -1,6 +1,5 @@
-//Use project level define(s) when referencing with Paket.
-//#define CSX_SETONCE_INTERNAL // Uncomment this to set SetOnce<T> accessibility to internal.
-//#define CSX_SETONCE_ONLY_UNSAFE // Un comment to remove thread-safe implementation.
+//#define CSX_SETONCE_INTERNAL // Uncomment or define at build time to set SetOnce<T> accessibility to internal.
+//#define CSX_SETONCE_ONLY_UNSAFE // Uncomment or define at build time to remove thread-safe implementation.
 
 using System;
 

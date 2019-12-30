@@ -1,5 +1,4 @@
-//Use project level define(s) when referencing with Paket.
-//#define CSX_STRING_EXT_INTERNAL // Uncomment this to set StringExtensions accessibility to internal.
+//#define CSX_STRING_EXT_INTERNAL // Uncomment or define at build time to set StringExtensions accessibility to internal.
 
 using System;
 using System.Text;
