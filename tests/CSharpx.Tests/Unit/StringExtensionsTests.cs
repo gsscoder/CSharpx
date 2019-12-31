@@ -1,3 +1,4 @@
+using System.Linq;
 using Xunit;
 using FluentAssertions;
 
@@ -68,6 +69,18 @@ namespace CSharpx.Tests.Unit
         public void Should_replicate(string value, uint count, string separator, string expected)
         {
             value.Replicate(count, separator).Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("hello", 0, 0)]
+        [InlineData("hello", 1, 1)]
+        [InlineData("hello", 3, 2)]
+        public void Should_mange(string value, uint times, uint maxLength)
+        {
+            var expected = (from @char in value.Mangle(times, maxLength).ToCharArray()
+                            where !char.IsLetterOrDigit(@char)
+                            select @char).Count();
+            expected.Should().Be((int)times * (int)maxLength);
         }
     }
 }
