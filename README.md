@@ -7,7 +7,7 @@ and set other preferences.
 
 Source files are conceived to be manually added to other projects or by setting a reference via [Paket](http://fsprojects.github.io/Paket/).
 
-If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way. If you want a sample of project that includes **CSharpx** as source, see [PickAll](https://github.com/gsscoder/pickall).
+If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way. For a sample of a project that includes **CSharpx** as source, see [PickAll](https://github.com/gsscoder/pickall).
 
 ## Install via NuGet
 
