@@ -290,7 +290,7 @@ namespace CSharpx
 
         #region Do Semantic
         /// <summary>
-        /// If contans a value executes an <see cref="System.Action{T}"/> delegate over it.
+        /// If contains a value executes an <see cref="System.Action{T}"/> delegate over it.
         /// </summary>
         public static void Do<T>(this Maybe<T> maybe, Action<T> action)
         {
