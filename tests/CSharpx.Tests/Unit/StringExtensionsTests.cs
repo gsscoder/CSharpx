@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 using FluentAssertions;
@@ -75,12 +76,29 @@ namespace CSharpx.Tests.Unit
         [InlineData("hello", 0, 0)]
         [InlineData("hello", 1, 1)]
         [InlineData("hello", 3, 2)]
+        [InlineData("hello tests", 3, 3)]
         public void Should_mange(string value, uint times, uint maxLength)
         {
-            var expected = (from @char in value.Mangle(times, maxLength).ToCharArray()
-                            where !char.IsLetterOrDigit(@char)
-                            select @char).Count();
-            expected.Should().Be((int)times * (int)maxLength);
+            int mangleSize = (int)times * (int)maxLength;
+
+            var expected = value.Mangle(times, maxLength);
+
+            expected.Length.Should().Be(value.Length + mangleSize);
+
+            var expectedCount = (from @char in expected.ToCharArray()
+                                 where !char.IsLetterOrDigit(@char) && !char.IsWhiteSpace(@char)
+                                 select @char).Count();
+
+            expectedCount.Should().Be(mangleSize);
+        }
+
+        [Fact]
+        public void Mangle_beyond_string_length_throws_ArgumentException()
+        {
+            Action action = () => "hello from magle extension test".Mangle(100, 3);
+
+            action.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("times");
         }
     }
 }
