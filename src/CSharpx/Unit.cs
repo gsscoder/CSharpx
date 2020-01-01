@@ -7,9 +7,14 @@ namespace CSharpx
 #if !CSX_UNIT_INTERNAL
     public
 #endif
-    struct Unit : IEquatable<Unit>
+    struct Unit : IEquatable<Unit>, IComparable<Unit>
     {
         private static readonly Unit @default = new Unit();
+
+        public override int GetHashCode()
+        {
+            return 0;
+        }
 
         public bool Equals(Unit other)
         {
@@ -21,7 +26,7 @@ namespace CSharpx
             return obj is Unit;
         }
 
-        public override int GetHashCode()
+        public int CompareTo(Unit obj)
         {
             return 0;
         }
