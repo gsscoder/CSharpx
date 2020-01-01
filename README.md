@@ -91,6 +91,27 @@ Console.WriteLine(
 // will print: ' hello README '
 ```
 
+## [Unit](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Unit.cs)
+
+- `Unit` is similar to `void` but, since it's a *real* type, it allows the use functions without a result in a computation (*functional style*). It's essentially **F#** `unit` and **Haskell** `()`.
+```csharp
+// prints each word and returns 0 to the shell
+static int Main(string[] args)
+{
+    var sentence = "this is a sentence";;
+    return (from _ in
+            from word in sentence.Split()
+            select PrintLine(word)
+            select 0).Distinct().Single();
+}
+
+static Unit PrintLine(string value)
+{
+    Console.WriteLine(value);
+    return Unit.Default;
+}
+```
+
 ## Icon
 
 [Sharp](https://thenounproject.com/search/?q=sharp&i=1808600) icon designed by Alex Burte from [The Noun Project](https://thenounproject.com/)
