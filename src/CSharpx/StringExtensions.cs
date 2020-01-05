@@ -87,7 +87,7 @@ namespace CSharpx
             var _validator = validator ?? _nullValidator;
 
             var words = value.Split();
-            var index = new Random().Next(0,  words.Length - 1);
+            var index = new Random().Next(words.Length - 1);
             if (_validator(words[index])) {
                 return index;
             }
@@ -110,7 +110,7 @@ namespace CSharpx
             var indexes = new List<int>((int)times);
             int uniqueNext()
                 {
-                    var index = random.Next(0, value.Length - 1);
+                    var index = random.Next(value.Length - 1);
                     if (indexes.Contains(index)) {
                         return uniqueNext();
                     }
@@ -126,7 +126,7 @@ namespace CSharpx
                 mangled.Append(value[i]);
                 if (mutations.Contains(i)) {
                     mangled.Append(
-                        _mangleChars[random.Next(0, _mangleChars.Length - 1)]
+                        _mangleChars[random.Next(_mangleChars.Length - 1)]
                         .Replicate(maxLength, string.Empty));
                     
                 }
