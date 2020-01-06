@@ -85,7 +85,7 @@ namespace CSharpx
         /// </returns>
         public override int Next(int maxValue)
         {
-            if (maxValue < 0) throw new ArgumentOutOfRangeException("maxValue");
+            if (maxValue < 0) throw new ArgumentOutOfRangeException(nameof(maxValue));
 
             return Next(0, maxValue);
         }
@@ -95,7 +95,7 @@ namespace CSharpx
         /// </summary>
         public override int Next(int minValue, int maxValue)
         {
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException("minValue");
+            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue));
 
             if (minValue == maxValue) {
                 return minValue;
@@ -128,7 +128,7 @@ namespace CSharpx
         /// </summary>
         public override void NextBytes(byte[] buffer)
         {
-            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
 
             lock (this)
             {
@@ -173,7 +173,8 @@ namespace CSharpx
                 InitBuffer();
             }
 
-            if (requiredBytes > _buffer.Length) throw new ArgumentOutOfRangeException("requiredBytes", "cannot be greater than random buffer");
+            if (requiredBytes > _buffer.Length) throw new ArgumentOutOfRangeException(
+                nameof(requiredBytes), "cannot be greater than random buffer");
 
             if ((_buffer.Length - _bufferPosition) < requiredBytes) {
                 InitBuffer();
