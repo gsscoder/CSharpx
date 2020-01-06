@@ -12,14 +12,17 @@ namespace CSharpx.FSharp
     static class FSharpResultExtensions
     {
         public static void Match<T, TError>(this FSharpResult<T, TError> result,
-            Action<T> ifOk,
-            Action<TError> ifError)
+            Action<T> onOk,
+            Action<TError> onError)
         {
+            if (onOk == null) throw new ArgumentNullException(nameof(onOk));
+            if (onError == null) throw new ArgumentNullException(nameof(onError));
+
             if (result.IsOk) {
-                ifOk(result.ResultValue);
+                onOk(result.ResultValue);
                 return;
             }
-            ifError(result.ErrorValue);
+            onError(result.ErrorValue);
         }
     }
 }
