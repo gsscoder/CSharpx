@@ -1,4 +1,5 @@
 //#define CSX_ARRAY_EXT_INTERNAL // Uncomment or define at build time to set ArrayExtensions accessibility to internal.
+//#define CSX_REM_CRYPTORAND // Uncomment or define at build time to remove dependency to CryptoRandom.cs.
 
 using System;
 
@@ -25,7 +26,11 @@ namespace CSharpx
         /// </summary>
         public static T Choice<T>(this T[] array)
         {
+#if CSX_REM_CRYPTORAND        
             var index = new Random().Next(array.Length - 1);
+#else
+            var index = new CryptoRandom().Next(array.Length - 1);
+#endif
             return array[index];
         }
     }
