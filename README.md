@@ -13,7 +13,7 @@ If you can't customize it enough using compiler directives, please tell me or fo
 
 If you prefer, you can install it via NuGet:
 ```sh
-dotnet add package CSharpx --version 1.3.0-rc3
+dotnet add package CSharpx --version 1.4.0
 ```
 
 ## [EnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/EnumerableExtensions.cs)
