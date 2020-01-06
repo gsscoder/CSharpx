@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -12,16 +12,14 @@
     <PackageIconUrl>https://raw.githubusercontent.com/gsscoder/CSharpx/master/assets/icon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/gsscoder/csharpx</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>functional;utility;api;library</PackageTags>  
+    <PackageTags>functional;utility;api;library</PackageTags>
     <Company />
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>../../artifacts/CSharpx/Debug</OutputPath>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>../../artifacts/CSharpx/Release</OutputPath>
   </PropertyGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
