@@ -24,6 +24,19 @@ namespace CSharpx.FSharp
             }
             onError(result.ErrorValue);
         }
+
+        public static TResult Either<T, TError, TResult>(this FSharpResult<T, TError> result,
+            Func<T, TResult> onOk,
+            Func<TError, TResult> onError)
+        {
+            if (onOk == null) throw new ArgumentNullException(nameof(onOk));
+            if (onError == null) throw new ArgumentNullException(nameof(onError));
+
+            if (result.IsOk) {
+                return onOk(result.ResultValue);
+            }
+            return onError(result.ErrorValue);
+        }
     }
 }
 #endif
