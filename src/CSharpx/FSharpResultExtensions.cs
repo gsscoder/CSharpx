@@ -11,6 +11,9 @@ namespace CSharpx.FSharp
 #endif
     static class FSharpResultExtensions
     {
+        /// <summary>
+        /// Allows pattern matching on Results.
+        /// </summary>
         public static void Match<T, TError>(this FSharpResult<T, TError> result,
             Action<T> onOk,
             Action<TError> onError)
@@ -25,6 +28,9 @@ namespace CSharpx.FSharp
             onError(result.ErrorValue);
         }
 
+        /// <summary>
+        /// Allows pattern matching on Results.
+        /// </summary>
         public static TResult Either<T, TError, TResult>(this FSharpResult<T, TError> result,
             Func<T, TResult> onOk,
             Func<TError, TResult> onError)
