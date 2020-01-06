@@ -56,15 +56,15 @@ namespace CSharpx
 
         private void InitBuffer()
         {
-            if (IsRandomPoolEnabled)
-            {
-                if (_buffer == null || _buffer.Length != 512)
+            if (IsRandomPoolEnabled) {
+                if (_buffer == null || _buffer.Length != 512) {
                     _buffer = new byte[512];
+                }
             }
-            else
-            {
-                if (_buffer == null || _buffer.Length != 4)
+            else {
+                if (_buffer == null || _buffer.Length != 4) {
                     _buffer = new byte[4];
+                }
             }
 
             _rng.GetBytes(_buffer);
@@ -85,8 +85,7 @@ namespace CSharpx
         /// </returns>
         public override int Next(int maxValue)
         {
-            if (maxValue < 0)
-                throw new ArgumentOutOfRangeException("maxValue");
+            if (maxValue < 0) throw new ArgumentOutOfRangeException("maxValue");
 
             return Next(0, maxValue);
         }
@@ -96,11 +95,11 @@ namespace CSharpx
         /// </summary>
         public override int Next(int minValue, int maxValue)
         {
-            if (minValue > maxValue)
-                throw new ArgumentOutOfRangeException("minValue");
+            if (minValue > maxValue) throw new ArgumentOutOfRangeException("minValue");
 
-            if (minValue == maxValue)
+            if (minValue == maxValue) {
                 return minValue;
+            }
 
             long diff = maxValue - minValue;
 
@@ -129,17 +128,16 @@ namespace CSharpx
         /// </summary>
         public override void NextBytes(byte[] buffer)
         {
-            if (buffer == null)
-                throw new ArgumentNullException("buffer");
+            if (buffer == null) throw new ArgumentNullException("buffer");
 
             lock (this)
             {
-                if (IsRandomPoolEnabled && _buffer == null)
+                if (IsRandomPoolEnabled && _buffer == null) {
                     InitBuffer();
+                }
 
                 // Can we fit the requested number of bytes in the buffer?
-                if (IsRandomPoolEnabled && _buffer.Length <= buffer.Length)
-                {
+                if (IsRandomPoolEnabled && _buffer.Length <= buffer.Length) {
                     int count = buffer.Length;
 
                     EnsureRandomBuffer(count);
@@ -148,8 +146,7 @@ namespace CSharpx
 
                     _bufferPosition += count;
                 }
-                else
-                {
+                else {
                     // Draw bytes directly from the RNGCryptoProvider
                     _rng.GetBytes(buffer);
                 }
@@ -172,14 +169,15 @@ namespace CSharpx
 
         private void EnsureRandomBuffer(int requiredBytes)
         {
-            if (_buffer == null)
+            if (_buffer == null) {
                 InitBuffer();
+            }
 
-            if (requiredBytes > _buffer.Length)
-                throw new ArgumentOutOfRangeException("requiredBytes", "cannot be greater than random buffer");
+            if (requiredBytes > _buffer.Length) throw new ArgumentOutOfRangeException("requiredBytes", "cannot be greater than random buffer");
 
-            if ((_buffer.Length - _bufferPosition) < requiredBytes)
+            if ((_buffer.Length - _bufferPosition) < requiredBytes) {
                 InitBuffer();
+            }
         }
     }
 }
