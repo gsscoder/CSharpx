@@ -4,6 +4,7 @@
 .vs
 tools/
 .paket/
+.paket-files/
 paket.lock
 [Oo]bj/
 [Bb]in/

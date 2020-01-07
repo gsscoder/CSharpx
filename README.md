@@ -9,11 +9,16 @@ Source files are conceived to be manually added to other projects or by setting 
 
 If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way. For a sample of a project that includes **CSharpx** as source, see [PickAll](https://github.com/gsscoder/pickall).
 
+## Targets
+
+- .NET Standard 2.0
+- .NET Framework 4.6.1
+
 ## Install via NuGet
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 1.5.0-alpha
+$ dotnet add package CSharpx --version 1.5.1-alpha
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
