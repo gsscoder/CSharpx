@@ -54,6 +54,20 @@ namespace CSharpx.FSharp
                 }
                 return errorFunc(result.ErrorValue);
             }
+
+            // If the wrapped function is a success and the given result is a success the function is applied on the value. 
+            // Otherwise the exisiting error is returned.
+            public static FSharpResult<T, TError> Apply<TValue, T, TError>(
+                FSharpResult<Func<TValue, T>, TError> wrappedFunc,
+                FSharpResult<TValue, TError> result
+            )
+            {
+                if (wrappedFunc.IsOk && result.IsOk) {
+                    return FSharpResult<T, TError>.NewOk(
+                        wrappedFunc.ResultValue(result.ResultValue));
+                }
+                return FSharpResult<T, TError>.NewError(result.ErrorValue);
+            }
         }
     }
 }
