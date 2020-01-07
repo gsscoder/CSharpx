@@ -9,11 +9,11 @@
     <Authors>gsscoder</Authors>
     <Copyright>Copyright © Giacomo Stelluti Scala, 2015-2019</Copyright>
     <PackageProjectUrl>https://github.com/gsscoder/csharpx</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/gsscoder/CSharpx/master/assets/icon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/gsscoder/csharpx</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>functional;utility;api;library</PackageTags>
     <Company />
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>../../artifacts/CSharpx/Debug</OutputPath>
@@ -21,5 +21,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>../../artifacts/CSharpx/Release</OutputPath>
   </PropertyGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <None Include="../../assets/icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <Import Project="../../.paket/Paket.Restore.targets" />
 </Project>
