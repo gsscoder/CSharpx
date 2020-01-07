@@ -51,16 +51,38 @@ namespace CSharpx.Tests.Unit
         }
 
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+        public void Should_keep_error_when_mapping_a_value_of_fail(int value)
+        {
+            var sut = FSharpResult<int, string>.NewError("bad result");
+
+            var mapped = sut.Map(x => x / 0.5);
+
+            mapped.IsOk.Should().BeFalse();
+            mapped.ResultValue.Should().Be(default(double));
+        }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
         public void Should_bind_a_value(int value)
         {
             var sut = FSharpResult<int, string>.NewOk(value);
 
             Func<int, FSharpResult<double, string>> func =
                 x => FSharpResult<double, string>.NewOk(x / 0.5);
-            var mapped = sut.Bind(func);
+            var binded = sut.Bind(func);
 
-            mapped.IsOk.Should().BeTrue();
-            mapped.ResultValue.Should().Be(func(value).ResultValue);
+            binded.IsOk.Should().BeTrue();
+            binded.ResultValue.Should().Be(func(value).ResultValue);
+        }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+        public void Should_keep_error_when_binding_a_value_of_fail(int value)
+        {
+            var sut = FSharpResult<int, string>.NewError("bad result");
+
+            var binded = sut.Bind(x => FSharpResult<double, string>.NewOk(x / 0.5));
+
+            binded.IsOk.Should().BeFalse();
+            binded.ResultValue.Should().Be(default(double));
         }
     }
 }
