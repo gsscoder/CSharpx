@@ -59,7 +59,7 @@ result.Match(
     quote => Console.WriteLine($"Price: {quote.Price}"),
     error => Console.WriteLine($"Trouble: {error}"));
 // mapping
-var result = Query.GetIndex("ORCL");
+var result = Query.GetIndex(".DJI");
 result.Map(
     quote => CurrencyConverter.Change(quote.Price, "$", "€"));
 ```
