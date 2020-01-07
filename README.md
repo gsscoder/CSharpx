@@ -41,12 +41,27 @@ value.Match(
 
 ## [Either](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Either.cs)
 
--- Represents a value that can contain either a value or an error.
+- Represents a value that can contain either a value or an error.
 - C# native implementation of Haskell `data Either a b = Left a | Right b` type.
 - Similar also to F# `Choice<'T, 'U>`.
 - Like in Haskell the convention is to let `Right` case hold the value and `Left` keep track of error or similar data.
 - If you want a more complete implementation of this kind of types, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie),
 named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
+
+## [FSharpResultExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/FSharpResultExtensions.cs)
+
+- Supplies convenient extension methods to consume `FSharpResult<T, TError>` in simple and functional way from **C#**.
+```csharp
+// pattern match like
+var result = Query.GetStockQuote("ORCL");
+result.Match(
+    quote => Console.WriteLine($"Price: {quote.Price}"),
+    error => Console.WriteLine($"Trouble: {error}"));
+// mapping
+var result = Query.GetIndex("ORCL");
+result.Map(
+    quote => CurrencyConverter.Change(quote.Price, "$", "€"));
+```
 
 ## [SetOnce](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/SetOnce.cs)
 
