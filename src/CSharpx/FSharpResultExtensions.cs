@@ -41,6 +41,17 @@ namespace CSharpx.FSharp
             return Trail.Either(onOk, onError, result);
         }
 
+        /// <summary>
+        /// Lifts a Func into a Result and applies it on the given result.
+        /// </summary>
+        public static FSharpResult<TResult, TError> Map<T, TError, TResult>(this FSharpResult<T, TError> result,
+            Func<T, TResult> func)
+        {
+            if (func == null) throw new ArgumentNullException(nameof(func));
+
+            return Trail.Lift(func, result);
+        }
+
         static class Trail
         {
             // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with errorFunc.
