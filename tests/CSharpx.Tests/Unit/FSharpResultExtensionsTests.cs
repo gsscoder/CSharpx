@@ -11,7 +11,7 @@ namespace CSharpx.Tests.Unit
     public class FSharpResultExtensionsTests
     {
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-        public void Should_match_result(int value)
+        public void Should_match_a_result(int value)
         {
             int? expected = null;
             var sut = FSharpResult<int, string>.NewOk(value);
@@ -25,7 +25,7 @@ namespace CSharpx.Tests.Unit
         }
 
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-        public void Should_match_error(int value)
+        public void Should_match_an_error(int value)
         {
             string error = null;
             var sut = FSharpResult<int, string>.NewError("bad result");
@@ -39,7 +39,7 @@ namespace CSharpx.Tests.Unit
         }
 
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-        public void Should_map_value(int value)
+        public void Should_map_a_value(int value)
         {
             var sut = FSharpResult<int, string>.NewOk(value);
 
@@ -51,7 +51,7 @@ namespace CSharpx.Tests.Unit
         }
 
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-        public void Should_bind_value(int value)
+        public void Should_bind_a_value(int value)
         {
             var sut = FSharpResult<int, string>.NewOk(value);
 
