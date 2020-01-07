@@ -18,7 +18,7 @@ If you can't customize it enough using compiler directives, please tell me or fo
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 1.5.1-alpha
+$ dotnet add package CSharpx --version 1.5.2-alpha
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
