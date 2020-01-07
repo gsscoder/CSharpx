@@ -38,10 +38,22 @@ namespace CSharpx.FSharp
             if (onOk == null) throw new ArgumentNullException(nameof(onOk));
             if (onError == null) throw new ArgumentNullException(nameof(onError));
 
-            if (result.IsOk) {
-                return onOk(result.ResultValue);
+            return Trail.Either(onOk, onError, result);
+        }
+
+        static class Trail
+        {
+            // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with errorFunc.
+            public static TResult Either<T, TError, TResult>(
+                Func<T, TResult> okFunc,
+                Func<TError, TResult> errorFunc,
+                FSharpResult<T, TError> result)
+            {
+                if (result.IsOk) {
+                    return okFunc(result.ResultValue);
+                }
+                return errorFunc(result.ErrorValue);
             }
-            return onError(result.ErrorValue);
         }
     }
 }
