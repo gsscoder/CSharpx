@@ -37,5 +37,17 @@ namespace CSharpx.Tests.Unit
 
             error.Should().Be("bad result");
         }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+        public void Should_map_value(int value)
+        {
+            var sut = FSharpResult<int, string>.NewOk(value);
+
+            Func<int, double> func = x => x / 0.5;
+            var mapped = sut.Map(func);
+
+            mapped.IsOk.Should().BeTrue();
+            mapped.ResultValue.Should().Be(func(value));
+        }
     }
 }
