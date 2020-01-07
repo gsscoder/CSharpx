@@ -52,6 +52,18 @@ namespace CSharpx.FSharp
             return Trail.Lift(func, result);
         }
 
+        /// <summary>
+        /// If the wrapped function is a success and the given result is a success the function is applied on the value. 
+        /// Otherwise the exisiting error is returned. 
+        /// </summary>
+        public static FSharpResult<T, TError> Bind<TValue, T, TError>(this FSharpResult<TValue, TError> result,
+                Func<TValue, FSharpResult<T, TError>> func)
+        {
+            if (func == null) throw new ArgumentNullException(nameof(func));
+
+            return Trail.Bind(func, result);
+        }
+
         static class Trail
         {
             // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with errorFunc.
@@ -64,6 +76,20 @@ namespace CSharpx.FSharp
                     return okFunc(result.ResultValue);
                 }
                 return errorFunc(result.ErrorValue);
+            }
+
+            // If the result is a success it executes the given function on the value.
+            // Otherwise the exisiting error is returned.
+            public static FSharpResult<T, TError> Bind<TValue, T, TError>(
+                Func<TValue, FSharpResult<T, TError>> func,
+                FSharpResult<TValue, TError> result)
+            {
+                    Func<TValue, FSharpResult<T, TError>> okFunc =
+                        value => func(value);
+                    Func<TError, FSharpResult<T, TError>> errorFunc =
+                        error => FSharpResult<T, TError>.NewError(error);
+
+                    return Either(okFunc, errorFunc, result);
             }
 
             // If the wrapped function is a success and the given result is a success the function is applied on the value. 

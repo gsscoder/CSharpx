@@ -49,5 +49,18 @@ namespace CSharpx.Tests.Unit
             mapped.IsOk.Should().BeTrue();
             mapped.ResultValue.Should().Be(func(value));
         }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+        public void Should_bind_value(int value)
+        {
+            var sut = FSharpResult<int, string>.NewOk(value);
+
+            Func<int, FSharpResult<double, string>> func =
+                x => FSharpResult<double, string>.NewOk(x / 0.5);
+            var mapped = sut.Bind(func);
+
+            mapped.IsOk.Should().BeTrue();
+            mapped.ResultValue.Should().Be(func(value).ResultValue);
+        }
     }
 }
