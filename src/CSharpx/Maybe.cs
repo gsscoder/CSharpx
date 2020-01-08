@@ -174,7 +174,7 @@ namespace CSharpx
         /// <summary>
         /// Maps Either Right value to Maybe Just, otherwise Maybe Nothing.
         /// </summary>
-        public static Maybe<TRight> OfEither<TLeft, TRight>(Either<TLeft, TRight> either)
+        public static Maybe<TRight> FromEither<TLeft, TRight>(Either<TLeft, TRight> either)
         {
             if (either.Tag == EitherType.Right) {
                 return Maybe.Just(((Right<TLeft, TRight>)either).Value);

@@ -239,7 +239,7 @@ namespace CSharpx
         }
 
 #if !CSX_REM_MAYBE_FUNC
-        public static Either<TLeft, TRight> OfMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
+        public static Either<TLeft, TRight> FromMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
         {
             if (maybe.Tag == MaybeType.Just) {
                 return Either.Right<TLeft, TRight>(((Just<TRight>)maybe).Value);
