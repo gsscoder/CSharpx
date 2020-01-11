@@ -43,6 +43,7 @@ namespace CSharpx.Tests.Unit
         [Theory]
         [InlineData("hello tests@", "hello tests")]
         [InlineData("hello\ttests@", "hello tests")]
+        [InlineData("hello-tests@", "hellotests")]
         public void Should_sanitize_strings_normalizing_white_spaces(string value, string expected)
         {
             value.Sanitize().Should().Be(expected);
