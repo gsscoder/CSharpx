@@ -77,7 +77,7 @@ namespace CSharpx.Tests.Unit
         [InlineData("hello", 1, 1)]
         [InlineData("hello", 3, 2)]
         [InlineData("hello tests", 3, 3)]
-        public void Should_mange(string value, uint times, uint maxLength)
+        public void Should_mangle(string value, uint times, uint maxLength)
         {
             int mangleSize = (int)times * (int)maxLength;
 
