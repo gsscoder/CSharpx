@@ -64,6 +64,17 @@ namespace CSharpx.FSharp
             return Trail.Bind(func, result);
         }
 
+        /// <summary>
+        /// If the given result is a success the wrapped value will be returned. 
+        /// Otherwise the function throws an exception with string representation of the error.
+        /// </summary>
+        public static T ReturnOrFail<T, TError>(this FSharpResult<T, TError> result)
+        {
+            Func<TError, T> raiseExn = err => throw new Exception(err.ToString());
+        
+            return Trail.Either(value => value, raiseExn, result);
+        }
+
         static class Trail
         {
             // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with errorFunc.

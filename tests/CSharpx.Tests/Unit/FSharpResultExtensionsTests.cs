@@ -1,4 +1,5 @@
 using System;
+using Xunit;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
@@ -83,6 +84,27 @@ namespace CSharpx.Tests.Unit
 
             binded.IsOk.Should().BeFalse();
             binded.ResultValue.Should().Be(default(double));
+        }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+        public void Should_return_a_value(int value)
+        {
+            var sut = FSharpResult<int, string>.NewOk(value);
+
+            var result = sut.ReturnOrFail();
+
+            result.Should().Be(value);
+        }
+
+        [Fact]
+        public void Should_throws_exception_on_a_fail()
+        {
+            var sut = FSharpResult<int, string>.NewError("bad result");
+
+            Action action = () => sut.ReturnOrFail();
+
+            action.Should().ThrowExactly<Exception>()
+                .WithMessage("bad result");
         }
     }
 }
