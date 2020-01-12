@@ -66,7 +66,7 @@ namespace CSharpx.FSharp
 
         /// <summary>
         /// If the given result is a success the wrapped value will be returned. 
-        /// Otherwise the function throws an exception with string representation of the error.
+        /// Otherwise the function throws an exception with the string representation of the error.
         /// </summary>
         public static T ReturnOrFail<T, TError>(this FSharpResult<T, TError> result)
         {
