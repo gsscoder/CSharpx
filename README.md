@@ -22,7 +22,7 @@ $ dotnet add package CSharpx --version 1.6.2-alpha
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
-## [IEnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/EnumerableExtensions.cs)
+## [IEnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/IEnumerableExtensions.cs)
 
 - Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
 - With other useful methods too.
