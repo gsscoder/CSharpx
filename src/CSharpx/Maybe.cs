@@ -256,11 +256,22 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Transforms this maybe value by using a specified mapping function.
+        /// Transforms a maybe value by using a specified mapping function.
         /// </summary>
         public static Maybe<T2> Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func)
         {
             return Maybe.Map(maybe, func);
+        }
+
+        /// <summary>
+        /// Unwraps a value applying a function o returns another value.
+        /// </summary></typeparam>
+        public static T2 Return<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
+        {
+            T1 value1;
+            return maybe.MatchJust(out value1)
+                ? func(value1)
+                : noneValue;
         }
 
         #region Linq Operators
