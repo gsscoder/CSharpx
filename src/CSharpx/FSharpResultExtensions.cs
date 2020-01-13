@@ -75,6 +75,14 @@ namespace CSharpx.FSharp
             return Trail.Either(value => value, raiseExn, result);
         }
 
+        /// <summary>
+        /// Unwraps a value applying a function o returns another value on fail.
+        /// </summary></typeparam>
+        public static TResult Return<T, TError, TResult>(this FSharpResult<T, TError> result, Func<T, TResult> func, TResult noneValue)
+        {
+            return Trail.Either(func, value => noneValue, result);
+        }
+
         static class Trail
         {
             // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with errorFunc.

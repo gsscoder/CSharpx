@@ -106,5 +106,27 @@ namespace CSharpx.Tests.Unit
             action.Should().ThrowExactly<Exception>()
                 .WithMessage("bad result");
         }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+        public void Should_return_and_map_a_value(int value)
+        {
+            var sut = FSharpResult<int, string>.NewOk(value);
+
+            Func<int, double> func = x => x / 0.5;
+            var result = sut.Return(func, 0);
+
+            result.Should().Be(func(value));
+        }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+        public void Should_return_alternate_value_on_error(int value)
+        {
+            var sut = FSharpResult<int, string>.NewError("bad result");
+
+            Func<int, double> func = x => x / 0.5;
+            var result = sut.Return(func, 0);
+
+            result.Should().Be(0);
+        }
     }
 }
