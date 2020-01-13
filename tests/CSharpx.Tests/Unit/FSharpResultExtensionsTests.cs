@@ -52,7 +52,7 @@ namespace CSharpx.Tests.Unit
         }
 
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-        public void Should_keep_error_when_mapping_a_value_of_fail(int value)
+        public void Should_keep_error_when_mapping_a_value_of_a_fail(int value)
         {
             var sut = FSharpResult<int, string>.NewError("bad result");
 
@@ -119,7 +119,7 @@ namespace CSharpx.Tests.Unit
         }
 
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-        public void Should_return_alternate_value_on_error(int value)
+        public void Should_return_alternate_value_on_a_file(int value)
         {
             var sut = FSharpResult<int, string>.NewError("bad result");
 
