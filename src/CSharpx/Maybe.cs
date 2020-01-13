@@ -129,7 +129,7 @@ namespace CSharpx
 
         #region Monad
         /// <summary>
-        /// Inject a value into the monadic <see cref="CSharpx.Maybe{T}"/> type.
+        /// Injects a value into the monadic <see cref="CSharpx.Maybe{T}"/> type.
         /// </summary>
         public static Maybe<T> Return<T>(T value)
         {
