@@ -5,7 +5,12 @@ Functional programming and other utilities for C#, following *don't reinvent the
 Every source file contains conditional compilation symbols to change type visibility from public to internal
 and set other preferences.
 
-If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way. For a sample of a project that includes **CSharpx** as source, see [PickAll](https://github.com/gsscoder/pickall) and [Command Line Parser Library](https://github.com/commandlineparser/commandline).
+If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way.
+
+Project that includes **CSharpx** as source:
+- [PickAll](https://github.com/gsscoder/pickall)
+- [Tagger](https://github.com/gsscoder/tagger)
+- [Command Line Parser Library](https://github.com/commandlineparser/commandline)
 
 ## Targets
 
