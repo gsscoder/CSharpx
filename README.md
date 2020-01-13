@@ -5,14 +5,26 @@ Functional programming and other utilities for C#, following *don't reinvent the
 Every source file contains conditional compilation symbols to change type visibility from public to internal
 and set other preferences.
 
-Source files are conceived to be manually added to other projects or by setting a reference via [Paket](http://fsprojects.github.io/Paket/).
-
-If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way. For a sample of a project that includes **CSharpx** as source, see [PickAll](https://github.com/gsscoder/pickall).
+If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way. For a sample of a project that includes **CSharpx** as source, see [PickAll](https://github.com/gsscoder/pickall) and [Command Line Parser Library](https://github.com/commandlineparser/commandline).
 
 ## Targets
 
 - .NET Standard 2.0
 - .NET Framework 4.6.1
+
+## Reference
+
+It allows also source inclusion in other projects. Just one or more files in your project tree or reference it using [Paket](http://fsprojects.github.io/Paket/).
+
+**paket.dependencies**
+```
+github gsscoder/csharpx src/csharpx/Maybe.cs 
+```
+**paket.references** (if you've a dir called `Internal`)
+```
+File:Maybe.cs Internal
+```
+- **Paket** will alter your `csproj` file adding a `Compile` item, so you need to set `EnableDefaultCompileItems` property to `false`. At this point, every other source file must be handled in the same way. For more detailed informations please read [Paket Documentation](https://fsprojects.github.io/Paket/github-dependencies.html).
 
 ## Install via NuGet
 
@@ -132,6 +144,16 @@ static Unit PrintLine(string value)
     return Unit.Default;
 }
 ```
+
+## Latest Changes
+
+- Ported to .NET Core.
+- Compiles for .NET Framework 4.6.1.
+- Added `FSharpResultExtensions`.
+
+## Related Projects
+
+- [RailwaySharp](https://github.com/gsscoder/railwaysharp)
 
 ## Icon
 
