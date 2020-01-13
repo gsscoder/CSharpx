@@ -12,11 +12,6 @@ Project that includes **CSharpx** as source:
 - [Tagger](https://github.com/gsscoder/tagger)
 - [Command Line Parser Library](https://github.com/commandlineparser/commandline)
 
-## Targets
-
-- .NET Standard 2.0
-- .NET Framework 4.6.1
-
 ## Reference
 
 It allows also source inclusion in other projects. Just one or more files in your project tree or reference it using [Paket](http://fsprojects.github.io/Paket/).
@@ -30,6 +25,11 @@ github gsscoder/csharpx src/csharpx/Maybe.cs
 File:Maybe.cs Internal
 ```
 - **Paket** will alter your `csproj` file adding a `Compile` item, so you need to set `EnableDefaultCompileItems` property to `false`. At this point, every other source file must be handled in the same way. For more detailed informations please read [Paket Documentation](https://fsprojects.github.io/Paket/github-dependencies.html).
+
+## Targets
+
+- .NET Standard 2.0
+- .NET Framework 4.6.1
 
 ## Install via NuGet
 
