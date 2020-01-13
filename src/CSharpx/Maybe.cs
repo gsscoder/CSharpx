@@ -264,12 +264,11 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Unwraps a value applying a function o returns another value.
+        /// Unwraps a value applying a function o returns another value on fail.
         /// </summary></typeparam>
         public static T2 Return<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
         {
-            T1 value1;
-            return maybe.MatchJust(out value1)
+            return maybe.MatchJust(out T1 value1)
                 ? func(value1)
                 : noneValue;
         }
