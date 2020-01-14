@@ -1,4 +1,4 @@
-//#define CSX_UNIT_INTERNAL // Uncomment or define at build time to set Unity accessibility to internal.
+//#define CSX_UNIT_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 

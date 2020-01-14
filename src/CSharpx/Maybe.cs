@@ -1,4 +1,4 @@
-//#define CSX_MAYBE_INTERNAL // Uncomment or define at build time set accessibility to internal.
+//#define CSX_MAYBE_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 //#define CSX_REM_EITHER_FUNC // Uncomment or define at build time to remove dependency to Either.cs.
 
 using System;
