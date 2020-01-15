@@ -14,7 +14,7 @@ Project that includes **CSharpx** as source:
 
 ## Reference
 
-It allows also source inclusion in other projects. Just one or more files in your project tree or reference it using [Paket](http://fsprojects.github.io/Paket/).
+It allows also source inclusion in other projects. Just one or more files in your project tree or reference it using [Paket](http://fsprojects.github.io/Paket/):
 
 **paket.dependencies**
 ```
@@ -159,7 +159,9 @@ static Unit PrintLine(string value)
 
 ## Related Projects
 
+Projects conceived to be included as source:
 - [RailwaySharp](https://github.com/gsscoder/railwaysharp)
+- [Catalog](https://github.com/gsscoder/cataloq)
 
 ## Icon
 
