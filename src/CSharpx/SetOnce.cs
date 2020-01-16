@@ -27,13 +27,13 @@ namespace CSharpx
                     return _value;
                 }
                 else {
-                    throw new InvalidOperationException($"Value not set");
+                    throw new InvalidOperationException("Value not set");
                 }
             }
             set
             {
                 if (_set) {
-                    throw new InvalidOperationException($"Value can be set only once");
+                    throw new InvalidOperationException("Value can be set only once");
                 }
                 else {
                     _value = value;
@@ -75,7 +75,7 @@ namespace CSharpx
                         return _value;
                     }
                     else {
-                        throw new InvalidOperationException($"Value not set");
+                        throw new InvalidOperationException("Value not set");
                     }
                 } 
             }
@@ -84,7 +84,7 @@ namespace CSharpx
                 lock (this)
                 {
                     if (_set) {
-                        throw new InvalidOperationException($"Value can be set only once");
+                        throw new InvalidOperationException("Value can be set only once");
                     }
                     else {
                         _value = value;
