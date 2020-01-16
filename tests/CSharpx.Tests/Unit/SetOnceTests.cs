@@ -74,12 +74,12 @@ namespace CSharpx.Tests.Unit
         }
     }
 
-    public class SafeSetOnceTests
+    public class BlockingSetOnceTests
     {
         [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
         public void Should_set_a_value_once(string value)
         {
-            var sut = new SafeSetOnce<string>();
+            var sut = new BlockingSetOnce<string>();
 
             sut.Value = value;
 
@@ -89,7 +89,7 @@ namespace CSharpx.Tests.Unit
         [Fact]
         public void Setting_a_value_more_than_once_trhows_InvalidOperationException()
         {
-            var sut = new SafeSetOnce<object>();
+            var sut = new BlockingSetOnce<object>();
             sut.Value = new object();
             
             Action action = () => sut.Value = new object();
@@ -101,7 +101,7 @@ namespace CSharpx.Tests.Unit
         [Fact]
         public void Getting_a_value_from_an_unset_instance_trhows_InvalidOperationException()
         {
-            var sut = new SafeSetOnce<object>();
+            var sut = new BlockingSetOnce<object>();
             
             Action action = () =>
                 {
@@ -115,7 +115,7 @@ namespace CSharpx.Tests.Unit
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
         public void Should_cast_to_wrapped_value(int value)
         {
-            var sut = new SafeSetOnce<int>();
+            var sut = new BlockingSetOnce<int>();
 
             sut.Value = value;
 
@@ -125,7 +125,7 @@ namespace CSharpx.Tests.Unit
         [Fact]
         public void If_value_is_unset_HasValue_should_be_false()
         {
-            var sut = new SafeSetOnce<string>();
+            var sut = new BlockingSetOnce<string>();
 
             sut.HasValue.Should().BeFalse();
         }
@@ -133,7 +133,7 @@ namespace CSharpx.Tests.Unit
         [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
         public void If_value_is_set_HasValue_should_be_true(string value)
         {
-            var sut = new SafeSetOnce<string>();
+            var sut = new BlockingSetOnce<string>();
 
             sut.Value = value;
 

@@ -57,7 +57,7 @@ namespace CSharpx
     #if !CSX_SETONCE_INTERNAL
     public
     #endif
-    class SafeSetOnce<T>
+    class BlockingSetOnce<T>
     {
         private bool _set;
         private T _value;
@@ -94,7 +94,7 @@ namespace CSharpx
             }
         }
 
-        public static implicit operator T(SafeSetOnce<T> instance) => instance.Value;
+        public static implicit operator T(BlockingSetOnce<T> instance) => instance.Value;
 
         public bool HasValue
         {

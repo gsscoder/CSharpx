@@ -35,7 +35,7 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 1.8.3-beta
+$ dotnet add package CSharpx --version 1.9.0-beta
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
@@ -156,6 +156,7 @@ static Unit PrintLine(string value)
 - Compiles for .NET Framework 4.6.1.
 - Added `FSharpResultExtensions`.
 - Added `Return` extension method to `Maybe` type.
+- `SafeSetOnce` renamed to `BlockingSetOnce`.
 
 ## Related Projects
 
