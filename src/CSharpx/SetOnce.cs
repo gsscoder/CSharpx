@@ -59,7 +59,6 @@ namespace CSharpx
     #endif
     class SafeSetOnce<T>
     {
-        private readonly object _syncRoot = new object();
         private bool _set;
         private T _value;
 
@@ -70,7 +69,7 @@ namespace CSharpx
         {
             get
             {
-                lock (_syncRoot)
+                lock (this)
                 {
                     if (_set) {
                         return _value;
@@ -82,7 +81,7 @@ namespace CSharpx
             }
             set
             {
-                lock (_syncRoot)
+                lock (this)
                 {
                     if (_set) {
                         throw new InvalidOperationException($"Value can be set only once");
