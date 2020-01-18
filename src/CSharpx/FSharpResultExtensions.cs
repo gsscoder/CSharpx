@@ -44,7 +44,8 @@ namespace CSharpx.FSharp
         /// <summary>
         /// Lifts a Func into a Result and applies it on the given result.
         /// </summary>
-        public static FSharpResult<TResult, TError> Map<T, TError, TResult>(this FSharpResult<T, TError> result,
+        public static FSharpResult<TResult, TError> Map<T, TError, TResult>(
+            this FSharpResult<T, TError> result,
             Func<T, TResult> func)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
@@ -56,7 +57,8 @@ namespace CSharpx.FSharp
         /// If the wrapped function is a success and the given result is a success the function is applied on the value. 
         /// Otherwise the exisiting error is returned. 
         /// </summary>
-        public static FSharpResult<T, TError> Bind<TValue, T, TError>(this FSharpResult<TValue, TError> result,
+        public static FSharpResult<T, TError> Bind<TValue, T, TError>(
+                this FSharpResult<TValue, TError> result,
                 Func<TValue, FSharpResult<T, TError>> func)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
@@ -78,7 +80,9 @@ namespace CSharpx.FSharp
         /// <summary>
         /// Unwraps a value applying a function o returns another value on fail.
         /// </summary></typeparam>
-        public static TResult Return<T, TError, TResult>(this FSharpResult<T, TError> result, Func<T, TResult> func, TResult noneValue)
+        public static TResult Return<T, TError, TResult>(
+            this FSharpResult<T, TError> result,
+            Func<T, TResult> func, TResult noneValue)
         {
             return Trail.Either(func, value => noneValue, result);
         }
