@@ -20,7 +20,7 @@ It allows also source inclusion in other projects. Just one or more files in you
 ```
 github gsscoder/csharpx src/csharpx/Maybe.cs 
 ```
-**paket.references** (if you've a dir called `Internal`)
+**paket.references** (if you've a directory called `Internal`)
 ```
 File:Maybe.cs Internal
 ```
