@@ -68,7 +68,7 @@ namespace CSharpx.Tests.Unit
         [InlineData("hello", 0, "", "")]
         [InlineData("hello", 1, "", "hello")]
         [InlineData("hello", 5, " ", "hello hello hello hello hello")]
-        public void Should_replicate(string value, uint count, string separator, string expected)
+        public void Should_replicate(string value, int count, string separator, string expected)
         {
             value.Replicate(count, separator).Should().Be(expected);
         }
@@ -78,7 +78,7 @@ namespace CSharpx.Tests.Unit
         [InlineData("hello", 1, 1)]
         [InlineData("hello", 3, 2)]
         [InlineData("hello tests", 3, 3)]
-        public void Should_mangle(string value, uint times, uint maxLength)
+        public void Should_mangle(string value, int times, int maxLength)
         {
             int mangleSize = (int)times * (int)maxLength;
 
