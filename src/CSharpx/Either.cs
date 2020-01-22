@@ -168,9 +168,9 @@ namespace CSharpx
         }
         #endregion
 
-        #region Linq Operators
+        #region LINQ Operators
         /// <summary>
-        /// Map operation compatible with Linq.
+        /// Map operation compatible with LINQ.
         /// </summary>
         public static Either<TLeft, TResult> Select<TLeft, TRight, TResult>(
             this Either<TLeft, TRight> either,

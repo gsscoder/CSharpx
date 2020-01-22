@@ -273,9 +273,9 @@ namespace CSharpx
                 : noneValue;
         }
 
-        #region Linq Operators
+        #region LINQ Operators
         /// <summary>
-        /// Map operation compatible with Linq.
+        /// Map operation compatible with LINQ.
         /// </summary>
         public static Maybe<TResult> Select<TSource, TResult>(
             this Maybe<TSource> maybe,
@@ -285,7 +285,7 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Bind operation compatible with Linq.
+        /// Bind operation compatible with LINQ.
         /// </summary>
         public static Maybe<TResult> SelectMany<TSource, TValue, TResult>(
             this Maybe<TSource> maybe,
