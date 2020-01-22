@@ -45,7 +45,7 @@ The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.
 - With other useful methods too.
 ```CSharp
 var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
-// will result in {0, 5, 1, 5, 2, 5, 3, 5, 4}
+// outcome: {0, 5, 1, 5, 2, 5, 3, 5, 4}
 var element = sequence.Choice();
 // will choose a random element
 ```
@@ -61,6 +61,21 @@ value.Match(
     who => Console.WriteLine($"hello {who}!"),
     () => Environment.Exit(1));
 ```
+- Supports LINQ syntax:
+```csharp
+var result1 = Maybe.Just(30);
+var result2 = Maybe.Just(10);
+var result3 = Maybe.Just(2);
+
+var sum = from r1 in result1
+          from r2 in result2
+          select r1 - r2 into temp
+          from r3 in result3
+          select temp * r3;
+
+var value = sum.FromJust(); // outcome: 40
+```
+- See [RailwaySharp](https://github.com/gsscoder/railwaysharp) for a complete railway-oriented programming library.
 
 ## [Either](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Either.cs)
 
@@ -113,7 +128,7 @@ server.PortNumber = 8080; // will throw InvalidOperationException
 ```csharp
     var array = new int[] {2, 0, 4, 1, 3};
     var sorted = array.Sort(); // sort as pure function
-    // will result in: {0, 1, 2, 3, 4}
+    // outcome: {0, 1, 2, 3, 4}
 ```
 
 ## [StringExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/StringExtensions.cs)
@@ -122,11 +137,11 @@ server.PortNumber = 8080; // will throw InvalidOperationException
 ```csharp
 Console.WriteLine(
     "I want to change a word".ApplyAt(4, word => word.Mangle()));
-// will print something like: 'I want to change &a word'
+// outcome like: 'I want to change &a word'
 
 Console.WriteLine(
     "\t[hello\nREADME@\t".Sanitize(normalizeWhiteSpace: true));
-// will print: ' hello README '
+// outcome: ' hello README '
 ```
 
 ## [Unit](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Unit.cs)
