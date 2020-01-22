@@ -297,6 +297,21 @@ namespace CSharpx
                         valueSelector(sourceValue)
                             .Map(resultValue => resultSelector(sourceValue, resultValue)));
         }
+
+        /// <summary>
+        /// Implements LINQ where semantic.
+        /// </summary>
+        public static Maybe<TSource> Where<TSource>(
+            this Maybe<TSource> maybe,
+            Func<TSource, bool> predicate) 
+        {
+            if (maybe.MatchJust(out TSource value)) {
+                if (predicate(value)) {
+                    return maybe;
+                }
+            }
+            return Maybe.Nothing<TSource>();
+        }
         #endregion
 
         #region Do Semantic

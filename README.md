@@ -35,7 +35,7 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 1.9.3-beta
+$ dotnet add package CSharpx --version 1.9.5-beta
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
@@ -69,6 +69,7 @@ var result3 = Maybe.Just(2);
 
 var sum = from r1 in result1
           from r2 in result2
+          where r1 > 0
           select r1 - r2 into temp
           from r3 in result3
           select temp * r3;
