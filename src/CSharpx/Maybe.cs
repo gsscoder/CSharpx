@@ -299,7 +299,7 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// Implements LINQ where semantic.
+        /// Returns the same Maybe value if the predicate is true, otherwise Nothing.
         /// </summary>
         public static Maybe<TSource> Where<TSource>(
             this Maybe<TSource> maybe,
