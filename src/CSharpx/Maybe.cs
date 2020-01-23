@@ -8,9 +8,7 @@ using System.Linq;
 namespace CSharpx
 {
     #region Maybe Type
-    /// <summary>
-    /// Discriminator for <see cref="CSharpx.Maybe"/>.
-    /// </summary>
+    /// <summary>Discriminator for <c>Maybe</c>.</summary>
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
@@ -20,10 +18,9 @@ namespace CSharpx
         Nothing
     }
 
-    /// <summary>
-    /// The Maybe type models an optional value. A value of type Maybe a either contains a value of type a (represented as Just a),
-    /// or it is empty (represented as Nothing).
-    /// </summary>
+    /// <summary>The <c>Maybe</c> type models an optional value. A value of type <c>Maybe</c> either
+    /// contains a value (represented as <c>Just</c> a), or it is empty (represented as
+    /// <c>Nothing</c>).</summary>
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
@@ -36,24 +33,19 @@ namespace CSharpx
             this.tag = tag;
         }
 
-        /// <summary>
-        /// Type discriminator.
-        /// </summary>
+        /// <summary>Type discriminator. </summary>
         public MaybeType Tag { get { return tag; } }
 
         #region Basic Match Methods
-        /// <summary>
-        /// Matches a value returning <c>true</c> and value itself via output parameter.
-        /// </summary>
+        /// <summary>Matches a value returning <c>true</c> and value itself via an output
+        /// parameter.</summary>
         public bool MatchJust(out T value)
         {
             value = Tag == MaybeType.Just ? ((Just<T>)this).Value : default;
             return Tag == MaybeType.Just;
         }
 
-        /// <summary>
-        /// Matches an empty value returning <c>true</c>.
-        /// </summary>
+        /// <summary>Matches an empty value returning <c>true</c>.</summary>
         public bool MatchNothing()
         {
             return Tag == MaybeType.Nothing;
@@ -62,9 +54,7 @@ namespace CSharpx
     }
     #endregion
 
-    /// <summary>
-    /// Models a <see cref="CSharpx.Maybe"/> when in empty state.
-    /// </summary>
+    /// <summary> Models a <c>Maybe</c> when in empty state.</summary>
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
@@ -76,9 +66,7 @@ namespace CSharpx
         }
     }
 
-    /// <summary>
-    /// Models a <see cref="CSharpx.Maybe"/> when contains a value.
-    /// </summary>
+    /// <summary>Models a <c>Maybe</c> when contains a value.</summary>
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
@@ -92,35 +80,27 @@ namespace CSharpx
             this.value = value;
         }
 
-        /// <summary>
-        /// The wrapped value.
-        /// </summary>
+        /// <summary>The wrapped value.</summary>
         public T Value
         {
             get { return value; }
         }
     }
 
-    /// <summary>
-    /// Provides static methods for manipulating <see cref="CSharpx.Maybe"/>.
-    /// </summary>
+    /// <summary>Provides static methods for manipulating <c>Maybe</c>.</summary>
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
     static class Maybe
     {
         #region Value Case Constructors
-        /// <summary>
-        /// Builds the empty case of <see cref="CSharpx.Maybe"/>.
-        /// </summary>
+        /// <summary>Builds the empty case of <c>Maybe</c>.</summary>
         public static Maybe<T> Nothing<T>()
         {
             return new Nothing<T>();
         }
 
-        /// <summary>
-        /// Builds the case when <see cref="CSharpx.Maybe"/> contains a value.
-        /// </summary>
+        /// <summary>Builds the case when <c>Maybe</c> contains a value.</summary>
         public static Just<T> Just<T>(T value)
         {
             return new Just<T>(value);
@@ -128,17 +108,14 @@ namespace CSharpx
         #endregion
 
         #region Monad
-        /// <summary>
-        /// Injects a value into the monadic <see cref="CSharpx.Maybe{T}"/> type.
-        /// </summary>
+        /// <summary>Injects a value into the monadic <c>Maybe</c> type.</summary>
         public static Maybe<T> Return<T>(T value)
         {
             return Equals(value, default(T)) ? Nothing<T>() : Just(value);
         }
 
-        /// <summary>
-        /// Sequentially compose two actions, passing any value produced by the first as an argument to the second.
-        /// </summary>
+        /// <summary>Sequentially compose two actions, passing any value produced by the first as
+        /// an argument to the second.</summary>
         public static Maybe<T2> Bind<T1, T2>(Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
@@ -148,9 +125,7 @@ namespace CSharpx
         #endregion
 
         #region Functor
-        /// <summary>
-        /// Transforms an maybe value by using a specified mapping function.
-        /// </summary>
+        /// <summary>Transforms a <c>Maybe</c> value by using a specified mapping function.</summary>
         public static Maybe<T2> Map<T1, T2>(Maybe<T1> maybe, Func<T1, T2> func)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
@@ -159,9 +134,8 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>
-        /// If both maybes contain a value, it merges them into a maybe with a tupled value.
-        /// </summary>
+        /// <summary>If both <c>Maybe</c> values contain a value, it merges them into a <c>Maybe</c>
+        /// with a tupled value. </summary>
         public static Maybe<Tuple<T1, T2>> Merge<T1, T2>(Maybe<T1> first, Maybe<T2> second)
         {
             if (first.MatchJust(out T1 value1) && second.MatchJust(out T2 value2)) {
@@ -171,9 +145,8 @@ namespace CSharpx
         }
 
 #if !CSX_REM_EITHER_FUNC
-        /// <summary>
-        /// Maps Either Right value to Maybe Just, otherwise Maybe Nothing.
-        /// </summary>
+        /// <summary>Maps <c>Either</c> right value to <c>Just</c>, otherwise returns Maybe
+///     /// <c>Nothing</c>.</summary>
         public static Maybe<TRight> FromEither<TLeft, TRight>(Either<TLeft, TRight> either)
         {
             if (either.Tag == EitherType.Right) {
@@ -184,18 +157,14 @@ namespace CSharpx
 #endif
     }
 
-    /// <summary>
-    /// Provides convenience extension methods for <see cref="CSharpx.Maybe"/>.
-    /// </summary>
+    /// <summary>Provides convenience extension methods for <c>Maybe</c>.</summary>
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
     static class MaybeExtensions
     {
         #region Alternative Match Methods
-        /// <summary>
-        /// Provides pattern matching using <see cref="System.Action"/> delegates.
-        /// </summary>
+        /// <summary>Provides pattern matching using <c>System.Action</c> delegates.</summary>
         public static void Match<T>(this Maybe<T> maybe, Action<T> ifJust, Action ifNothing)
         {
             if (ifNothing == null) throw new ArgumentNullException(nameof(ifNothing));
@@ -207,10 +176,10 @@ namespace CSharpx
             ifNothing();
         }
 
-        /// <summary>
-        /// Provides pattern matching using <see cref="System.Action"/> delegates over maybe with tupled wrapped value.
-        /// </summary>
-        public static void Match<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, Action<T1, T2> ifJust, Action ifNothing)
+        /// <summary>Provides pattern matching using <c>System.Action</c> delegates over a <c>Maybe</c>
+        /// with tupled wrapped value.</summary>
+        public static void Match<T1, T2>(this Maybe<Tuple<T1, T2>> maybe,
+            Action<T1, T2> ifJust, Action ifNothing)
         {
             if (ifNothing == null) throw new ArgumentNullException(nameof(ifNothing));
             if (ifJust == null) throw new ArgumentNullException(nameof(ifJust));
@@ -222,10 +191,10 @@ namespace CSharpx
             ifNothing();
         }
 
-        /// <summary>
-        /// Matches a value returning <c>true</c> and tupled value itself via two output parameters.
-        /// </summary>
-        public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, out T1 value1, out T2 value2)
+        /// <summary>Matches a value returning <c>true</c> and the tupled value itself via two output
+        /// parameters.</summary>
+        public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybe,
+            out T1 value1, out T2 value2)
         {
             if (maybe.MatchJust(out Tuple<T1, T2> value)) {
                 value1 = value.Item1;
@@ -238,34 +207,27 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>
-        /// Equivalent to monadic <see cref="CSharpx.Maybe.Return{T}"/> operation.
-        /// Builds a <see cref="CSharpx.Just{T}"/> value in case <paramref name="value"/> is different from its default.
+        /// <summary>Equivalent to monadic <c>Return</c> operation. Builds a <c>Just</c> value in case
+        /// <c>value</c> is different from its default.
         /// </summary>
         public static Maybe<T> ToMaybe<T>(this T value)
         {
             return Maybe.Return(value);
         }
 
-        /// <summary>
-        /// Invokes a function on this maybe value that itself yields a maybe.
-        /// </summary>
+        /// <summary>Invokes a function on this maybe value that itself yields a maybe.</summary>
         public static Maybe<T2> Bind<T1, T2>(this Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
         {
             return Maybe.Bind(maybe, func);
         }
 
-        /// <summary>
-        /// Transforms a maybe value by using a specified mapping function.
-        /// </summary>
+        /// <summary>Transforms a maybe value by using a specified mapping function.</summary>
         public static Maybe<T2> Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func)
         {
             return Maybe.Map(maybe, func);
         }
 
-        /// <summary>
-        /// Unwraps a value applying a function o returns another value on fail.
-        /// </summary></typeparam>
+        /// <summary>Unwraps a value applying a function o returns another value on fail.</summary>
         public static T2 Return<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
         {
             return maybe.MatchJust(out T1 value1)
@@ -274,21 +236,15 @@ namespace CSharpx
         }
 
         #region LINQ Operators
-        /// <summary>
-        /// Map operation compatible with LINQ.
-        /// </summary>
-        public static Maybe<TResult> Select<TSource, TResult>(
-            this Maybe<TSource> maybe,
+        /// <summary>Map operation compatible with LINQ.</summary>
+        public static Maybe<TResult> Select<TSource, TResult>(this Maybe<TSource> maybe,
             Func<TSource, TResult> selector)
         {
             return Maybe.Map(maybe, selector);
         }
 
-        /// <summary>
-        /// Bind operation compatible with LINQ.
-        /// </summary>
-        public static Maybe<TResult> SelectMany<TSource, TValue, TResult>(
-            this Maybe<TSource> maybe,
+        /// <summary>Bind operation compatible with LINQ.</summary>
+        public static Maybe<TResult> SelectMany<TSource, TValue, TResult>(this Maybe<TSource> maybe,
             Func<TSource, Maybe<TValue>> valueSelector,
             Func<TSource, TValue, TResult> resultSelector)
         {
@@ -298,11 +254,9 @@ namespace CSharpx
                             .Map(resultValue => resultSelector(sourceValue, resultValue)));
         }
 
-        /// <summary>
-        /// Returns the same Maybe value if the predicate is true, otherwise Nothing.
-        /// </summary>
-        public static Maybe<TSource> Where<TSource>(
-            this Maybe<TSource> maybe,
+        /// <summary>Returns the same Maybe value if the predicate is true, otherwise
+        /// <c>Nothing</c>.</summary>
+        public static Maybe<TSource> Where<TSource>(this Maybe<TSource> maybe,
             Func<TSource, bool> predicate) 
         {
             if (maybe.MatchJust(out TSource value)) {
@@ -315,9 +269,7 @@ namespace CSharpx
         #endregion
 
         #region Do Semantic
-        /// <summary>
-        /// If contains a value executes an <see cref="System.Action{T}"/> delegate over it.
-        /// </summary>
+        /// <summary>If contains a value executes a <c>System.Action<c> delegate over it.</summary>
         public static void Do<T>(this Maybe<T> maybe, Action<T> action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
@@ -327,9 +279,7 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// If contans a value executes an <see cref="System.Action{T1, T2}"/> delegate over it.
-        /// </summary>
+        /// <summary>If contans a value executes a <c>System.Action<c> delegate over it.</summary>
         public static void Do<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, Action<T1, T2> action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
@@ -340,24 +290,20 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>
-        /// Returns <c>true</c> iffits argument is of the form <see cref="CSharpx.Just{T}"/>.
-        /// </summary>
+        /// <summary>Returns <c>true</c> if it us in form <c>Just</c>.</summary>
         public static bool IsJust<T>(this Maybe<T> maybe)
         {
             return maybe.Tag == MaybeType.Just;
         }
 
-        /// <summary>
-        /// Returns <c>true</c> iffits argument is of the form <see cref="CSharpx.Nothing{T}"/>.
-        /// </summary>
+        /// <summary>Returns <c>true</c> if it is in form of <c>Nothing</c>.</summary>
         public static bool IsNothing<T>(this Maybe<T> maybe)
         {
             return maybe.Tag == MaybeType.Nothing;
         }
 
-        /// <summary>
-        /// Extracts the element out of a <see cref="CSharpx.Just{T}"/> and returns a default value if its argument is <see cref="CSharpx.Nothing{T}"/>.
+        /// <summary>Extracts the element out of a <c>Just</c> and returns a default value if it is
+        /// in form of<c>Nothing</c>.
         /// </summary>
         public static T FromJust<T>(this Maybe<T> maybe)
         {
@@ -367,9 +313,8 @@ namespace CSharpx
             return default;
         }
 
-        /// <summary>
-        /// Extracts the element out of a <see cref="CSharpx.Just{T}"/> and throws an error if its argument is <see cref="CSharpx.Nothing{T}"/>.
-        /// </summary>
+        /// <summary>Extracts the element out of a <c>Just</c> and throws an exception if it is form of
+        /// <c>Nothing</c>. </summary>
         public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
         {
             if (maybe.MatchJust(out T value)) {
@@ -378,17 +323,14 @@ namespace CSharpx
             throw exceptionToThrow ?? new ArgumentException("Value empty.");
         }
 
-        /// <summary>
-        /// If contains a values returns  it, otherwise returns <paramref name="noneValue"/>.
-        /// </summary>
+        /// <summary>If contains a values returns it, otherwise returns <c>noneValue</c>.</summary>
         public static T GetValueOrDefault<T>(this Maybe<T> maybe, T noneValue)
         {
             return maybe.MatchJust(out T value) ? value : noneValue;
         }
 
-        /// <summary>
-        /// If contains a values executes a mapping function over it, otherwise returns <paramref name="noneValue"/>.
-        /// </summary>
+        /// <summary>If contains a values executes a mapping function over it, otherwise returns
+        /// <c>noneValue</c>.</summary>
         public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
@@ -396,9 +338,8 @@ namespace CSharpx
             return maybe.MatchJust(out T1 value1) ? func(value1) : noneValue;
         }
 
-        /// <summary>
-        /// Returns an empty list when given <see cref="CSharpx.Nothing{T}"/> or a singleton list when given a <see cref="CSharpx.Just{T}"/>.
-        /// </summary>
+        /// <summary>Returns an empty sequence when given <c>Nothing</c> or a singleton sequence in
+        /// case of a <c>Just</c>.</summary>
         public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> maybe)
         {
             if (maybe.MatchJust(out T value)) {
