@@ -35,11 +35,11 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 1.9.5-beta
+$ dotnet add package CSharpx --version 1.9.6-beta
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
-## [IEnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/IEnumerableExtensions.cs)
+## [EnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/EnumerableExtensions.cs)
 
 - Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
 - With other useful methods too.

@@ -8,7 +8,7 @@ using CSharpx.Tests.Fakes;
 
 namespace CSharpx.Tests.Unit
 {
-    public class IEnumerableExtensionsTests
+    public class EnumerableExtensionsTests
     {
         [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
         public void Should_intersperse(int value)
