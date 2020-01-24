@@ -19,9 +19,7 @@ namespace CSharpx
         private static readonly CryptoRandom _random = new CryptoRandom();
 #endif
 
-        /// <summary>
-        /// Determines if a string is composed only by letter characters.
-        /// </summary>
+        /// <summary>Determines if a string is composed only by letter characters.</summary>
         public static bool IsAlpha(this string value)
         {
             foreach (var @char in value.ToCharArray()) {
@@ -32,9 +30,7 @@ namespace CSharpx
             return true;
         }
 
-        /// <summary>
-        /// Determines if a string is composed only by alphanumeric characters.
-        /// </summary>
+        /// <summary>Determines if a string is composed only by alphanumeric characters.</summary>
         public static bool IsAlphanumeric(this string value)
         {
             foreach (var @char in value.ToCharArray()) {
@@ -45,9 +41,7 @@ namespace CSharpx
             return true;
         }
 
-        /// <summary>
-        /// Determines if a string is contains any kind of white spaces.
-        /// </summary>
+        /// <summary>Determines if a string is contains any kind of white spaces.</summary>
         public static bool IsWhiteSpace(this string value)
         {
             foreach (var @char in value.ToCharArray()) {
@@ -58,9 +52,7 @@ namespace CSharpx
             return false;
         }
 
-        /// <summary>
-        /// Replicates a string for a given number of times using a seperator.
-        /// </summary>
+        /// <summary>Replicates a string for a given number of times using a seperator.</summary>
         public static string Replicate(this string value, int count, string separator = " ")
         {
             if (count < 0) throw new ArgumentException(nameof(count));
@@ -74,9 +66,7 @@ namespace CSharpx
             return builder.ToString(0, builder.Length - separator.Length);
         }
 
-        /// <summary>
-        /// Applies a given function to nth-word of string.
-        /// </summary>
+        /// <summary>Applies a given function to nth-word of string.</summary>
         public static string ApplyAt(this string value, int index, Func<string, string> modifier)
         {
             if (index < 0) throw new ArgumentException(nameof(index));
@@ -86,9 +76,7 @@ namespace CSharpx
             return string.Join(" ", words);
         }
 
-        /// <summary>
-        /// Selects a random index of a word that optionally satisfies a function.
-        /// </summary>
+        /// <summary>Selects a random index of a word that optionally satisfies a function.</summary>
         public static int ChoiceOfIndex(this string value, Func<string, bool> validator = null)
         {
             Func<string, bool> _nullValidator = _ => true;
@@ -106,9 +94,8 @@ namespace CSharpx
             {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "=", "?", "^", "[", "]", "*", "@", "°",
              "#", "§", ",", ";", ".", ":", "-", "_"};
 
-        /// <summary>
-        /// Mangles a string with a given number of non alphanumeric character in random positions.
-        /// </summary>
+        /// <summary>Mangles a string with a given number of non alphanumeric character in
+        /// random positions.</summary>
         public static string Mangle(this string value, int times = 1, int maxLength = 1)
         {
             if (times < 0) throw new ArgumentException(nameof(times));
@@ -144,9 +131,7 @@ namespace CSharpx
             return mangled.ToString();
         }
 
-        /// <summary>
-        /// Takes a value and a string and `intersperses' that value between its words.
-        /// </summary>
+        /// <summary>Takes a value and a string and `intersperses' that value between its words.</summary>
         public static string Intersperse(this string value, params object[] values)
         {
             if (values.Length == 0) {
@@ -159,22 +144,19 @@ namespace CSharpx
                 var last = count - 1;
                 for (var i = 0; i < count; i++) {
                     yield return words.ElementAt(i);
-                    if (i < values.Length) {
-                        var element = values[i];
-                        if (element.GetType() == typeof(string)) {
-                            yield return (string)element;
-                        } else {
-                            yield return element.ToString();
-                        }
+                    if (i >= values.Length) continue;
+                    var element = values[i];
+                    if (element.GetType() == typeof(string)) {
+                        yield return (string)element;
+                    } else {
+                        yield return element.ToString();
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Sanitizes a string removing non alphanumeric characters and optionally normalizing
-        /// white spaces.
-        /// </summary>
+        /// <summary>Sanitizes a string removing non alphanumeric characters and optionally normalizing
+        /// white spaces.</summary>
         public static string Sanitize(this string value, bool normalizeWhiteSpace = true)
         {
             return impl().Aggregate<char, string>(string.Empty, (s, c) => $"{s}{c}");
