@@ -7,50 +7,50 @@ using CSharpx;
 public class StringExtensionsSpecs
 {
     [Theory]
-    [InlineData("hello", true)]
+    [InlineData("foo", true)]
     [InlineData("0123456789", false)]
-    [InlineData("hello01234", false)]
-    [InlineData("hello.tests", false)]
-    [InlineData("hello tests", false)]
+    [InlineData("foo01234", false)]
+    [InlineData("foo.bar", false)]
+    [InlineData("foo bar", false)]
     public void Should_detect_letter_characters(string value, bool expected)
     {
         value.IsAlpha().Should().Be(expected);
     }
 
     [Theory]
-    [InlineData("hello", true)]
+    [InlineData("foo", true)]
     [InlineData("0123456789", true)]
-    [InlineData("hello01234", true)]
-    [InlineData("hello.tests", false)]
-    [InlineData("hello tests", false)]
+    [InlineData("foo01234", true)]
+    [InlineData("foo.bar", false)]
+    [InlineData("foo bar", false)]
     public void Should_detect_alphanumeric_characters(string value, bool expected)
     {
         value.IsAlphanumeric().Should().Be(expected);
     }
 
     [Theory]
-    [InlineData("hello01234", false)]
-    [InlineData("hello.tests", false)]
-    [InlineData("hello tests", true)]
-    [InlineData("hello\ntests", true)]
-    [InlineData("hello\ttests", true)]
+    [InlineData("foo01234", false)]
+    [InlineData("foo.bar", false)]
+    [InlineData("foo bar", true)]
+    [InlineData("foo\nbar", true)]
+    [InlineData("foo\tbar", true)]
     public void Should_detect_whitespace_characters(string value, bool expected)
     {
         value.IsWhiteSpace().Should().Be(expected);
     }
 
     [Theory]
-    [InlineData("hello tests@", "hello tests")]
-    [InlineData("hello\ttests@", "hello tests")]
-    [InlineData("hello-tests@", "hellotests")]
+    [InlineData("foo bar@", "foo bar")]
+    [InlineData("foo\tbar@", "foo bar")]
+    [InlineData("foo-bar@", "foobar")]
     public void Should_sanitize_strings_normalizing_white_spaces(string value, string expected)
     {
         value.Sanitize().Should().Be(expected);
     }
 
     [Theory]
-    [InlineData("hello\ntests@", "hello\ntests")]
-    [InlineData("hello\ttests@", "hello\ttests")]
+    [InlineData("foo\nbar@", "foo\nbar")]
+    [InlineData("foo\tbar@", "foo\tbar")]
     public void Should_sanitize_strings_without_normalizing_white_spaces(string value, string expected)
     {
         value.Sanitize(normalizeWhiteSpace: false).Should().Be(expected);
@@ -64,9 +64,9 @@ public class StringExtensionsSpecs
     }
 
     [Theory]
-    [InlineData("hello", 0, "", "")]
-    [InlineData("hello", 1, "", "hello")]
-    [InlineData("hello", 5, " ", "hello hello hello hello hello")]
+    [InlineData("foo", 0, "", "")]
+    [InlineData("foo", 1, "", "foo")]
+    [InlineData("foo", 5, " ", "foo foo foo foo foo")]
     public void Should_replicate(string value, int count, string separator, string expected)
     {
         value.Replicate(count, separator).Should().Be(expected);
@@ -79,7 +79,7 @@ public class StringExtensionsSpecs
     [InlineData("hello tests", 3, 3)]
     public void Should_mangle(string value, int times, int maxLength)
     {
-        int mangleSize = (int)times * (int)maxLength;
+        int mangleSize = times * maxLength;
 
         var expected = value.Mangle(times, maxLength);
 
