@@ -205,12 +205,12 @@ namespace CSharpx
         }
 
         /// <summary>Strip all words of a specific length.</summary>
-        public static string StripByLength(this string value, int len)
+        public static string StripByLength(this string value, int length)
         {
-            if (len < 0) throw new ArgumentException(nameof(len));
-            if (len == 0) return value;
+            if (length < 0) throw new ArgumentException(nameof(length));
+            if (length == 0) return value;
 
-            var stripByLen = new Regex(string.Concat(@"\b\w{1,", len, @"}\b"),
+            var stripByLen = new Regex(string.Concat(@"\b\w{1,", length, @"}\b"),
                 RegexOptions.Compiled | RegexOptions.Multiline);
 
             return stripByLen.Replace(value, string.Empty);
