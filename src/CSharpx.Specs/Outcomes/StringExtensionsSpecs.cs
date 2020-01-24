@@ -100,4 +100,13 @@ public class StringExtensionsSpecs
         action.Should().ThrowExactly<ArgumentException>()
             .WithMessage("times");
     }
+
+    [Theory]
+    [InlineData("foo", "foo")]
+    [InlineData("  foo  ", "foo")]
+    [InlineData("  foo\t    bar\t\t      baz\t", "foo bar baz")]
+    public void Should_normalize_white_spaces(string value, string expected)
+    {
+        value.NormalizeWhiteSpace().Should().Be(expected);;
+    }
 }

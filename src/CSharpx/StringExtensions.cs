@@ -175,5 +175,27 @@ namespace CSharpx
                 }
             }
         }
+        
+        /// <summary>
+        /// Normalizes any white space character to a single white space.
+        /// </summary>
+        public static string NormalizeWhiteSpace(this string value)
+        {
+            var trimmed = value.Trim();
+            var builder = new StringBuilder(trimmed.Length);
+            var lastIndex = trimmed.Length - 2;
+            for (var i = 0; i < trimmed.Length; i++) {
+                var @char = trimmed[i];
+                if (char.IsWhiteSpace(@char)) {
+                    if (i != lastIndex && !char.IsWhiteSpace(trimmed[i + 1])) {
+                        builder.Append(' ');
+                    }
+                }
+                else {
+                    builder.Append(@char);
+                }
+            }
+            return builder.ToString();
+        }
     }
 }
