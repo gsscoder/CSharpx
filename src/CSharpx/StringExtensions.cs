@@ -14,11 +14,15 @@ namespace CSharpx
 #endif
     static class StringExtensions
     {
-#if CSX_REM_CRYPTORAND
+    #if CSX_REM_CRYPTORAND
         private static readonly Random _random = new Random();
-#else
+    #else
         private static readonly CryptoRandom _random = new CryptoRandom();
-#endif
+    #endif
+        static string[] _mangleChars =
+            {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "=", "?", "^", "[", "]", "*", "@", "°",
+             "#", "§", ",", ";", ".", ":", "-", "_"};
+        static Regex _stripMl = new Regex(@"<[^>]*>", RegexOptions.Compiled | RegexOptions.Multiline);
 
         /// <summary>Determines if a string is composed only by letter characters.</summary>
         public static bool IsAlpha(this string value)
@@ -90,10 +94,6 @@ namespace CSharpx
             }
             return ChoiceOfIndex(value, validator);
         }
-
-        static string[] _mangleChars =
-            {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "=", "?", "^", "[", "]", "*", "@", "°",
-             "#", "§", ",", ";", ".", ":", "-", "_"};
 
         /// <summary>Mangles a string with a given number of non alphanumeric character in
         /// random positions.</summary>
@@ -192,8 +192,6 @@ namespace CSharpx
             }
             return builder.ToString();
         }
-
-        static Regex _stripMl = new Regex(@"<[^>]*>", RegexOptions.Compiled | RegexOptions.Multiline);
 
         /// <summary>Removes markup from a string.</summary>
         public static string StripMl(this string value)
