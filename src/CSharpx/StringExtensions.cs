@@ -159,26 +159,23 @@ namespace CSharpx
         /// white spaces.</summary>
         public static string Sanitize(this string value, bool normalizeWhiteSpace = true)
         {
-            return impl().Aggregate<char, string>(string.Empty, (s, c) => $"{s}{c}");
-            IEnumerable<char> impl() {
-                foreach (var @char in value) {
-                    if (char.IsLetterOrDigit(@char)) {
-                        yield return @char;
-                    }
-                    else if (char.IsWhiteSpace(@char)) {
-                        if (normalizeWhiteSpace) {
-                            yield return ' ';
-                        } else {
-                            yield return @char;
-                        }
+            var builder = new StringBuilder(value.Length);
+            foreach (var @char in value) {
+                if (char.IsLetterOrDigit(@char)) {
+                    builder.Append(@char);
+                }
+                else if (char.IsWhiteSpace(@char)) {
+                    if (normalizeWhiteSpace) {
+                        builder.Append(' ');
+                    } else {
+                        builder.Append(@char);
                     }
                 }
             }
+            return builder.ToString();
         }
         
-        /// <summary>
-        /// Normalizes any white space character to a single white space.
-        /// </summary>
+        /// <summary>Normalizes any white space character to a single white space.</summary>
         public static string NormalizeWhiteSpace(this string value)
         {
             var trimmed = value.Trim();
