@@ -90,7 +90,7 @@ namespace CSharpx
             return ChoiceOfIndex(value, validator);
         }
 
-        private static string[] _mangleChars =
+        static string[] _mangleChars =
             {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "=", "?", "^", "[", "]", "*", "@", "°",
              "#", "§", ",", ";", ".", ":", "-", "_"};
 
