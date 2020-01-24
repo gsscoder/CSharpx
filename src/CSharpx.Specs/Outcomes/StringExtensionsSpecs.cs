@@ -109,4 +109,12 @@ public class StringExtensionsSpecs
     {
         value.NormalizeWhiteSpace().Should().Be(expected);;
     }
+
+    [Theory]
+    [InlineData("foo bar baz", 2, "foo bar baz")]
+    [InlineData("fooo bar baz", 3, "fooo  ")]
+    public void Should_strip_by_length(string value, int length, string expected)
+    {
+        value.StripByLength(length).Should().Be(expected);
+    }
 }
