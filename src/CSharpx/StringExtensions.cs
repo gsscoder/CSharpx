@@ -162,10 +162,10 @@ namespace CSharpx
             return impl().Aggregate<char, string>(string.Empty, (s, c) => $"{s}{c}");
             IEnumerable<char> impl() {
                 foreach (var @char in value) {
-                    if (Char.IsLetterOrDigit(@char)) {
+                    if (char.IsLetterOrDigit(@char)) {
                         yield return @char;
                     }
-                    else if (Char.IsWhiteSpace(@char)) {
+                    else if (char.IsWhiteSpace(@char)) {
                         if (normalizeWhiteSpace) {
                             yield return ' ';
                         } else {
