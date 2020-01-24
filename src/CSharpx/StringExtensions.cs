@@ -3,6 +3,7 @@
 
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -193,6 +194,16 @@ namespace CSharpx
                 }
             }
             return builder.ToString();
+        }
+
+        static Regex _stripMl = new Regex(@"<[^>]*>", RegexOptions.Compiled | RegexOptions.Multiline);
+
+        /// <summary>
+        /// Removes markup from a string.
+        /// </summary>
+        public static string StripMl(this string value)
+        {
+            return _stripMl.Replace(value, string.Empty);
         }
     }
 }
