@@ -138,22 +138,19 @@ namespace CSharpx
             if (values.Length == 0) {
                 return value;
             }
-            return string.Join(" ", impl());
-            IEnumerable<string> impl() {
-                var words = value.Split();
-                var count = words.Length;
-                var last = count - 1;
-                for (var i = 0; i < count; i++) {
-                    yield return words.ElementAt(i);
-                    if (i >= values.Length) continue;
-                    var element = values[i];
-                    if (element.GetType() == typeof(string)) {
-                        yield return (string)element;
-                    } else {
-                        yield return element.ToString();
-                    }
-                }
+            var builder = new StringBuilder(value.Length + values.Length * 8);
+            var words = value.Split();
+            var count = words.Length;
+            var last = count - 1;
+            for (var i = 0; i < count; i++) {
+                builder.Append(words[i]);
+                builder.Append(' ');
+                if (i >= values.Length) continue;
+                var element = values[i];
+                builder.Append(element);
+                builder.Append(' ');
             }
+            return builder.ToString().TrimEnd();
         }
 
         /// <summary>Sanitizes a string removing non alphanumeric characters and optionally normalizing
