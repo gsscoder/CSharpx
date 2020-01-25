@@ -10,5 +10,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CSharpx\CSharpx.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
