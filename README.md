@@ -176,9 +176,7 @@ static Unit PrintLine(string value)
 
 ## Related Projects
 
-Projects conceived to be included as source:
 - [RailwaySharp](https://github.com/gsscoder/railwaysharp)
-- [Cataloq](https://github.com/gsscoder/cataloq)
 
 ## Icon
 
