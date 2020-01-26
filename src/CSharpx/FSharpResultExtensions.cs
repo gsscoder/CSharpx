@@ -92,6 +92,9 @@ namespace CSharpx.FSharp
                 Func<TError, TResult> errorFunc,
                 FSharpResult<T, TError> result)
             {
+                if (okFunc == null) throw new ArgumentNullException(nameof(okFunc));
+                if (errorFunc == null) throw new ArgumentNullException(nameof(errorFunc));
+
                 if (result.IsOk) {
                     return okFunc(result.ResultValue);
                 }
@@ -104,6 +107,8 @@ namespace CSharpx.FSharp
                 Func<TValue, FSharpResult<T, TError>> func,
                 FSharpResult<TValue, TError> result)
             {
+                    if (func == null) throw new ArgumentNullException(nameof(func));
+
                     Func<TValue, FSharpResult<T, TError>> okFunc =
                         value => func(value);
                     Func<TError, FSharpResult<T, TError>> errorFunc =
