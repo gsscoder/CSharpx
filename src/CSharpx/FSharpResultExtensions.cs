@@ -108,7 +108,6 @@ namespace CSharpx.FSharp
                         value => func(value);
                     Func<TError, FSharpResult<T, TError>> errorFunc =
                         error => FSharpResult<T, TError>.NewError(error);
-
                     return Either(okFunc, errorFunc, result);
             }
 
