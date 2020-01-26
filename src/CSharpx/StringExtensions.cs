@@ -199,15 +199,14 @@ namespace CSharpx
             return _stripMl.Replace(value, string.Empty);
         }
 
-        /// <summary>Strip all words of a specific length.</summary>
         public static string StripByLength(this string value, int length)
         {
             if (length < 0) throw new ArgumentException(nameof(length));
             if (length == 0) return value;
 
-            var stripByLen = new Regex(string.Concat(@"\b\w{1,", length, @"}\b"),
+            var stripByLen = new Regex(
+                string.Concat(@"\b\w{1,", length, @"}\b"),
                 RegexOptions.Compiled | RegexOptions.Multiline);
-
             return stripByLen.Replace(value, string.Empty);
         }
     }
