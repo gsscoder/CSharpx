@@ -270,13 +270,13 @@ namespace CSharpx
             Debug.Assert(append != null);
 
             delimiter = delimiter ?? CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-            var sb = new StringBuilder();
-            var i = 0;
+            var builder = new StringBuilder();
+            var iterations = 0;
             foreach (var value in source) {
-                if (i++ > 0) sb.Append(delimiter);
-                append(sb, value);
+                if (iterations++ > 0) builder.Append(delimiter);
+                append(builder, value);
             }
-            return sb.ToString();
+            return builder.ToString();
         }
 
         /// <summary>Return everything except first element and throws exception if empty.</summary>
