@@ -19,9 +19,7 @@ namespace CSharpx
     static class EnumerableExtensions
     {
 #if !CSX_REM_MAYBE_FUNC
-        /// <summary>
-        /// Safe function that returns Just(first element) or None.
-        /// </summary>
+        /// <summary>Safe function that returns Just(first element) or None.</summary>
         public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
         {
             using (var e = source.GetEnumerator()) {
@@ -31,9 +29,7 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Turns an empty sequence to Nothing, otherwise Just(sequence).
-        /// </summary>
+        /// <summary>Turns an empty sequence to Nothing, otherwise Just(sequence).</summary>
         public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
         {
             using (var e = source.GetEnumerator()) {
@@ -74,10 +70,9 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Returns the Cartesian product of two sequences by combining each element of the first set with each in the second
-        /// and applying the user=define projection to the pair.
-        /// </summary>
+        /// <summary>Returns the cartesian product of two sequences by combining each element of the
+        /// first set with each in the second and applying the user=define projection to the
+        /// pair.</summary>
         public static IEnumerable<TResult> Cartesian<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
         {
             if (first == null) throw new ArgumentNullException(nameof(first));
@@ -89,9 +84,7 @@ namespace CSharpx
                    select resultSelector(element1, element2);
         }
 
-        /// <summary>
-        /// Prepends a single value to a sequence.
-        /// </summary>
+        /// <summary>Prepends a single value to a sequence.</summary>
         public static IEnumerable<TSource> Prepend<TSource>(this IEnumerable<TSource> source, TSource value)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -99,9 +92,8 @@ namespace CSharpx
             return LinqEnumerable.Concat(LinqEnumerable.Repeat(value, 1), source);
         }
 
-        /// <summary>
-        /// Returns a sequence consisting of the head element and the given tail elements.
-        /// </summary>
+        /// <summary>Returns a sequence consisting of the head element and the given tail
+        /// elements.</summary>
         public static IEnumerable<T> Concat<T>(this T head, IEnumerable<T> tail)
         {
             if (tail == null) throw new ArgumentNullException(nameof(tail));
@@ -109,8 +101,7 @@ namespace CSharpx
             return tail.Prepend(head);
         }
 
-        /// <summary>
-        /// Returns a sequence consisting of the head elements and the given tail element.
+        /// <summary>Returns a sequence consisting of the head elements and the given tail element.
         /// </summary>
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> head, T tail)
         {
@@ -119,10 +110,8 @@ namespace CSharpx
             return LinqEnumerable.Concat(head, LinqEnumerable.Repeat(tail, 1));
         }
 
-        /// <summary>
-        /// Excludes <paramref name="count"/> elements from a sequence starting at a given index
-        /// </summary>
-        /// <typeparam name="T">The type of the elements of the sequence</typeparam>
+        /// <summary>Excludes <paramref name="count"/> elements from a sequence starting at a given
+        /// index.</summary>
         public static IEnumerable<T> Exclude<T>(this IEnumerable<T> sequence, int startIndex, int count)
         {
             if (sequence == null) throw new ArgumentNullException(nameof(sequence));
@@ -153,61 +142,32 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Returns a sequence of <see cref="KeyValuePair{TKey,TValue}"/> 
-        /// where the key is the zero-based index of the value in the source 
-        /// sequence.
-        /// </summary>
-        public static IEnumerable<KeyValuePair<int, TSource>> Index<TSource>(this IEnumerable<TSource> source)
-        {
-            return source.Index(0);
-        }
+        /// <summary>Returns a sequence of <c>KeyValuePair</c> where the key is the zero-based index
+        /// of the value in the source sequence.</summary>
+        public static IEnumerable<KeyValuePair<int, TSource>> Index<TSource>(
+            this IEnumerable<TSource> source) => source.Index(0);
 
-        /// <summary>
-        /// Returns a sequence of <see cref="KeyValuePair{TKey,TValue}"/> 
-        /// where the key is the index of the value in the source sequence.
-        /// An additional parameter specifies the starting index.
-        /// </summary>
-        public static IEnumerable<KeyValuePair<int, TSource>> Index<TSource>(this IEnumerable<TSource> source, int startIndex)
-        {
-            return source.Select((element, index) => new KeyValuePair<int, TSource>(startIndex + index, element));
-        }
+        /// <summary>Returns a sequence of <c>KeyValuePair</c> where the key is the index of the value
+        /// in the source sequence. An additional parameter specifies the starting index.</summary>
+        public static IEnumerable<KeyValuePair<int, TSource>> Index<TSource>(
+            this IEnumerable<TSource> source, int startIndex) => source.Select((element, index) =>
+                new KeyValuePair<int, TSource>(startIndex + index, element));
 
-        /// <summary>
-        /// Returns the result of applying a function to a sequence of 
-        /// 1 element.
-        /// </summary>
-        public static TResult Fold<T, TResult>(this IEnumerable<T> source, Func<T, TResult> folder)
-        {
-            return FoldImpl(source, 1, folder, null, null, null);
-        }
+        /// <summary>Returns the result of applying a function to a sequence of 1 element.</summary>
+        public static TResult Fold<T, TResult>(this IEnumerable<T> source,
+            Func<T, TResult> folder) => FoldImpl(source, 1, folder, null, null, null);
 
-        /// <summary>
-        /// Returns the result of applying a function to a sequence of 
-        /// 2 elements.
-        /// </summary>
-        public static TResult Fold<T, TResult>(this IEnumerable<T> source, Func<T, T, TResult> folder)
-        {
-            return FoldImpl(source, 2, null, folder, null, null);
-        }
+        /// <summary>Returns the result of applying a function to a sequence of 2 elements.</summary>
+        public static TResult Fold<T, TResult>(this IEnumerable<T> source,
+            Func<T, T, TResult> folder) => FoldImpl(source, 2, null, folder, null, null);
 
-        /// <summary>
-        /// Returns the result of applying a function to a sequence of 
-        /// 3 elements.
-        /// </summary>
-        public static TResult Fold<T, TResult>(this IEnumerable<T> source, Func<T, T, T, TResult> folder)
-        {
-            return FoldImpl(source, 3, null, null, folder, null);
-        }
+        /// <summary>Returns the result of applying a function to a sequence of 3 elements.</summary>
+        public static TResult Fold<T, TResult>(this IEnumerable<T> source,
+            Func<T, T, T, TResult> folder) => FoldImpl(source, 3, null, null, folder, null);
 
-        /// <summary>
-        /// Returns the result of applying a function to a sequence of 
-        /// 4 elements.
-        /// </summary>
-        public static TResult Fold<T, TResult>(this IEnumerable<T> source, Func<T, T, T, T, TResult> folder)
-        {
-            return FoldImpl(source, 4, null, null, null, folder);
-        }
+        /// <summary>Returns the result of applying a function to a sequence of 4 elements.</summary>
+        public static TResult Fold<T, TResult>(this IEnumerable<T> source,
+            Func<T, T, T, T, TResult> folder) => FoldImpl(source, 4, null, null, null, folder);
 
         static TResult FoldImpl<T, TResult>(IEnumerable<T> source, int count,
             Func<T, TResult> folder1,
@@ -249,9 +209,7 @@ namespace CSharpx
             return new Exception(string.Format(message, count.ToString("N0"), count == 1 ? "was" : "were"));
         }
 
-        /// <summary>
-        /// Immediately executes the given action on each element in the source sequence.
-        /// </summary>
+        /// <summary>Immediately executes the given action on each element in the source sequence.</summary>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -262,12 +220,9 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Returns a sequence resulting from applying a function to each 
-        /// element in the source sequence and its 
-        /// predecessor, with the exception of the first element which is 
-        /// only returned as the predecessor of the second element.
-        /// </summary>
+        /// <summary>Returns a sequence resulting from applying a function to each element in the
+        /// source sequence and its predecessor, with the exception of the first element which is 
+        /// only returned as the predecessor of the second element.</summary>
         public static IEnumerable<TResult> Pairwise<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TSource, TResult> resultSelector)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -294,27 +249,23 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Creates a delimited string from a sequence of values. The 
-        /// delimiter used depends on the current culture of the executing thread.
-        /// </summary>
-        public static string ToDelimitedString<TSource>(this IEnumerable<TSource> source)
-        {
-            return ToDelimitedString(source, null);
-        }
+        /// <summary>Creates a delimited string from a sequence of values. The delimiter used depends
+        /// on the current culture of the executing thread.</summary>
+        public static string ToDelimitedString<TSource>(
+            this IEnumerable<TSource> source) => ToDelimitedString(source, null);
 
-        /// <summary>
-        /// Creates a delimited string from a sequence of values and
-        /// a given delimiter.
-        /// </summary>
-        public static string ToDelimitedString<TSource>(this IEnumerable<TSource> source, string delimiter)
+        /// <summary>Creates a delimited string from a sequence of values and
+        /// a given delimiter.</summary>
+        public static string ToDelimitedString<TSource>(
+            this IEnumerable<TSource> source, string delimiter)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
             return ToDelimitedStringImpl(source, delimiter, (sb, e) => sb.Append(e));
         }
 
-        static string ToDelimitedStringImpl<T>(IEnumerable<T> source, string delimiter, Func<StringBuilder, T, StringBuilder> append)
+        static string ToDelimitedStringImpl<T>(IEnumerable<T> source, string delimiter,
+            Func<StringBuilder, T, StringBuilder> append)
         {
             Debug.Assert(source != null);
             Debug.Assert(append != null);
@@ -331,9 +282,7 @@ namespace CSharpx
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Return everything except first element and throws exception if empty.
-        /// </summary>
+        /// <summary>Return everything except first element and throws exception if empty.</summary>
         public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
         {
             using (var e = source.GetEnumerator()) {
@@ -348,9 +297,7 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Return everything except first element without throwing exception if empty.
-        /// </summary>
+        /// <summary>Return everything except first element without throwing exception if empty.</summary>
         public static IEnumerable<T> TailNoFail<T>(this IEnumerable<T> source)
         {
             using (var e = source.GetEnumerator()) {
@@ -362,17 +309,11 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Captures current state of a sequence.
-        /// </summary>
-        public static IEnumerable<T> Memoize<T>(this IEnumerable<T> source)
-        {
-            return source.GetType().IsArray ? source : source.ToArray();
-        }
+        /// <summary>Captures current state of a sequence.</summary>
+        public static IEnumerable<T> Memoize<T>(
+            this IEnumerable<T> source) => source.GetType().IsArray ? source : source.ToArray();
 
-        /// <summary>
-        /// Creates an immutable copy of a sequence.
-        /// </summary>
+        /// <summary>Creates an immutable copy of a sequence.</summary>
         public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
         {
             if (source is MaterializedEnumerable<T> || source.GetType().IsArray) {
@@ -401,9 +342,7 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Selects a random element.
-        /// </summary>
+        /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
         {
 #if CSX_REM_CRYPTORAND
@@ -414,9 +353,8 @@ namespace CSharpx
             return source.ElementAt(index);
         }
 
-        /// <summary>
-        /// Takes an element and a sequence and `intersperses' that element between its elements.
-        /// </summary>
+        /// <summary>Takes an element and a sequence and `intersperses' that element between its
+        /// elements.</summary>
         public static IEnumerable<T> Intersperse<T>(this IEnumerable<T> source, T element)
         {
             if (element == null) throw new ArgumentNullException(nameof(element));
@@ -431,9 +369,7 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Flattens a sequence by one level.
-        /// </summary>
+        /// <summary>Flattens a sequence by one level.</summary>
         public static IEnumerable<T> FlattenOnce<T>(this IEnumerable<IEnumerable<T>> source)
         {
             foreach (var element in source) {
@@ -443,10 +379,8 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Reduces a sequence of strings to a sequence of parts, splitted by space,
-        /// of each original string.
-        /// </summary>
+        /// <summary>Reduces a sequence of strings to a sequence of parts, splitted by space,
+        /// of each original string.</summary>
         public static IEnumerable<string> FlattenOnce(this IEnumerable<string> source)
         {
             foreach (var element in source) {
