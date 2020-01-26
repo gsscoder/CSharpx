@@ -101,11 +101,11 @@ namespace CSharpx
         {
             if (times < 0) throw new ArgumentException(nameof(times));
             if (maxLength < 0) throw new ArgumentException(nameof(maxLength));
-            if (times > value.Length) throw new ArgumentException(nameof(times));
+            if (times >= value.Length) throw new ArgumentException(nameof(times));
 
             if (times == 0 || maxLength == 0) return value;
 
-            var indexes = new List<int>((int)times);
+            var indexes = new List<int>(times);
             int uniqueNext()
                 {
                     var index = _random.Next(value.Length - 1);
@@ -119,7 +119,7 @@ namespace CSharpx
             }
             var mutations = indexes.OrderBy(index => index);
 
-            var mangled = new StringBuilder(value.Length + (int)times * (int)maxLength);
+            var mangled = new StringBuilder(value.Length + times * maxLength);
             for (var i = 0; i < value.Length; i++) {
                 mangled.Append(value[i]);
                 if (mutations.Contains(i)) {

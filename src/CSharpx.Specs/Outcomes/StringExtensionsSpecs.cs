@@ -73,10 +73,10 @@ public class StringExtensionsSpecs
     }
 
     [Theory]
-    [InlineData("hello", 0, 0)]
-    [InlineData("hello", 1, 1)]
-    [InlineData("hello", 3, 2)]
-    [InlineData("hello tests", 3, 3)]
+    [InlineData("foo", 0, 0)]
+    [InlineData("foo", 1, 1)]
+    [InlineData("fooo", 3, 2)]
+    [InlineData("foo bar", 3, 3)]
     public void Should_mangle(string value, int times, int maxLength)
     {
         int mangleSize = times * maxLength;
@@ -93,9 +93,18 @@ public class StringExtensionsSpecs
     }
 
     [Fact]
+    public void Mangle_same_string_length_throws_ArgumentException()
+    {
+        Action action = () => "foo".Mangle(3, 3);
+
+        action.Should().ThrowExactly<ArgumentException>()
+            .WithMessage("times");
+    }
+
+    [Fact]
     public void Mangle_beyond_string_length_throws_ArgumentException()
     {
-        Action action = () => "hello from magle extension test".Mangle(100, 3);
+        Action action = () => "foo bar baz".Mangle(100, 3);
 
         action.Should().ThrowExactly<ArgumentException>()
             .WithMessage("times");
