@@ -50,7 +50,6 @@ namespace CSharpx
                 }   
                 return source;
             }
-
             return ExpectingCountYieldingImpl(source, count, errorSelector);
         }
 
@@ -273,12 +272,10 @@ namespace CSharpx
             delimiter = delimiter ?? CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var sb = new StringBuilder();
             var i = 0;
-
             foreach (var value in source) {
                 if (i++ > 0) sb.Append(delimiter);
                 append(sb, value);
             }
-
             return sb.ToString();
         }
 
