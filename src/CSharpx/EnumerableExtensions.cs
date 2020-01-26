@@ -39,6 +39,7 @@ namespace CSharpx
         }
 #endif
 
+        #region Internal
         private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
         {
@@ -67,6 +68,7 @@ namespace CSharpx
                 throw errorSelector(-1, count);
             }
         }
+        #endregion
 
         /// <summary>Returns the cartesian product of two sequences by combining each element of the
         /// first set with each in the second and applying the user=define projection to the
@@ -90,6 +92,7 @@ namespace CSharpx
             return LinqEnumerable.Concat(LinqEnumerable.Repeat(value, 1), source);
         }
 
+        #region Concat
         /// <summary>Returns a sequence consisting of the head element and the given tail
         /// elements.</summary>
         public static IEnumerable<T> Concat<T>(this T head, IEnumerable<T> tail)
@@ -107,7 +110,9 @@ namespace CSharpx
 
             return LinqEnumerable.Concat(head, LinqEnumerable.Repeat(tail, 1));
         }
+        #endregion
 
+        #region Exclude
         /// <summary>Excludes <paramref name="count"/> elements from a sequence starting at a given
         /// index.</summary>
         public static IEnumerable<T> Exclude<T>(this IEnumerable<T> sequence, int startIndex, int count)
@@ -139,7 +144,9 @@ namespace CSharpx
                 }
             }
         }
+        #endregion
 
+        #region Index
         /// <summary>Returns a sequence of <c>KeyValuePair</c> where the key is the zero-based index
         /// of the value in the source sequence.</summary>
         public static IEnumerable<KeyValuePair<int, TSource>> Index<TSource>(
@@ -150,7 +157,9 @@ namespace CSharpx
         public static IEnumerable<KeyValuePair<int, TSource>> Index<TSource>(
             this IEnumerable<TSource> source, int startIndex) => source.Select((element, index) =>
                 new KeyValuePair<int, TSource>(startIndex + index, element));
+        #endregion
 
+        #region Fold
         /// <summary>Returns the result of applying a function to a sequence of 1 element.</summary>
         public static TResult Fold<T, TResult>(this IEnumerable<T> source,
             Func<T, TResult> folder) => FoldImpl(source, 1, folder, null, null, null);
@@ -206,6 +215,7 @@ namespace CSharpx
                         : "Sequence contains too many elements when exactly {0} {1} expected";
             return new Exception(string.Format(message, count.ToString("N0"), count == 1 ? "was" : "were"));
         }
+        #endregion
 
         /// <summary>Immediately executes the given action on each element in the source sequence.</summary>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
@@ -218,6 +228,7 @@ namespace CSharpx
             }
         }
 
+        #region Pairwise
         /// <summary>Returns a sequence resulting from applying a function to each element in the
         /// source sequence and its predecessor, with the exception of the first element which is 
         /// only returned as the predecessor of the second element.</summary>
@@ -243,7 +254,9 @@ namespace CSharpx
                 }
             }
         }
+        #endregion
 
+        # region ToDelimitedString
         /// <summary>Creates a delimited string from a sequence of values. The delimiter used depends
         /// on the current culture of the executing thread.</summary>
         public static string ToDelimitedString<TSource>(
@@ -271,6 +284,7 @@ namespace CSharpx
             }
             return builder.ToString();
         }
+        #endregion
 
         /// <summary>Return everything except first element and throws exception if empty.</summary>
         public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
@@ -303,6 +317,7 @@ namespace CSharpx
         public static IEnumerable<T> Memoize<T>(
             this IEnumerable<T> source) => source.GetType().IsArray ? source : source.ToArray();
 
+        #region Materialize
         /// <summary>Creates an immutable copy of a sequence.</summary>
         public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
         {
@@ -331,7 +346,9 @@ namespace CSharpx
                 return GetEnumerator();
             }
         }
+        #endregion
 
+        #region DistinctBy
         /// <summary>Returns all distinct elements of the given source, where "distinctness"
         /// is determined via a projection and the default equality comparer for the projected
         /// type.</summary>
@@ -357,7 +374,9 @@ namespace CSharpx
                 }
             }
         }
+        #endregion
 
+        #region Repeat
         /// <summary>Repeats the sequence the specified number of times.</summary>
         public static IEnumerable<T> Repeat<T>(this IEnumerable<T> sequence, int count)
         {
@@ -388,6 +407,7 @@ namespace CSharpx
                 }
             }
         }
+        #endregion
 
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
@@ -416,6 +436,7 @@ namespace CSharpx
             }
         }
 
+        #region FlattenOnce
         /// <summary>Flattens a sequence by one level.</summary>
         public static IEnumerable<T> FlattenOnce<T>(this IEnumerable<IEnumerable<T>> source)
         {
@@ -437,5 +458,6 @@ namespace CSharpx
                 }
             }
         }
+        #endregion
     }
 }
