@@ -82,10 +82,7 @@ namespace CSharpx.FSharp
         /// </summary></typeparam>
         public static TResult Return<T, TError, TResult>(
             this FSharpResult<T, TError> result,
-            Func<T, TResult> func, TResult noneValue)
-        {
-            return Trail.Either(func, value => noneValue, result);
-        }
+            Func<T, TResult> func, TResult noneValue) => Trail.Either(func, value => noneValue, result);
 
         static class Trail
         {
