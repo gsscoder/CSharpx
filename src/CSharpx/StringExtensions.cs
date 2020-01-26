@@ -197,6 +197,7 @@ namespace CSharpx
             return _stripMl.Replace(value, string.Empty);
         }
 
+        /// <summary>Removes words of a given length.</summary>
         public static string StripByLength(this string value, int length)
         {
             if (length < 0) throw new ArgumentException(nameof(length));
