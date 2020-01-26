@@ -333,6 +333,32 @@ namespace CSharpx
             }
         }
 
+        /// <summary>Returns all distinct elements of the given source, where "distinctness"
+        /// is determined via a projection and the default equality comparer for the projected
+        /// type.</summary>
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector)
+        {
+            return source.DistinctBy(keySelector, null);
+        }
+
+        /// <summary>Returns all distinct elements of the given source, where "distinctness"
+        /// is determined via a projection and the specified comparer for the projected type.</summary>
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
+
+            return _(); IEnumerable<TSource> _() {
+                var knownKeys = new HashSet<TKey>(comparer);
+                foreach (var element in source) {
+                    if (knownKeys.Add(keySelector(element)))
+                        yield return element;
+                }
+            }
+        }
+
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
         {
