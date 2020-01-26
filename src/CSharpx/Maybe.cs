@@ -58,7 +58,7 @@ namespace CSharpx
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
-        sealed class Nothing<T> : Maybe<T>
+    sealed class Nothing<T> : Maybe<T>
     {
         internal Nothing()
             : base(MaybeType.Nothing)
@@ -70,7 +70,7 @@ namespace CSharpx
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
-        sealed class Just<T> : Maybe<T>
+    sealed class Just<T> : Maybe<T>
     {
         private readonly T value;
 
