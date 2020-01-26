@@ -102,7 +102,6 @@ namespace CSharpx
             if (times < 0) throw new ArgumentException(nameof(times));
             if (maxLength < 0) throw new ArgumentException(nameof(maxLength));
             if (times >= value.Length) throw new ArgumentException(nameof(times));
-
             if (times == 0 || maxLength == 0) return value;
 
             var indexes = new List<int>(times);
@@ -135,9 +134,8 @@ namespace CSharpx
         /// <summary>Takes a value and a string and `intersperses' that value between its words.</summary>
         public static string Intersperse(this string value, params object[] values)
         {
-            if (values.Length == 0) {
-                return value;
-            }
+            if (values.Length == 0) return value;
+
             var builder = new StringBuilder(value.Length + values.Length * 8);
             var words = value.Split();
             var count = words.Length;
