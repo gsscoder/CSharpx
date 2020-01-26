@@ -232,9 +232,6 @@ namespace CSharpx
 
         private static IEnumerable<TResult> PairwiseImpl<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TSource, TResult> resultSelector)
         {
-            Debug.Assert(source != null);
-            Debug.Assert(resultSelector != null);
-
             using (var e = source.GetEnumerator()) {
                 if (!e.MoveNext()) {
                     yield break;
@@ -266,9 +263,6 @@ namespace CSharpx
         static string ToDelimitedStringImpl<T>(IEnumerable<T> source, string delimiter,
             Func<StringBuilder, T, StringBuilder> append)
         {
-            Debug.Assert(source != null);
-            Debug.Assert(append != null);
-
             delimiter = delimiter ?? CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var builder = new StringBuilder();
             var iterations = 0;
