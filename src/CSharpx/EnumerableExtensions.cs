@@ -48,8 +48,7 @@ namespace CSharpx
             int count, Func<int, int, Exception> errorSelector)
         {
             var collection = source as ICollection<TSource>; // Optimization for collections
-            if (collection != null)
-            {
+            if (collection != null) {
                 if (collection.Count != count) {
                     throw errorSelector(collection.Count.CompareTo(count), count);
                 }   
@@ -63,8 +62,7 @@ namespace CSharpx
             int count, Func<int, int, Exception> errorSelector)
         {
             var iterations = 0;
-            foreach (var element in source)
-            {
+            foreach (var element in source) {
                 iterations++;
                 if (iterations > count) {
                     throw errorSelector(1, count);
@@ -355,8 +353,7 @@ namespace CSharpx
         /// </summary>
         public static IEnumerable<T> TailNoFail<T>(this IEnumerable<T> source)
         {
-            using (var e = source.GetEnumerator())
-            {
+            using (var e = source.GetEnumerator()) {
                 if (e.MoveNext()) {
                     while (e.MoveNext()) {
                         yield return e.Current;
