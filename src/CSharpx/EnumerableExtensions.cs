@@ -359,6 +359,37 @@ namespace CSharpx
             }
         }
 
+        /// <summary>Repeats the sequence the specified number of times.</summary>
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> sequence, int count)
+        {
+            if (sequence == null) throw new ArgumentNullException(nameof(sequence));
+            if (count < 0) throw new ArgumentOutOfRangeException(nameof(count),
+                "Repeat count must be greater than or equal to zero.");
+
+            return RepeatImpl(sequence, count);
+        }
+
+        /// <summary>Repeats the sequence forever.</summary>
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> sequence)
+        {
+            if (sequence == null) throw new ArgumentNullException(nameof(sequence));
+
+            return RepeatImpl(sequence, null);
+        }
+
+        static IEnumerable<T> RepeatImpl<T>(IEnumerable<T> sequence, int? count)
+        {
+            var memo = sequence.Memoize();
+            using (memo as IDisposable)
+            {
+                while (count == null || count-- > 0)
+                {
+                    foreach (var item in memo)
+                        yield return item;
+                }
+            }
+        }
+
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
         {
