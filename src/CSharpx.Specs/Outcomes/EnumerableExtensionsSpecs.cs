@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.FSharp.Collections;
 using Xunit;
 using FluentAssertions;
 using FsCheck;
@@ -8,6 +9,25 @@ using CSharpx;
 
 public class EnumerableExtensionsSpecs
 {
+    #region TryHead
+    [Fact]
+    public void When_trying_to_get_head_element_should_return_none_in_case_of_empty_sequence()
+    {
+        var outcome = Enumerable.Empty<int>().TryHead();
+
+        outcome.Should().BeEquivalentTo(Maybe.Nothing<int>());
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void When_trying_to_get_head_element_should_return_just_in_case_of_not_empty_sequence(
+        FSharpList<int> values)
+    {
+        var outcome = values.TryHead();
+
+        outcome.Should().BeEquivalentTo(Maybe.Just(values.ElementAt(0)));
+    }
+    #endregion
+
     #region Choose
     [Theory]
     [InlineData(
