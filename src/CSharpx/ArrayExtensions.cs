@@ -10,9 +10,7 @@ namespace CSharpx
 #endif
     static class ArrayExtensions
     {
-        /// <summary>
-        /// Sorts an array pure way.
-        /// </summary>
+        /// <summary>Sorts an array pure way.</summary>
         public static T[] Sort<T>(this T[] array)
         {
             var copy = new T[array.Length];
@@ -21,9 +19,7 @@ namespace CSharpx
             return copy;
         }
 
-        /// <summary>
-        /// Chooses a random element from an array.
-        /// </summary>
+        /// <summary>Chooses a random element from an array.</summary>
         public static T Choice<T>(this T[] array)
         {
 #if CSX_REM_CRYPTORAND        
