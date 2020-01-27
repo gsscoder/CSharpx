@@ -35,14 +35,22 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.0.5-beta
+$ dotnet add package CSharpx --version 2.0.9-beta
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
 ## [EnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/EnumerableExtensions.cs)
 
 - Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
-- With other useful methods too.
+- Some of these reimplemnted (e.g. `Choose` using `Maybe`):
+```csharp
+var numbers = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+var evens = numbers.Choose(x => x % 2 == 0
+                              ? Maybe.Just(x)
+                              : Maybe.Nothing<int>());
+// outcome: {0, 2, 4, 6, 8}
+```
+- With other useful methods too:
 ```CSharp
 var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
 // outcome: {0, 5, 1, 5, 2, 5, 3, 5, 4}

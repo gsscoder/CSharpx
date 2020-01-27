@@ -51,4 +51,18 @@ public class EnumerableExtensionsSpecs
     {
         value.FlattenOnce().Should().BeEquivalentTo(expected);
     }
+
+    [Theory]
+    [InlineData(
+        new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
+        new int[] {0, 2, 4, 6, 8})]
+    public void Should_choose_elements_to_create_a_new_sequence(
+        IEnumerable<int> value, IEnumerable<int> expected)
+    {
+        var outcome = value.Choose(x => x % 2 == 0
+                                        ? Maybe.Just(x)
+                                        : Maybe.Nothing<int>());
+        
+        outcome.Should().BeEquivalentTo(expected);
+    }
 }
