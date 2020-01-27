@@ -86,8 +86,8 @@ public class EnumerableExtensionsSpecs
 
     [Theory]
     [InlineData(
-        new string[] {"word1 word2 word3", "word4 word5 word6"},
-        new string[] {"word1", "word2", "word3", "word4", "word5", "word6"})]
+        new string[] {"foo bar baz", "fooo baar baaz"},
+        new string[] {"foo", "bar", "baz", "fooo", "baar", "baaz"})]
     public void Should_flatten_string_sequence(
         IEnumerable<string> values, IEnumerable<string> expected)
     {
