@@ -64,7 +64,7 @@ public class EnumerableExtensionsSpecs
 
     #region Intersperse
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-    public void Should_intersperse(int value)
+    public void Should_intersperse_a_value_in_a_sequence(int value)
     {
         var sequence = new int[] {0, 1, 2, 3, 4};
 
@@ -88,7 +88,7 @@ public class EnumerableExtensionsSpecs
 
     #region FlattenOnce
     [Fact]
-    public void Should_flatten_sequence_by_one_level()
+    public void Should_flatten_a_sequence_by_one_level()
     {
         var sequence = new List<IEnumerable<int>>()
             {
@@ -106,7 +106,7 @@ public class EnumerableExtensionsSpecs
     [InlineData(
         new string[] {"foo bar baz", "fooo baar baaz"},
         new string[] {"foo", "bar", "baz", "fooo", "baar", "baaz"})]
-    public void Should_flatten_string_sequence(
+    public void Should_flatten_a_string_sequence_into_words(
         IEnumerable<string> values, IEnumerable<string> expected)
     {
         var outcome = values.FlattenOnce();
