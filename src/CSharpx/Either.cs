@@ -254,11 +254,11 @@ namespace CSharpx
             Func<TLeft, TLeft1> mapLeft,
             Func<TRight, TRight1> mapRight) => Either.Bimap(either, mapLeft, mapRight);
 
-        /// <summary>Returns <c>true</c> if it's in form of <c>Left</c>.</summary>
+        /// <summary>Returns <c>true</c> if it is in form of <c>Left</c>.</summary>
         public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either) =>
             either.Tag == EitherType.Left;
 
-        /// <summary>Returns <c>true</c> if it's in form of <c>Right</c>.</summary>
+        /// <summary>Returns <c>true</c> if it is in form of <c>Right</c>.</summary>
         public static bool IsRight<TLeft, TRight>(this Either<TLeft, TRight> either) =>
             either.Tag == EitherType.Right;
     }
