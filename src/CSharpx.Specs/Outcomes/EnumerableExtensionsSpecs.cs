@@ -34,9 +34,9 @@ public class EnumerableExtensionsSpecs
         new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
         new int[] {0, 2, 4, 6, 8})]
     public void Should_choose_elements_to_create_a_new_sequence(
-        IEnumerable<int> value, IEnumerable<int> expected)
+        IEnumerable<int> values, IEnumerable<int> expected)
     {
-        var outcome = value.Choose(x => x % 2 == 0
+        var outcome = values.Choose(x => x % 2 == 0
                                         ? Maybe.Just(x)
                                         : Maybe.Nothing<int>());
         
@@ -49,9 +49,10 @@ public class EnumerableExtensionsSpecs
     public void Should_intersperse(int value)
     {
         var sequence = new int[] {0, 1, 2, 3, 4};
-        var result = sequence.Intersperse(value);
 
-        result.Should().NotBeEmpty()
+        var outcome = sequence.Intersperse(value);
+
+        outcome.Should().NotBeEmpty()
             .And.HaveCount(sequence.Count() * 2 - 1)
             .And.SatisfyRespectively(
                 item => item.Should().Be(0),
@@ -78,7 +79,9 @@ public class EnumerableExtensionsSpecs
                 new int[] {6, 7, 8}
             };
 
-        sequence.FlattenOnce().Should().BeEquivalentTo(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8});
+        var outcome = sequence.FlattenOnce();
+        
+        outcome.Should().BeEquivalentTo(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8});
     }
 
     [Theory]
@@ -86,9 +89,11 @@ public class EnumerableExtensionsSpecs
         new string[] {"word1 word2 word3", "word4 word5 word6"},
         new string[] {"word1", "word2", "word3", "word4", "word5", "word6"})]
     public void Should_flatten_string_sequence(
-        IEnumerable<string> value, IEnumerable<string> expected)
+        IEnumerable<string> values, IEnumerable<string> expected)
     {
-        value.FlattenOnce().Should().BeEquivalentTo(expected);
+        var outcome = values.FlattenOnce();
+        
+        outcome.Should().BeEquivalentTo(expected);
     }
     #endregion
 }
