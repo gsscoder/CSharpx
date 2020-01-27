@@ -46,8 +46,8 @@ The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.
 ```csharp
 var numbers = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 var evens = numbers.Choose(x => x % 2 == 0
-                              ? Maybe.Just(x)
-                              : Maybe.Nothing<int>());
+                                ? Maybe.Just(x)
+                                : Maybe.Nothing<int>());
 // outcome: {0, 2, 4, 6, 8}
 ```
 - With other useful methods too:

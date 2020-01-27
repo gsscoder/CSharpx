@@ -55,8 +55,8 @@ public class EnumerableExtensionsSpecs
         IEnumerable<int> values, IEnumerable<int> expected)
     {
         var outcome = values.Choose(x => x % 2 == 0
-                                        ? Maybe.Just(x)
-                                        : Maybe.Nothing<int>());
+                                         ? Maybe.Just(x)
+                                         : Maybe.Nothing<int>());
         
         outcome.Should().BeEquivalentTo(expected);
     }
