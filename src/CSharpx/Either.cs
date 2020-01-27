@@ -6,24 +6,26 @@ using System;
 namespace CSharpx
 {
     #region Either Type
+    /// <summary>Discriminator for <c>Either</c>.</summary>
 #if !CSX_EITHER_INTERNAL
     public
 #endif
     enum EitherType
     {
-        /// <summary>
-        /// Failed computation case.
-        /// </summary>
+        /// <summary>Failed computation case.</summary>
         Left,
-        /// <summary>
-        /// Sccessful computation case.
-        /// </summary>
+        /// <summary>Sccessful computation case.</summary>
         Right
     }
 
 #if !CSX_EITHER_INTERNAL
     public
 #endif
+    /// <summary>The <c>Either</c> type represents values with two possibilities: a value of type
+    /// <c>Either</c> T1 T2 is either <c>Left</c> T1 or <c>Right</c> T2. The <c>Either</c> type is
+    /// sometimes used to represent a value which is either correct or an error; by convention, the
+    /// <c>Left</c> constructor is used to hold an error value and the <c>Right</c> constructor is
+    /// used to hold a correct value (mnemonic: "right" also means "correct").</summary>
     abstract class Either<TLeft, TRight>
     {
         private readonly EitherType tag;
@@ -39,12 +41,16 @@ namespace CSharpx
         }
 
         #region Basic Match Methods
+        /// <summary>Matches a <c>Left</c> value returning <c>true</c> and value itself via an output
+        /// parameter.</summary>
         public bool MatchLeft(out TLeft value)
         {
             value = Tag == EitherType.Left ? ((Left<TLeft, TRight>)this).Value : default(TLeft);
             return Tag == EitherType.Left;
         }
 
+        /// <summary>Matches a <c>Right</c> value returning <c>true</c> and value itself via an output
+        /// parameter.</summary>
         public bool MatchRight(out TRight value)
         {
             value = Tag == EitherType.Right ? ((Right<TLeft, TRight>)this).Value : default(TRight);
@@ -66,6 +72,7 @@ namespace CSharpx
             this.value = value;
         }
 
+        /// <summary>The wrapped value.</summary>
         public TLeft Value
         {
             get { return value; }
@@ -85,6 +92,7 @@ namespace CSharpx
             this.value = value;
         }
 
+        /// <summary>The wrapped value.</summary>
         public TRight Value
         {
             get { return value; }
@@ -98,11 +106,13 @@ namespace CSharpx
     static class Either
     {
         #region Value Case Constructors
+        /// <summary>Builds the <c>Left</c> case of an <c>Either</c> value.</summary>
         public static Either<TLeft, TRight> Left<TLeft, TRight>(TLeft value)
         {
             return new Left<TLeft, TRight>(value);
         }
 
+        /// <summary>Builds the <c>Right</c> case of an <c>Either</c> value.</summary>
         public static Either<TLeft, TRight> Right<TLeft, TRight>(TRight value)
         {
             return new Right<TLeft, TRight>(value);
@@ -110,25 +120,13 @@ namespace CSharpx
         #endregion
 
         #region Monad
-        /// <summary>
-        /// Inject a value into the Either type, returning Right case.
-        /// </summary>
+        /// <summary>Inject a value into the <c>Either</c> type, returning Right case.</summary>
         public static Either<string, TRight> Return<TRight>(TRight value)
         {
             return Either.Right<string, TRight>(value);
         }
 
-        /// <summary>
-        /// Fail with a message. Not part of mathematical definition of a monad.
-        /// </summary>
-        public static Either<string, TRight> Fail<TRight>(string message)
-        {
-            throw new Exception(message);
-        }
-
-        /// <summary>
-        /// Monadic bind.
-        /// </summary>
+        /// <summary>Monadic bind.</summary>
         public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, Either<TLeft, TResult>> func)
         {
             TRight right;
@@ -140,9 +138,7 @@ namespace CSharpx
         #endregion
 
         #region Functor
-        /// <summary>
-        /// Transforms a Either's right value by using a specified mapping function.
-        /// </summary>
+        /// <summary>Transforms a <c>Either</c> right value by using a specified mapping function.</summary>
         public static Either<TLeft, TResult> Map<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, TResult> func)
         {
             TRight right;
@@ -154,10 +150,8 @@ namespace CSharpx
         #endregion
 
         #region Bifunctor
-        /// <summary>
-        /// Maps both parts of a Either type. Applies the first function if Either is Left.
-        /// Otherwise applies the second function.
-        /// </summary>
+        /// <summary>Maps both parts of a Either type. Applies the first function if <c>Either</c>
+        /// is <c>Left</c>. Otherwise applies the second function.</summary>
         public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either, Func<TLeft, TLeft1> mapLeft, Func<TRight, TRight1> mapRight)
         {
             TRight right;
@@ -169,9 +163,7 @@ namespace CSharpx
         #endregion
 
         #region LINQ Operators
-        /// <summary>
-        /// Map operation compatible with LINQ.
-        /// </summary>
+        /// <summary>Map operation compatible with LINQ.</summary>
         public static Either<TLeft, TResult> Select<TLeft, TRight, TResult>(
             this Either<TLeft, TRight> either,
             Func<TRight, TResult> selector)
@@ -179,6 +171,7 @@ namespace CSharpx
             return Either.Map(either, selector);
         }
 
+        /// <summary>Map operation compatible with LINQ.</summary>
         public static Either<TLeft, TResult> SelectMany<TLeft, TRight, TResult>(this Either<TLeft, TRight> result,
             Func<TRight, Either<TLeft, TResult>> func)
         {
@@ -186,9 +179,13 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>
-        /// Returns a Either Right or fail with an exception.
-        /// </summary>
+        /// <summary>Fail with a message. Not part of mathematical definition of a monad.</summary>
+        public static Either<string, TRight> Fail<TRight>(string message)
+        {
+            throw new Exception(message);
+        }
+
+        /// <summary>Returns a <c>Right</c> or fail with an exception.</summary>
         public static TRight GetOrFail<TLeft, TRight>(Either<TLeft, TRight> either)
         {
             TRight value;
@@ -198,27 +195,21 @@ namespace CSharpx
             throw new ArgumentException(nameof(either), string.Format("The either value was Left {0}.", either));
         }
 
-        /// <summary>
-        /// Returns a Either Left or a defualt value.
-        /// </summary>
+        /// <summary>Returns a <c>Left</c> or a defualt value.</summary>
         public static TLeft GetLeftOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TLeft @default)
         {
             TLeft value;
             return either.MatchLeft(out value) ? value : @default;
         }
 
-        /// <summary>
-        /// Returns a Either Right or a defualt value.
-        /// </summary>
+        /// <summary>Returns a <c>Right</c> or a defualt value.</summary>
         public static TRight GetRightOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TRight @default)
         {
             TRight value;
             return either.MatchRight(out value) ? value : @default;
         }
 
-        /// <summary>
-        /// Wraps a function, encapsulates any exception thrown within to a Either.
-        /// </summary>
+        /// <summary>Wraps a function, encapsulates any exception thrown within to a <c>Either</c>.</summary>
         public static Either<Exception, TRight> Try<TRight>(Func<TRight> func)
         {
             try {
@@ -229,16 +220,16 @@ namespace CSharpx
             }
         }
 
-        /// <summary>
-        /// Attempts to cast an object.
-        /// Stores the cast value in 1Of2 if successful, otherwise stores the exception in 2Of2
-        /// </summary>
+        /// <summary>Attempts to cast an object. Stores the cast value in <c>Right</c> if successful, otherwise
+        /// stores the exception in <c>Left</c>.</summary>
         public static Either<Exception, TRight> Cast<TRight>(object obj)
         {
             return Either.Try(() => (TRight)obj);
         }
 
 #if !CSX_REM_MAYBE_FUNC
+        /// <summary>Converts a <c>Just</c> value to a <c>Right</c> and a <c>Nothing</c> value to a
+        /// <c>Left</c>.</summary>
         public static Either<TLeft, TRight> FromMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
         {
             if (maybe.Tag == MaybeType.Just) {
