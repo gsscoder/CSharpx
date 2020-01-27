@@ -103,8 +103,7 @@ namespace CSharpx
         /// <summary>Monadic bind.</summary>
         public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, Either<TLeft, TResult>> func)
         {
-            TRight right;
-            if (either.MatchRight(out right)) {
+            if (either.MatchRight(out TRight right)) {
                 return func(right);
             }
             return Either.Left<TLeft, TResult>(either.GetLeft());
@@ -115,8 +114,7 @@ namespace CSharpx
         /// <summary>Transforms a <c>Either</c> right value by using a specified mapping function.</summary>
         public static Either<TLeft, TResult> Map<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, TResult> func)
         {
-            TRight right;
-            if (either.MatchRight(out right)) {
+            if (either.MatchRight(out TRight right)) {
                 return Either.Right<TLeft, TResult>(func(right));
             }
             return Either.Left<TLeft, TResult>(either.GetLeft());
@@ -128,8 +126,7 @@ namespace CSharpx
         /// is <c>Left</c>. Otherwise applies the second function.</summary>
         public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either, Func<TLeft, TLeft1> mapLeft, Func<TRight, TRight1> mapRight)
         {
-            TRight right;
-            if (either.MatchRight(out right)) {
+            if (either.MatchRight(out TRight right)) {
                 return Either.Right<TLeft1, TRight1>(mapRight(right));
             }
             return Either.Left<TLeft1, TRight1>(mapLeft(either.GetLeft()));
@@ -153,26 +150,19 @@ namespace CSharpx
         /// <summary>Returns a <c>Right</c> or fail with an exception.</summary>
         public static TRight GetOrFail<TLeft, TRight>(Either<TLeft, TRight> either)
         {
-            TRight value;
-            if (either.MatchRight(out value)) {
+            if (either.MatchRight(out TRight value)) {
                 return value;
             }
             throw new ArgumentException(nameof(either), string.Format("The either value was Left {0}.", either));
         }
 
         /// <summary>Returns a <c>Left</c> or a defualt value.</summary>
-        public static TLeft GetLeftOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TLeft @default)
-        {
-            TLeft value;
-            return either.MatchLeft(out value) ? value : @default;
-        }
+        public static TLeft GetLeftOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TLeft @default) =>
+            either.MatchLeft(out TLeft value) ? value : @default;
 
         /// <summary>Returns a <c>Right</c> or a defualt value.</summary>
-        public static TRight GetRightOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TRight @default)
-        {
-            TRight value;
-            return either.MatchRight(out value) ? value : @default;
-        }
+        public static TRight GetRightOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TRight @default) =>
+            either.MatchRight(out TRight value) ? value : @default;
 
         /// <summary>Wraps a function, encapsulates any exception thrown within to a <c>Either</c>.</summary>
         public static Either<Exception, TRight> Try<TRight>(Func<TRight> func)
@@ -187,10 +177,7 @@ namespace CSharpx
 
         /// <summary>Attempts to cast an object. Stores the cast value in <c>Right</c> if successful, otherwise
         /// stores the exception in <c>Left</c>.</summary>
-        public static Either<Exception, TRight> Cast<TRight>(object obj)
-        {
-            return Either.Try(() => (TRight)obj);
-        }
+        public static Either<Exception, TRight> Cast<TRight>(object obj) => Either.Try(() => (TRight)obj);
 
 #if !CSX_REM_MAYBE_FUNC
         /// <summary>Converts a <c>Just</c> value to a <c>Right</c> and a <c>Nothing</c> value to a
@@ -216,8 +203,7 @@ namespace CSharpx
         #region Alternative Match Methods
         public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifLeft, Action<TRight> ifRight)
         {
-            TLeft left;
-            if (either.MatchLeft(out left)) {
+            if (either.MatchLeft(out TLeft left)) {
                 ifLeft(left);
                 return;
             }
