@@ -39,7 +39,7 @@ namespace CSharpx.FSharp
             if (onOk == null) throw new ArgumentNullException(nameof(onOk));
             if (onError == null) throw new ArgumentNullException(nameof(onError));
 
-            return Trail.Either(onOk, onError, result);
+            return Either(onOk, onError, result);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace CSharpx.FSharp
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
 
-            return Trail.Lift(func, result);
+            return Lift(func, result);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace CSharpx.FSharp
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
 
-            return Trail.Bind(func, result);
+            return Bind(func, result);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace CSharpx.FSharp
         {
             Func<TError, T> raiseExn = err => throw new Exception(err.ToString());
         
-            return Trail.Either(value => value, raiseExn, result);
+            return Either(value => value, raiseExn, result);
         }
 
         /// <summary>
@@ -83,60 +83,57 @@ namespace CSharpx.FSharp
         /// </summary></typeparam>
         public static TResult Return<T, TError, TResult>(
             this FSharpResult<T, TError> result,
-            Func<T, TResult> func, TResult noneValue) => Trail.Either(func, value => noneValue, result);
+            Func<T, TResult> func, TResult noneValue) => Either(func, value => noneValue, result);
 
-        static class Trail
+        // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with errorFunc.
+        public static TResult Either<T, TError, TResult>(
+            Func<T, TResult> okFunc,
+            Func<TError, TResult> errorFunc,
+            FSharpResult<T, TError> result)
         {
-            // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with errorFunc.
-            public static TResult Either<T, TError, TResult>(
-                Func<T, TResult> okFunc,
-                Func<TError, TResult> errorFunc,
-                FSharpResult<T, TError> result)
-            {
-                if (okFunc == null) throw new ArgumentNullException(nameof(okFunc));
-                if (errorFunc == null) throw new ArgumentNullException(nameof(errorFunc));
+            if (okFunc == null) throw new ArgumentNullException(nameof(okFunc));
+            if (errorFunc == null) throw new ArgumentNullException(nameof(errorFunc));
 
-                if (result.IsOk) {
-                    return okFunc(result.ResultValue);
-                }
-                return errorFunc(result.ErrorValue);
+            if (result.IsOk) {
+                return okFunc(result.ResultValue);
             }
-
-            // If the result is a success it executes the given function on the value.
-            // Otherwise the exisiting error is returned.
-            public static FSharpResult<T, TError> Bind<TValue, T, TError>(
-                Func<TValue, FSharpResult<T, TError>> func,
-                FSharpResult<TValue, TError> result)
-            {
-                    if (func == null) throw new ArgumentNullException(nameof(func));
-
-                    Func<TValue, FSharpResult<T, TError>> okFunc =
-                        value => func(value);
-                    Func<TError, FSharpResult<T, TError>> errorFunc =
-                        error => FSharpResult<T, TError>.NewError(error);
-                    return Either(okFunc, errorFunc, result);
-            }
-
-            // If the wrapped function is a success and the given result is a success the function is applied on the value. 
-            // Otherwise the exisiting error is returned.
-            public static FSharpResult<T, TError> Apply<TValue, T, TError>(
-                FSharpResult<Func<TValue, T>, TError> wrappedFunc,
-                FSharpResult<TValue, TError> result
-            )
-            {
-                if (wrappedFunc.IsOk && result.IsOk) {
-                    return FSharpResult<T, TError>.NewOk(
-                        wrappedFunc.ResultValue(result.ResultValue));
-                }
-                return FSharpResult<T, TError>.NewError(result.ErrorValue);
-            }
-
-            // Lifts a function into a result container and applies it on the given result.
-            public static FSharpResult<T, TError> Lift<TValue, T, TError>(
-                Func<TValue, T> func,
-                FSharpResult<TValue, TError> result) =>
-                Apply(FSharpResult<Func<TValue, T>, TError>.NewOk(func), result);
+            return errorFunc(result.ErrorValue);
         }
+
+        // If the result is a success it executes the given function on the value.
+        // Otherwise the exisiting error is returned.
+        static FSharpResult<T, TError> Bind<TValue, T, TError>(
+            Func<TValue, FSharpResult<T, TError>> func,
+            FSharpResult<TValue, TError> result)
+        {
+                if (func == null) throw new ArgumentNullException(nameof(func));
+
+                Func<TValue, FSharpResult<T, TError>> okFunc =
+                    value => func(value);
+                Func<TError, FSharpResult<T, TError>> errorFunc =
+                    error => FSharpResult<T, TError>.NewError(error);
+                return Either(okFunc, errorFunc, result);
+        }
+
+        // If the wrapped function is a success and the given result is a success the function is applied on the value. 
+        // Otherwise the exisiting error is returned.
+        static FSharpResult<T, TError> Apply<TValue, T, TError>(
+            FSharpResult<Func<TValue, T>, TError> wrappedFunc,
+            FSharpResult<TValue, TError> result
+        )
+        {
+            if (wrappedFunc.IsOk && result.IsOk) {
+                return FSharpResult<T, TError>.NewOk(
+                    wrappedFunc.ResultValue(result.ResultValue));
+            }
+            return FSharpResult<T, TError>.NewError(result.ErrorValue);
+        }
+
+        // Lifts a function into a result container and applies it on the given result.
+        static FSharpResult<T, TError> Lift<TValue, T, TError>(
+            Func<TValue, T> func,
+            FSharpResult<TValue, TError> result) =>
+            Apply(FSharpResult<Func<TValue, T>, TError>.NewOk(func), result);
     }
 }
 #endif
