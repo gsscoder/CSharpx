@@ -28,7 +28,7 @@ namespace CSharpx
     /// used to hold a correct value (mnemonic: "right" also means "correct").</summary>
     abstract class Either<TLeft, TRight>
     {
-        private readonly EitherType tag;
+        readonly EitherType tag;
 
         protected Either(EitherType tag)
         {
@@ -64,7 +64,7 @@ namespace CSharpx
 #endif
     sealed class Left<TLeft, TRight> : Either<TLeft, TRight>
     {
-        private readonly TLeft value;
+        readonly TLeft value;
 
         internal Left(TLeft value)
             : base(EitherType.Left)
@@ -84,7 +84,7 @@ namespace CSharpx
 #endif
     sealed class Right<TLeft, TRight> : Either<TLeft, TRight>
     {
-        private readonly TRight value;
+        readonly TRight value;
 
         internal Right(TRight value)
             : base(EitherType.Right)
@@ -239,7 +239,7 @@ namespace CSharpx
         }
 #endif
 
-        private static TLeft GetLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
+        static TLeft GetLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
         {
             return ((Left<TLeft, TRight>)either).Value;
         }
