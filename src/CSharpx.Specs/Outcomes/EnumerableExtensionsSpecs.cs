@@ -101,17 +101,5 @@ public class EnumerableExtensionsSpecs
         
         outcome.Should().BeEquivalentTo(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8});
     }
-
-    [Theory]
-    [InlineData(
-        new string[] {"foo bar baz", "fooo baar baaz"},
-        new string[] {"foo", "bar", "baz", "fooo", "baar", "baaz"})]
-    public void Should_flatten_a_string_sequence_into_words(
-        IEnumerable<string> values, IEnumerable<string> expected)
-    {
-        var outcome = values.FlattenOnce();
-        
-        outcome.Should().BeEquivalentTo(expected);
-    }
     #endregion
 }

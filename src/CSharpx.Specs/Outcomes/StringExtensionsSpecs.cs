@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using FluentAssertions;
@@ -125,5 +126,17 @@ public class StringExtensionsSpecs
     public void Should_strip_by_length(string value, int length, string expected)
     {
         value.StripByLength(length).Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData(
+        new string[] {"foo bar baz", "fooo baar baaz"},
+        new string[] {"foo", "bar", "baz", "fooo", "baar", "baaz"})]
+    public void Should_flatten_a_string_sequence_into_words(
+        IEnumerable<string> values, IEnumerable<string> expected)
+    {
+        var outcome = values.FlattenOnce();
+        
+        outcome.Should().BeEquivalentTo(expected);
     }
 }
