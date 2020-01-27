@@ -320,7 +320,7 @@ namespace CSharpx
             if (maybe.MatchJust(out T value)) {
                 return value;
             }
-            throw exceptionToThrow ?? new ArgumentException("Value empty.");
+            throw exceptionToThrow ?? new ArgumentException("The value is empty.");
         }
 
         /// <summary>If contains a values returns it, otherwise returns <c>noneValue</c>.</summary>
