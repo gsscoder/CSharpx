@@ -1,5 +1,5 @@
 //#define CSX_FSHARP_DISABLED // Uncomment or define at build time to remove all F# related types.
-//#define CSX_FSHARP_RESEXT_INTERNAL // Uncomment or define at build time to set FSharpResultExtensions accessibility to internal.
+//#define CSX_FSHARP_INTERNAL // Uncomment or define at build time to set FSharpResultExtensions accessibility to internal.
 
 #if !CSX_FSHARP_DISABLED
 using System;
