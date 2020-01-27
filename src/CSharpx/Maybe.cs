@@ -14,7 +14,9 @@ namespace CSharpx
 #endif
     enum MaybeType
     {
+        /// <summary>Computation case with a value.</summary>
         Just,
+        /// <summary>Computation case without a value.</summary>
         Nothing
     }
 
