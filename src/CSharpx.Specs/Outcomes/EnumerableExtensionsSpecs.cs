@@ -28,6 +28,24 @@ public class EnumerableExtensionsSpecs
     }
     #endregion
 
+    #region ToMaybe
+    [Fact]
+    public void An_empty_sequence_should_be_converted_to_Nothing()
+    {
+        var outcome = Enumerable.Empty<int>().ToMaybe();
+
+        outcome.Should().BeEquivalentTo(Maybe.Nothing<IEnumerable<int>>());
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void An_not_empty_sequence_should_be_converted_to_Just(FSharpList<int> values)
+    {
+        var outcome = values.ToMaybe();
+
+        outcome.Should().BeEquivalentTo(Maybe.Just(values));
+    }
+    #endregion
+
     #region Choose
     [Theory]
     [InlineData(
