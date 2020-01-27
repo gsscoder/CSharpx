@@ -406,7 +406,8 @@ namespace CSharpx
                     }
                 }
                 else {
-                    throw new ArgumentException("Source sequence cannot be empty", nameof(source));
+                    throw new ArgumentException(
+                        "The input sequence has an insufficient number of elements.", nameof(source));
                 }
             }
         }
