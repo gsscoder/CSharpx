@@ -28,12 +28,12 @@ namespace CSharpx
 #endif
     abstract class Maybe<T>
     {
-        readonly MaybeType tag;
+        readonly MaybeType _tag;
 
-        protected Maybe(MaybeType tag) => this.tag = tag;
+        protected Maybe(MaybeType tag) => _tag = tag;
 
         /// <summary>Type discriminator. </summary>
-        public MaybeType Tag { get { return tag; } }
+        public MaybeType Tag { get { return _tag; } }
 
         #region Basic Match Methods
         /// <summary>Matches a value returning <c>true</c> and value itself via an output
@@ -65,12 +65,12 @@ namespace CSharpx
 #endif
     sealed class Just<T> : Maybe<T>
     {
-        readonly T value;
+        readonly T _value;
 
-        internal Just(T value) : base(MaybeType.Just) => this.value = value;
+        internal Just(T value) : base(MaybeType.Just) => _value = value;
 
         /// <summary>The wrapped value.</summary>
-        public T Value { get { return value; } }
+        public T Value { get { return _value; } }
     }
 
     /// <summary>Provides static methods for manipulating <c>Maybe</c>.</summary>
