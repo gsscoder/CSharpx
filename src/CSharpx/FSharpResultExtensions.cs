@@ -133,10 +133,8 @@ namespace CSharpx.FSharp
             // Lifts a function into a result container and applies it on the given result.
             public static FSharpResult<T, TError> Lift<TValue, T, TError>(
                 Func<TValue, T> func,
-                FSharpResult<TValue, TError> result)
-            {
-                return Apply(FSharpResult<Func<TValue, T>, TError>.NewOk(func), result);
-            }
+                FSharpResult<TValue, TError> result) =>
+                Apply(FSharpResult<Func<TValue, T>, TError>.NewOk(func), result);
         }
     }
 }
