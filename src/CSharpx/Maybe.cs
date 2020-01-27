@@ -290,7 +290,7 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>Returns <c>true</c> if it us in form <c>Just</c>.</summary>
+        /// <summary>Returns <c>true</c> if it is in form <c>Just</c>.</summary>
         public static bool IsJust<T>(this Maybe<T> maybe)
         {
             return maybe.Tag == MaybeType.Just;
