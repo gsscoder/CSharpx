@@ -19,7 +19,7 @@ public class EnumerableExtensionsSpecs
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
-    public void When_trying_to_get_head_element_should_return_just_in_case_of_not_empty_sequence(
+    public void When_trying_to_get_head_element_should_return_Just_in_case_of_not_empty_sequence(
         FSharpList<int> values)
     {
         var outcome = values.TryHead();
