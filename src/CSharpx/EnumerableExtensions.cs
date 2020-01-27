@@ -304,37 +304,6 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>Return everything except first element and throws exception if empty.</summary>
-        public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
-        {
-            using (var e = source.GetEnumerator()) {
-                if (e.MoveNext()) {
-                    while (e.MoveNext()) {
-                        yield return e.Current;
-                    }
-                }
-                else {
-                    throw new ArgumentException("Source sequence cannot be empty", nameof(source));
-                }
-            }
-        }
-
-        /// <summary>Return everything except first element without throwing exception if empty.</summary>
-        public static IEnumerable<T> TailNoFail<T>(this IEnumerable<T> source)
-        {
-            using (var e = source.GetEnumerator()) {
-                if (e.MoveNext()) {
-                    while (e.MoveNext()) {
-                        yield return e.Current;
-                    }
-                }
-            }
-        }
-
-        /// <summary>Captures the current state of a sequence.</summary>
-        public static IEnumerable<T> Memoize<T>(
-            this IEnumerable<T> source) => source.GetType().IsArray ? source : source.ToArray();
-
         #region Materialize
         /// <summary>Creates an immutable copy of a sequence.</summary>
         public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
@@ -426,6 +395,37 @@ namespace CSharpx
             }
         }
         #endregion
+
+        /// <summary>Return everything except first element and throws exception if empty.</summary>
+        public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator()) {
+                if (e.MoveNext()) {
+                    while (e.MoveNext()) {
+                        yield return e.Current;
+                    }
+                }
+                else {
+                    throw new ArgumentException("Source sequence cannot be empty", nameof(source));
+                }
+            }
+        }
+
+        /// <summary>Return everything except first element without throwing exception if empty.</summary>
+        public static IEnumerable<T> TailNoFail<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator()) {
+                if (e.MoveNext()) {
+                    while (e.MoveNext()) {
+                        yield return e.Current;
+                    }
+                }
+            }
+        }
+
+        /// <summary>Captures the current state of a sequence.</summary>
+        public static IEnumerable<T> Memoize<T>(
+            this IEnumerable<T> source) => source.GetType().IsArray ? source : source.ToArray();
 
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
