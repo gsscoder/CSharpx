@@ -57,6 +57,7 @@ var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
 var element = sequence.Choice();
 // will choose a random element
 ```
+- [Tests](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx.Specs/Outcomes/EnumerableExtensionsSpecs.cs) cover only new and modified extension methods.
 
 ## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
 
