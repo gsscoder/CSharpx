@@ -81,10 +81,7 @@ namespace CSharpx
         }
 
         /// <summary>The wrapped value.</summary>
-        public T Value
-        {
-            get { return value; }
-        }
+        public T Value { get { return value; } }
     }
 
     /// <summary>Provides static methods for manipulating <c>Maybe</c>.</summary>

@@ -32,10 +32,7 @@ namespace CSharpx
 
         protected Either(EitherType tag) => this.tag = tag;
 
-        public EitherType Tag
-        {
-            get { return this.tag; }
-        }
+        public EitherType Tag { get { return this.tag; } }
 
         #region Basic Match Methods
         /// <summary>Matches a <c>Left</c> value returning <c>true</c> and value itself via an output
@@ -66,10 +63,7 @@ namespace CSharpx
         internal Left(TLeft value) : base(EitherType.Left) => this.value = value;
 
         /// <summary>The wrapped value.</summary>
-        public TLeft Value
-        {
-            get { return value; }
-        }
+        public TLeft Value { get { return value; } }
     }
 
 #if !CSX_EITHER_INTERNAL
@@ -82,10 +76,7 @@ namespace CSharpx
         internal Right(TRight value) : base(EitherType.Right) => this.value = value;
 
         /// <summary>The wrapped value.</summary>
-        public TRight Value
-        {
-            get { return value; }
-        }
+        public TRight Value { get { return value; } }
     }
     #endregion
 
