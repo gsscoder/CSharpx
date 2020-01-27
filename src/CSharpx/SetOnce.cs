@@ -13,8 +13,8 @@ namespace CSharpx
     #endif
     struct SetOnce<T>
     {
-        private bool _set;
-        private T _value;
+        bool _set;
+        T _value;
 
         /// <summary>
         /// Inner wrapped value.
@@ -59,8 +59,8 @@ namespace CSharpx
     #endif
     class BlockingSetOnce<T>
     {
-        private bool _set;
-        private T _value;
+        bool _set;
+        T _value;
 
         /// <summary>
         /// Inner wrapped value.
