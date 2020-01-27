@@ -1,6 +1,6 @@
 # <img src="/assets/icon.png" height="30px" alt="CSharpx Logo"> CSharpx
 
-Functional programming and other utilities for C#, following *don't reinvent the wheel* philosophy.
+Functional programming and other utilities for C#, following *don't reinvent the wheel* philosophy. This project was inspired by [Real-World Functional Programming](https://www.amazon.com/Real-World-Functional-Programming-Tomas-Petricek/dp/1933988924/ref=sr_1_1?keywords=Real-World+Functional+Programming&qid=1580118924&s=books&sr=1-1) and contains code from [MoreLINQ](https://github.com/morelinq/MoreLINQ).
 
 Every source file contains conditional compilation symbols to change type visibility from public to internal
 and set other preferences.
@@ -41,7 +41,7 @@ The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.
 
 ## [EnumerableExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/EnumerableExtensions.cs)
 
-- Most useful extension methods from [MoreLINQ](https://code.google.com/p/morelinq/).
+- Most useful extension methods from [MoreLINQ](https://github.com/morelinq/MoreLINQ).
 - Some of these reimplemnted (e.g. `Choose` using `Maybe`):
 ```csharp
 var numbers = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -177,11 +177,10 @@ static Unit PrintLine(string value)
 
 ## Latest Changes
 
-- Ported to .NET Core.
-- Compiles for .NET Framework 4.6.1.
 - Added `FSharpResultExtensions`.
 - Added `Return` extension method to `Maybe` type.
-- `SafeSetOnce` renamed to `BlockingSetOnce`.
+- Added `IEnumerable<T>.Choose` extension method.
+- Added tests to `EnumerableExtensionsSpecs`.
 
 ## Related Projects
 
