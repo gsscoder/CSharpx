@@ -28,7 +28,7 @@ namespace CSharpx
 #endif
     abstract class Maybe<T>
     {
-        private readonly MaybeType tag;
+        readonly MaybeType tag;
 
         protected Maybe(MaybeType tag)
         {
@@ -74,7 +74,7 @@ namespace CSharpx
 #endif
     sealed class Just<T> : Maybe<T>
     {
-        private readonly T value;
+        readonly T value;
 
         internal Just(T value)
             : base(MaybeType.Just)
