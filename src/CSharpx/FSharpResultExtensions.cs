@@ -12,9 +12,7 @@ namespace CSharpx.FSharp
 #endif
     static class FSharpResultExtensions
     {
-        /// <summary>
-        /// Allows pattern matching on Results.
-        /// </summary>
+        /// <summary>Allows pattern matching on <c>FSharpResult</c>.</summary>
         public static void Match<T, TError>(this FSharpResult<T, TError> result,
             Action<T> onOk,
             Action<TError> onError)
@@ -29,9 +27,7 @@ namespace CSharpx.FSharp
             onError(result.ErrorValue);
         }
 
-        /// <summary>
-        /// Allows pattern matching on Results.
-        /// </summary>
+        /// <summary>Allows pattern matching on <c>FSharpResult</c>.</summary>
         public static TResult Either<T, TError, TResult>(this FSharpResult<T, TError> result,
             Func<T, TResult> onOk,
             Func<TError, TResult> onError)
@@ -42,9 +38,8 @@ namespace CSharpx.FSharp
             return Either(onOk, onError, result);
         }
 
-        /// <summary>
-        /// Lifts a Func into a Result and applies it on the given result.
-        /// </summary>
+        /// <summary>Lifts a <c>Func</c> into an <c>FSharpResult</c> and applies it on the given
+        /// result.</summary>
         public static FSharpResult<TResult, TError> Map<T, TError, TResult>(
             this FSharpResult<T, TError> result,
             Func<T, TResult> func)
@@ -54,10 +49,8 @@ namespace CSharpx.FSharp
             return Lift(func, result);
         }
 
-        /// <summary>
-        /// If the wrapped function is a success and the given result is a success the function is applied on the value. 
-        /// Otherwise the exisiting error is returned. 
-        /// </summary>
+        /// <summary>If the wrapped function is a success and the given result is a success the
+        /// function is applied on the value. Otherwise the exisiting error is returned.</summary>
         public static FSharpResult<T, TError> Bind<TValue, T, TError>(
                 this FSharpResult<TValue, TError> result,
                 Func<TValue, FSharpResult<T, TError>> func)
@@ -67,10 +60,8 @@ namespace CSharpx.FSharp
             return Bind(func, result);
         }
 
-        /// <summary>
-        /// If the given result is a success the wrapped value will be returned. 
-        /// Otherwise the function throws an exception with the string representation of the error.
-        /// </summary>
+        /// <summary>If the given result is a success the wrapped value will be returned. Otherwise
+        /// the function throws an exception with the string representation of the error.</summary>
         public static T ReturnOrFail<T, TError>(this FSharpResult<T, TError> result)
         {
             Func<TError, T> raiseExn = err => throw new Exception(err.ToString());
@@ -78,14 +69,13 @@ namespace CSharpx.FSharp
             return Either(value => value, raiseExn, result);
         }
 
-        /// <summary>
-        /// Unwraps a value applying a function o returns another value on fail.
-        /// </summary></typeparam>
+        /// <summary>Unwraps a value applying a function o returns another value on fail.</summary>
         public static TResult Return<T, TError, TResult>(
             this FSharpResult<T, TError> result,
             Func<T, TResult> func, TResult noneValue) => Either(func, value => noneValue, result);
 
-        // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with errorFunc.
+        // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with
+        // errorFunc.
         public static TResult Either<T, TError, TResult>(
             Func<T, TResult> okFunc,
             Func<TError, TResult> errorFunc,
@@ -100,8 +90,8 @@ namespace CSharpx.FSharp
             return errorFunc(result.ErrorValue);
         }
 
-        // If the result is a success it executes the given function on the value.
-        // Otherwise the exisiting error is returned.
+        // If the result is a success it executes the given function on the value. Otherwise the
+        // exisiting error is returned.
         static FSharpResult<T, TError> Bind<TValue, T, TError>(
             Func<TValue, FSharpResult<T, TError>> func,
             FSharpResult<TValue, TError> result)
@@ -115,8 +105,8 @@ namespace CSharpx.FSharp
                 return Either(okFunc, errorFunc, result);
         }
 
-        // If the wrapped function is a success and the given result is a success the function is applied on the value. 
-        // Otherwise the exisiting error is returned.
+        // If the wrapped function is a success and the given result is a success the function is
+        // applied on the value.  Otherwise the exisiting error is returned.
         static FSharpResult<T, TError> Apply<TValue, T, TError>(
             FSharpResult<Func<TValue, T>, TError> wrappedFunc,
             FSharpResult<TValue, TError> result
