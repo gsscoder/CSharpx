@@ -18,7 +18,7 @@ namespace CSharpx
     static class EnumerableExtensions
     {
         #region Internal
-        private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
+        static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
         {
             var collection = source as ICollection<TSource>; // Optimization for collections
@@ -31,7 +31,7 @@ namespace CSharpx
             return ExpectingCountYieldingImpl(source, count, errorSelector);
         }
 
-        private static IEnumerable<TSource> ExpectingCountYieldingImpl<TSource>(IEnumerable<TSource> source,
+        static IEnumerable<TSource> ExpectingCountYieldingImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
         {
             var iterations = 0;
@@ -102,7 +102,7 @@ namespace CSharpx
             return ExcludeImpl(sequence, startIndex, count);
         }
 
-        private static IEnumerable<T> ExcludeImpl<T>(IEnumerable<T> sequence, int startIndex, int count)
+        static IEnumerable<T> ExcludeImpl<T>(IEnumerable<T> sequence, int startIndex, int count)
         {
             var index = -1;
             var endIndex = startIndex + count;
@@ -218,7 +218,7 @@ namespace CSharpx
             return PairwiseImpl(source, resultSelector);
         }
 
-        private static IEnumerable<TResult> PairwiseImpl<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TSource, TResult> resultSelector)
+        static IEnumerable<TResult> PairwiseImpl<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TSource, TResult> resultSelector)
         {
             using (var e = source.GetEnumerator()) {
                 if (!e.MoveNext()) {
@@ -274,9 +274,9 @@ namespace CSharpx
             return new MaterializedEnumerable<T>(source);
         }
 
-        private class MaterializedEnumerable<T> : IEnumerable<T>
+        class MaterializedEnumerable<T> : IEnumerable<T>
         {
-            private readonly ICollection<T> inner;
+            readonly ICollection<T> inner;
 
             public MaterializedEnumerable(IEnumerable<T> enumerable)
             {
