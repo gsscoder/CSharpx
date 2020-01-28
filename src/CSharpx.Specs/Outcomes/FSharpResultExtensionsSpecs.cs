@@ -42,10 +42,10 @@ public class FSharpResultExtensionsSpecs
         var sut = FSharpResult<int, string>.NewOk(value);
 
         Func<int, double> func = x => x / 0.5;
-        var mapped = sut.Map(func);
+        var outcome = sut.Map(func);
 
-        mapped.IsOk.Should().BeTrue();
-        mapped.ResultValue.Should().Be(func(value));
+        outcome.IsOk.Should().BeTrue();
+        outcome.ResultValue.Should().Be(func(value));
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
@@ -53,10 +53,10 @@ public class FSharpResultExtensionsSpecs
     {
         var sut = FSharpResult<int, string>.NewError("bad result");
 
-        var mapped = sut.Map(x => x / 0.5);
+        var outcome = sut.Map(x => x / 0.5);
 
-        mapped.IsOk.Should().BeFalse();
-        mapped.ResultValue.Should().Be(default(double));
+        outcome.IsOk.Should().BeFalse();
+        outcome.ResultValue.Should().Be(default(double));
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
@@ -66,10 +66,10 @@ public class FSharpResultExtensionsSpecs
 
         Func<int, FSharpResult<double, string>> func =
             x => FSharpResult<double, string>.NewOk(x / 0.5);
-        var binded = sut.Bind(func);
+        var outcome = sut.Bind(func);
 
-        binded.IsOk.Should().BeTrue();
-        binded.ResultValue.Should().Be(func(value).ResultValue);
+        outcome.IsOk.Should().BeTrue();
+        outcome.ResultValue.Should().Be(func(value).ResultValue);
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
@@ -77,10 +77,10 @@ public class FSharpResultExtensionsSpecs
     {
         var sut = FSharpResult<int, string>.NewError("bad result");
 
-        var binded = sut.Bind(x => FSharpResult<double, string>.NewOk(x / 0.5));
+        var outcome = sut.Bind(x => FSharpResult<double, string>.NewOk(x / 0.5));
 
-        binded.IsOk.Should().BeFalse();
-        binded.ResultValue.Should().Be(default(double));
+        outcome.IsOk.Should().BeFalse();
+        outcome.ResultValue.Should().Be(default(double));
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
@@ -88,9 +88,9 @@ public class FSharpResultExtensionsSpecs
     {
         var sut = FSharpResult<int, string>.NewOk(value);
 
-        var result = sut.ReturnOrFail();
+        var outcome = sut.ReturnOrFail();
 
-        result.Should().Be(value);
+        outcome.Should().Be(value);
     }
 
     [Fact]
@@ -110,9 +110,9 @@ public class FSharpResultExtensionsSpecs
         var sut = FSharpResult<int, string>.NewOk(value);
 
         Func<int, double> func = x => x / 0.5;
-        var result = sut.Return(func, 0);
+        var outcome = sut.Return(func, 0);
 
-        result.Should().Be(func(value));
+        outcome.Should().Be(func(value));
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
@@ -121,8 +121,8 @@ public class FSharpResultExtensionsSpecs
         var sut = FSharpResult<int, string>.NewError("bad result");
 
         Func<int, double> func = x => x / 0.5;
-        var result = sut.Return(func, 0);
+        var outcome = sut.Return(func, 0);
 
-        result.Should().Be(0);
+        outcome.Should().Be(0);
     }
 }
