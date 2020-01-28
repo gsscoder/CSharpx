@@ -3,6 +3,7 @@
 
 #if !CSX_FSHARP_DISABLED
 using System;
+using System.Runtime.CompilerServices;
 using Microsoft.FSharp.Core;
 
 namespace CSharpx.FSharp
@@ -76,6 +77,7 @@ namespace CSharpx.FSharp
 
         // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with
         // errorFunc.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static TResult Either<T, TError, TResult>(
             Func<T, TResult> okFunc,
             Func<TError, TResult> errorFunc,
@@ -92,6 +94,7 @@ namespace CSharpx.FSharp
 
         // If the result is a success it executes the given function on the value. Otherwise the
         // exisiting error is returned.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static FSharpResult<T, TError> Bind<TValue, T, TError>(
             Func<TValue, FSharpResult<T, TError>> func,
             FSharpResult<TValue, TError> result)
@@ -107,6 +110,7 @@ namespace CSharpx.FSharp
 
         // If the wrapped function is a success and the given result is a success the function is
         // applied on the value.  Otherwise the exisiting error is returned.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static FSharpResult<T, TError> Apply<TValue, T, TError>(
             FSharpResult<Func<TValue, T>, TError> wrappedFunc,
             FSharpResult<TValue, TError> result
@@ -120,6 +124,7 @@ namespace CSharpx.FSharp
         }
 
         // Lifts a function into a result container and applies it on the given result.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static FSharpResult<T, TError> Lift<TValue, T, TError>(
             Func<TValue, T> func,
             FSharpResult<TValue, TError> result) =>
