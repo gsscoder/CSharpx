@@ -110,6 +110,7 @@ var result = Query.GetIndex(".DJI");
 result.Map(
     quote => CurrencyConverter.Change(quote.Price, "$", "€"));
 ```
+- Blog [post](https://gsscoder.github.io/consuming-fsharp-results-in-c/) about it.
 
 ## [SetOnce](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/SetOnce.cs)
 
