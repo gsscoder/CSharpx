@@ -46,6 +46,7 @@ public class StringExtensionsSpecs
         outcome.Should().Be(expected);
     }
 
+    #region Sanitize
     [Theory]
     [InlineData("foo bar@", "foo bar")]
     [InlineData("foo\tbar@", "foo bar")]
@@ -66,6 +67,7 @@ public class StringExtensionsSpecs
         
         outcome.Should().Be(expected);
     }
+    #endregion
 
     [Theory]
     [InlineData("hello this is a test", new object[] {'!', "!!", 10}, "hello ! this !! is 10 a test")]
@@ -87,6 +89,7 @@ public class StringExtensionsSpecs
         outcome.Should().Be(expected);
     }
 
+    #region Mangle
     [Theory]
     [InlineData("foo", 0, 0)]
     [InlineData("foo", 1, 1)]
@@ -124,6 +127,7 @@ public class StringExtensionsSpecs
         action.Should().ThrowExactly<ArgumentException>()
             .WithMessage("times");
     }
+    #endregion
 
     [Theory]
     [InlineData("foo", "foo")]
