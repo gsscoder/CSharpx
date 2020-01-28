@@ -11,6 +11,8 @@ public class AttayExtensionsSpecs
         new object[] { "a", "b", "c", "d", "e", "f", "g", "h", "l", "j" })]
     public void Should_sort_arrays(object[] value, object[] expected)
     {
-        value.Sort().Should().BeEquivalentTo(expected);
+        var outcome = value.Sort().Should();
+        
+        outcome.BeEquivalentTo(expected);
     }
 }
