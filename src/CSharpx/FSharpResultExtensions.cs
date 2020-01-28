@@ -1,5 +1,6 @@
 //#define CSX_FSHARP_DISABLED // Uncomment or define at build time to remove all F# related types.
 //#define CSX_FSHARP_INTERNAL // Uncomment or define at build time to set FSharpResultExtensions accessibility to internal.
+//#define CSX_REM_MAYBE_FUNC // Uncomment or define at build time to remove dependency to Maybe.cs.
 
 #if !CSX_FSHARP_DISABLED
 using System;
@@ -74,6 +75,12 @@ namespace CSharpx.FSharp
         public static TResult Return<T, TError, TResult>(
             this FSharpResult<T, TError> result,
             Func<T, TResult> func, TResult noneValue) => Either(func, value => noneValue, result);
+        
+        #if !CSX_REM_MAYBE_FUNC
+        /// <summary>Builds a <c>Maybe</c> discarding error type.</summary>
+        public static Maybe<T> ToMaybe<T, TError>(this FSharpResult<T, TError> result) =>
+            result.IsOk ? Maybe.Just<T>(result.ResultValue) : Maybe.Nothing<T>();
+        #endif
 
         // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with
         // errorFunc.

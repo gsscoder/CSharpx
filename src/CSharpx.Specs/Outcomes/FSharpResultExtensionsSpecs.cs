@@ -4,6 +4,7 @@ using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
 using Microsoft.FSharp.Core;
+using CSharpx;
 using CSharpx.FSharp;
 
 public class FSharpResultExtensionsSpecs
@@ -124,5 +125,26 @@ public class FSharpResultExtensionsSpecs
         var outcome = sut.Return(func, 0);
 
         outcome.Should().Be(0);
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void Should_build_a_Maybe_Just_from_a_success(int value)
+    {
+        var sut = FSharpResult<int, string>.NewOk(value);
+
+        var outcome = sut.ToMaybe();
+
+        outcome.Should().BeOfType<Just<int>>();
+        outcome.FromJust().Should().Be(value);
+    }
+
+    [Fact] 
+    public void Should_build_a_Maybe_Nothing_from_a_fail()
+    {
+        var sut = FSharpResult<int, string>.NewError("bad result");
+
+        var outcome = sut.ToMaybe();
+
+        outcome.Should().BeOfType<Nothing<int>>();
     }
 }
