@@ -176,7 +176,7 @@ namespace CSharpx
                 InitBuffer();
 
             if (requiredBytes > _buffer.Length)
-                throw new ArgumentOutOfRangeException(nameof(requiredBytes), "cannot be greater than random buffer");
+                throw new ArgumentOutOfRangeException(nameof(requiredBytes), "Cannot be greater than random buffer.");
 
             if ((_buffer.Length - _bufferPosition) < requiredBytes)
                 InitBuffer();
