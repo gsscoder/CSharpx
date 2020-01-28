@@ -12,7 +12,7 @@ namespace CSharpx
     #endif
     class CryptoRandom : Random
     {
-        RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
+        readonly RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
         byte[] _buffer;
         int _bufferPosition;
 
