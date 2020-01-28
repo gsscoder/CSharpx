@@ -55,11 +55,9 @@ namespace CSharpx
         }
 
         /// <summary>Returns a non-negative random integer.</summary>
-        public override int Next()
-        {
+        public override int Next() =>
             // Mask away the sign bit so that we always return nonnegative integers
-            return (int)GetRandomUInt32() & 0x7FFFFFFF;
-        }
+            (int)GetRandomUInt32() & 0x7FFFFFFF;
 
         /// <summary>Returns a non-negative random integer that is less than the specified
         /// maximum.</returns>
@@ -89,10 +87,7 @@ namespace CSharpx
 
         /// <summary>Returns a random floating-point number that is greater than or equal to 0.0, and
         /// less than 1.0.</summary>
-        public override double NextDouble()
-        {
-            return GetRandomUInt32() / (1.0 + uint.MaxValue);
-        }
+        public override double NextDouble() => GetRandomUInt32() / (1.0 + uint.MaxValue);
 
         /// <summary>Fills the elements of a specified array of bytes with random numbers.</summary>
         public override void NextBytes(byte[] buffer)
