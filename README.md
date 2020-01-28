@@ -164,11 +164,11 @@ static int Main(string[] args)
     var sentence = "this is a sentence";;
     return (from _ in
             from word in sentence.Split()
-            select PrintLine(word)
+            select Print(word)
             select 0).Distinct().Single();
 }
 
-static Unit PrintLine(string value)
+static Unit Print(string value)
 {
     Console.WriteLine(value);
     return Unit.Default;
