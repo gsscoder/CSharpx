@@ -11,7 +11,6 @@ public class UnitSpecs
         var unit2 = new Unit();
 
         unit1.Should().Be(unit2);
-        (unit1 == unit2).Should().BeTrue();
     }
 
     [Fact]
