@@ -17,46 +17,6 @@ namespace CSharpx
 #endif
     static class EnumerableExtensions
     {
-#if !CSX_REM_MAYBE_FUNC
-        /// <summary>Safe function that returns Just(first element) or None.</summary>
-        public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
-        {
-            using (var e = source.GetEnumerator()) {
-                return e.MoveNext()
-                    ? Maybe.Just(e.Current)
-                    : Maybe.Nothing<T>();
-            }
-        }
-
-        /// <summary>Turns an empty sequence to Nothing, otherwise Just(sequence).</summary>
-        public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
-        {
-            using (var e = source.GetEnumerator()) {
-                return e.MoveNext()
-                    ? Maybe.Just(source)
-                    : Maybe.Nothing<IEnumerable<T>>();
-            }
-        }
-
-        /// <summary>Applies a function to each element of the source sequence and returns a new
-        /// sequence of elements where the function returns Just(value).</summary>
-        public static IEnumerable<TResult> Choose<T, TResult>(this IEnumerable<T> source,
-            Func<T, Maybe<TResult>> chooser)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (chooser == null) throw new ArgumentNullException(nameof(chooser));
-
-            return _(); IEnumerable<TResult> _() {
-                foreach (var item in source) {
-                    var result = chooser(item);
-                    if (result.MatchJust(out TResult value)) {
-                        yield return value;
-                    }
-                }
-            }
-        }
-#endif
-
         #region Internal
         private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
@@ -431,11 +391,11 @@ namespace CSharpx
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
         {
-#if CSX_REM_CRYPTORAND
+        #if CSX_REM_CRYPTORAND
             var index = new Random().Next(source.Count() - 1);
-#else
+        #else
             var index = new CryptoRandom().Next(source.Count() - 1);
-#endif
+        #endif
             return source.ElementAt(index);
         }
 
@@ -464,5 +424,45 @@ namespace CSharpx
                 }
             }
         }
+
+        #if !CSX_REM_MAYBE_FUNC
+        /// <summary>Safe function that returns Just(first element) or None.</summary>
+        public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator()) {
+                return e.MoveNext()
+                    ? Maybe.Just(e.Current)
+                    : Maybe.Nothing<T>();
+            }
+        }
+
+        /// <summary>Turns an empty sequence to Nothing, otherwise Just(sequence).</summary>
+        public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator()) {
+                return e.MoveNext()
+                    ? Maybe.Just(source)
+                    : Maybe.Nothing<IEnumerable<T>>();
+            }
+        }
+
+        /// <summary>Applies a function to each element of the source sequence and returns a new
+        /// sequence of elements where the function returns Just(value).</summary>
+        public static IEnumerable<TResult> Choose<T, TResult>(this IEnumerable<T> source,
+            Func<T, Maybe<TResult>> chooser)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (chooser == null) throw new ArgumentNullException(nameof(chooser));
+
+            return _(); IEnumerable<TResult> _() {
+                foreach (var item in source) {
+                    var result = chooser(item);
+                    if (result.MatchJust(out TResult value)) {
+                        yield return value;
+                    }
+                }
+            }
+        }
+        #endif
     }
 }
