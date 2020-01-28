@@ -10,7 +10,7 @@ namespace CSharpx
 #if !CSX_UNIT_INTERNAL
     public
 #endif
-    struct Unit : IEquatable<Unit>, IComparable<Unit>
+    struct Unit : IComparable<Unit>
     {
         private static readonly Unit @default = new Unit();
 
@@ -18,13 +18,6 @@ namespace CSharpx
         public override int GetHashCode()
         {
             return 0;
-        }
-
-        /// <summary>Determines whether this instance and another specified  <c>Unit</c> object have
-        /// the same value.</summary>
-        public bool Equals(Unit other)
-        {
-            return true;
         }
 
         /// <summary>Determines whether this instance and a specified object, which must also be a
