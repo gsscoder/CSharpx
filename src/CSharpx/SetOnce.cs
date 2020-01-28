@@ -1,13 +1,11 @@
-//#define CSX_SETONCE_INTERNAL // Uncomment or define at build time to set SetOnce<T> accessibility to internal.
+//#define CSX_SETONCE_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 //#define CSX_SETONCE_ONLY_UNSAFE // Uncomment or define at build time to remove thread-safe implementation.
 
 using System;
 
 namespace CSharpx
 {
-    /// <summary>
-    /// Wraps a value that can be set only once.
-    /// </summary>
+    /// <summary>Wraps a value that can be set only once.</summary>
     #if !CSX_SETONCE_INTERNAL
     public
     #endif
@@ -16,9 +14,7 @@ namespace CSharpx
         bool _set;
         T _value;
 
-        /// <summary>
-        /// Inner wrapped value.
-        /// </summary>
+        /// <summary>The wrapped value.</summary>
         public T Value
         {
             get
@@ -51,9 +47,7 @@ namespace CSharpx
     }
 
 #if !CSX_SETONCE_ONLY_UNSAFE
-    /// <summary>
-    /// Wraps a value that can be set only once. Thread-safe implementation.
-    /// </summary>
+    /// <summary>Wraps a value that can be set only once. Thread-safe implementation.</summary>
     #if !CSX_SETONCE_INTERNAL
     public
     #endif
@@ -62,9 +56,7 @@ namespace CSharpx
         bool _set;
         T _value;
 
-        /// <summary>
-        /// Inner wrapped value.
-        /// </summary>
+        /// <summary> The wrapped value.</summary>
         public T Value
         {
             get
