@@ -5,20 +5,24 @@ using CSharpx;
 public class UnitSpecs
 {
     [Fact]
-    public void Unit_values_should_be_equal()
+    public void Unit_values_should_be_equals()
     {
-        var unit1 = new Unit();
-        var unit2 = new Unit();
+        var sut1 = new Unit();
+        var sut2 = new Unit();
 
-        unit1.Should().Be(unit2);
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeTrue();
     }
 
     [Fact]
-    public void Unit_values_should_match_to_equality()
+    public void Unit_values_should_compare_to_equality()
     {
-        var unit1 = new Unit();
-        var unit2 = new Unit();
+        var sut1 = new Unit();
+        var sut2 = new Unit();
 
-        unit1.CompareTo(unit2).Should().Be(0);
+        var outcome = sut1.CompareTo(sut2);
+        
+        outcome.Should().Be(0);
     }
 }
