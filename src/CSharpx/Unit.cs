@@ -41,18 +41,6 @@ namespace CSharpx
             return "()";
         }
 
-        /// <summary>Equality operator.</summary>
-        public static bool operator ==(Unit first, Unit second)
-        {
-            return true;
-        }
-
-        /// <summary>Inequality operator.</summary>
-        public static bool operator !=(Unit first, Unit second)
-        {
-            return false;
-        }
-
         /// <summary>Singleton value.</summary>
         public static Unit Default { get { return @default; } }
     }
