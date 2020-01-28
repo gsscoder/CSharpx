@@ -5,7 +5,6 @@ using FsCheck;
 using FsCheck.Xunit;
 using Microsoft.FSharp.Core;
 using CSharpx;
-using CSharpx.FSharp;
 
 public class FSharpResultExtensionsSpecs
 {

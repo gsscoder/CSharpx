@@ -7,7 +7,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Microsoft.FSharp.Core;
 
-namespace CSharpx.FSharp
+namespace CSharpx
 {
 #if !CSX_FSHARP_INTERNAL
     public
