@@ -21,19 +21,13 @@ namespace CSharpx
         /// <summary>
         /// Gets a value indicating whether this instance has random pool enabled.
         /// </summary>
-        public bool IsRandomPoolEnabled
-        {
-            get;
-            private set;
-        }
+        public bool IsRandomPoolEnabled { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CryptoRandom"/> class with.
         /// Using this overload will enable the random buffer pool.
         /// </summary>
-        public CryptoRandom() : this(true)
-        {
-        }
+        public CryptoRandom() : this(true) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CryptoRandom"/> class.
@@ -56,17 +50,16 @@ namespace CSharpx
 
         private void InitBuffer()
         {
-            if (IsRandomPoolEnabled)
-            {
-                if (_buffer == null || _buffer.Length != 512)
+            if (IsRandomPoolEnabled) {
+                if (_buffer == null || _buffer.Length != 512) {
                     _buffer = new byte[512];
+                }
             }
-            else
-            {
-                if (_buffer == null || _buffer.Length != 4)
+            else {
+                if (_buffer == null || _buffer.Length != 4) {
                     _buffer = new byte[4];
+                }
             }
-
             _rng.GetBytes(_buffer);
             _bufferPosition = 0;
         }
@@ -85,8 +78,7 @@ namespace CSharpx
         /// </returns>
         public override int Next(int maxValue)
         {
-            if (maxValue < 0)
-                throw new ArgumentOutOfRangeException(nameof(maxValue));
+            if (maxValue < 0) throw new ArgumentOutOfRangeException(nameof(maxValue));
 
             return Next(0, maxValue);
         }
@@ -96,23 +88,17 @@ namespace CSharpx
         /// </summary>
         public override int Next(int minValue, int maxValue)
         {
-            if (minValue > maxValue)
-                throw new ArgumentOutOfRangeException(nameof(minValue));
-
-            if (minValue == maxValue)
-                return minValue;
+            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue));
+            if (minValue == maxValue) return minValue;
 
             long diff = maxValue - minValue;
-
-            while (true)
-            {
+            while (true) {
                 uint rand = GetRandomUInt32();
-
                 long max = 1 + (long)uint.MaxValue;
                 long remainder = max % diff;
-
-                if (rand < max - remainder)
+                if (rand < max - remainder) {
                     return (int)(minValue + (rand % diff));
+                }
             }
         }
 
@@ -129,27 +115,22 @@ namespace CSharpx
         /// </summary>
         public override void NextBytes(byte[] buffer)
         {
-            if (buffer == null)
-                throw new ArgumentNullException(nameof(buffer));
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
 
             lock (this)
             {
-                if (IsRandomPoolEnabled && _buffer == null)
+                if (IsRandomPoolEnabled && _buffer == null) {
                     InitBuffer();
-
+                }
                 // Can we fit the requested number of bytes in the buffer?
                 if (IsRandomPoolEnabled && _buffer.Length <= buffer.Length)
                 {
                     int count = buffer.Length;
-
                     EnsureRandomBuffer(count);
-
                     Buffer.BlockCopy(_buffer, _bufferPosition, buffer, 0, count);
-
                     _bufferPosition += count;
                 }
-                else
-                {
+                else {
                     // Draw bytes directly from the RNGCryptoProvider
                     _rng.GetBytes(buffer);
                 }
@@ -158,28 +139,26 @@ namespace CSharpx
 
         private uint GetRandomUInt32()
         {
-            lock (this)
-            {
+            lock (this) {
                 EnsureRandomBuffer(4);
-
                 uint rand = BitConverter.ToUInt32(_buffer, _bufferPosition);
-
                 _bufferPosition += 4;
-
                 return rand;
             }
         }
 
         private void EnsureRandomBuffer(int requiredBytes)
         {
-            if (_buffer == null)
+            if (_buffer == null) {
                 InitBuffer();
+            }
 
-            if (requiredBytes > _buffer.Length)
-                throw new ArgumentOutOfRangeException(nameof(requiredBytes), "Cannot be greater than random buffer.");
+            if (requiredBytes > _buffer.Length) throw new ArgumentOutOfRangeException(nameof(requiredBytes),
+                "Cannot be greater than random buffer.");
 
-            if ((_buffer.Length - _bufferPosition) < requiredBytes)
+            if ((_buffer.Length - _bufferPosition) < requiredBytes) {
                 InitBuffer();
+            }
         }
     }
 }
