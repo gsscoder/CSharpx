@@ -76,7 +76,7 @@ namespace CSharpx.FSharp
 
         // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with
         // errorFunc.
-        public static TResult Either<T, TError, TResult>(
+        static TResult Either<T, TError, TResult>(
             Func<T, TResult> okFunc,
             Func<TError, TResult> errorFunc,
             FSharpResult<T, TError> result)
