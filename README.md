@@ -150,8 +150,8 @@ Console.WriteLine(
 // outcome like: 'I want to change &a word'
 
 Console.WriteLine(
-    "\t[hello\nREADME@\t".Sanitize(normalizeWhiteSpace: true));
-// outcome: ' hello README '
+    "\t[hello\world@\t".Sanitize(normalizeWhiteSpace: true));
+// outcome: ' hello world '
 ```
 
 ## [Unit](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Unit.cs)
