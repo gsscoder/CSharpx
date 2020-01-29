@@ -29,6 +29,25 @@ public class EnumerableExtensionsSpecs
     }
     #endregion
 
+    #region TryLast
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void Trying_to_get_the_last_element_of_a_sequence_should_return_Just(
+        FSharpList<int> values)
+    {
+        var outcome = values.TryLast();
+
+        outcome.Should().BeEquivalentTo(Maybe.Just(values.Last()));
+    }
+
+    [Fact]
+    public void Trying_to_get_the_last_element_of_an_empty_sequence_should_return_Nothing()
+    {
+        var outcome = Enumerable.Empty<int>().TryLast();
+
+        outcome.Should().BeEquivalentTo(Maybe.Nothing<int>());
+    }
+    #endregion
+
     #region ToMaybe
     [Fact]
     public void An_empty_sequence_should_be_converted_to_Nothing()

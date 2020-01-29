@@ -405,7 +405,7 @@ namespace CSharpx
         }
 
         #if !CSX_REM_MAYBE_FUNC
-        /// <summary>Safe function that returns Just(first element) or None.</summary>
+        /// <summary>Safe function that returns Just(first element) or Nothing.</summary>
         public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -414,6 +414,19 @@ namespace CSharpx
                 return e.MoveNext()
                     ? Maybe.Just(e.Current)
                     : Maybe.Nothing<T>();
+            }
+        }
+
+        /// <summary>Safe function that returns Just(last element) or Nothing.</summary>
+        public static Maybe<T> TryLast<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            using (var e = source.GetEnumerator()) {
+                if (!e.MoveNext()) return Maybe.Nothing<T>();
+                T result = e.Current;
+                while (e.MoveNext()) result = e.Current;
+                return Maybe.Just(result);
             }
         }
 
