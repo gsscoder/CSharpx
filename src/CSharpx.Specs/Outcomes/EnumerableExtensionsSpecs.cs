@@ -114,6 +114,15 @@ public class EnumerableExtensionsSpecs
             .And.BeEquivalentTo(values.Skip(1));
     }
 
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void Should_return_the_tail_of_a_sequence_using_TailOrEmpty(FSharpList<int> values)
+    {
+        var outcome = values.TailOrEmpty();
+
+        outcome.Should().HaveCount(values.Count() - 1)
+            .And.BeEquivalentTo(values.Skip(1));
+    }
+
     [Fact]
     public void Trying_to_get_the_tail_of_an_empty_sequence_throws_ArgumentException()
     {
@@ -121,6 +130,15 @@ public class EnumerableExtensionsSpecs
 
         action.Should().ThrowExactly<ArgumentException>()
             .WithMessage("The input sequence has an insufficient number of elements.");
+    }
+
+    [Fact]
+    public void Trying_to_get_the_tail_of_an_empty_sequence_returns_an_empty_sequence_using_TailOrEmpty()
+    {
+        var outcome = Enumerable.Empty<int>().TailOrEmpty();
+
+        outcome.Should().HaveCount(0)
+            .And.BeEquivalentTo(Enumerable.Empty<int>());
     }
     #endregion
 }
