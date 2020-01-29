@@ -8,13 +8,15 @@ using CSharpx;
 public class SetOnceSpecs
 {
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
-    public void Should_set_a_value_once(string value)
+    public void Should_set_a_value_once(string[] values)
     {
-        var sut = new SetOnce<string>();
+        values.ForEach(value => {
+            var sut = new SetOnce<string>();
 
-        sut.Value = value;
+            sut.Value = value;
 
-        sut.Value.Should().Be(value);
+            sut.Value.Should().Be(value);
+        });
     }
 
     [Fact]
