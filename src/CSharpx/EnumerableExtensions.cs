@@ -93,20 +93,20 @@ namespace CSharpx
         #region Exclude
         /// <summary>Excludes <paramref name="count"/> elements from a sequence starting at a given
         /// index.</summary>
-        public static IEnumerable<T> Exclude<T>(this IEnumerable<T> sequence, int startIndex, int count)
+        public static IEnumerable<T> Exclude<T>(this IEnumerable<T> source, int startIndex, int count)
         {
-            if (sequence == null) throw new ArgumentNullException(nameof(sequence));
+            if (source == null) throw new ArgumentNullException(nameof(source));
             if (startIndex < 0) throw new ArgumentOutOfRangeException(nameof(startIndex));
             if (count < 0) throw new ArgumentOutOfRangeException(nameof(count));
 
-            return ExcludeImpl(sequence, startIndex, count);
+            return ExcludeImpl(source, startIndex, count);
         }
 
-        static IEnumerable<T> ExcludeImpl<T>(IEnumerable<T> sequence, int startIndex, int count)
+        static IEnumerable<T> ExcludeImpl<T>(IEnumerable<T> source, int startIndex, int count)
         {
             var index = -1;
             var endIndex = startIndex + count;
-            using (var iter = sequence.GetEnumerator())
+            using (var iter = source.GetEnumerator())
             {
                 // yield the first part of the sequence
                 while (iter.MoveNext() && ++index < startIndex) {
@@ -294,26 +294,26 @@ namespace CSharpx
 
         #region Repeat
         /// <summary>Repeats the sequence the specified number of times.</summary>
-        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> sequence, int count)
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> source, int count)
         {
-            if (sequence == null) throw new ArgumentNullException(nameof(sequence));
+            if (source == null) throw new ArgumentNullException(nameof(source));
             if (count < 0) throw new ArgumentOutOfRangeException(nameof(count),
                 "Repeat count must be greater than or equal to zero.");
 
-            return RepeatImpl(sequence, count);
+            return RepeatImpl(source, count);
         }
 
         /// <summary>Repeats the sequence forever.</summary>
-        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> sequence)
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> source)
         {
-            if (sequence == null) throw new ArgumentNullException(nameof(sequence));
+            if (source == null) throw new ArgumentNullException(nameof(source));
 
-            return RepeatImpl(sequence, null);
+            return RepeatImpl(source, null);
         }
 
-        static IEnumerable<T> RepeatImpl<T>(IEnumerable<T> sequence, int? count)
+        static IEnumerable<T> RepeatImpl<T>(IEnumerable<T> source, int? count)
         {
-            var memo = sequence.Memoize();
+            var memo = source.Memoize();
             using (memo as IDisposable)
             {
                 while (count == null || count-- > 0)
