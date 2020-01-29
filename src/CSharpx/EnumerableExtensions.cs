@@ -330,14 +330,12 @@ namespace CSharpx
             if (source == null) throw new ArgumentNullException(nameof(source));
 
             using (var e = source.GetEnumerator()) {
-                if (e.MoveNext()) {
-                    while (e.MoveNext()) {
-                        yield return e.Current;
-                    }
-                }
-                else {
+                if (!e.MoveNext()) {
                     throw new ArgumentException(
                         "The input sequence has an insufficient number of elements.");
+                }
+                while (e.MoveNext()) {
+                    yield return e.Current;
                 }
             }
         }
