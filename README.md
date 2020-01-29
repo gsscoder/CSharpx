@@ -56,6 +56,8 @@ var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
 // outcome: {0, 5, 1, 5, 2, 5, 3, 5, 4}
 var element = sequence.Choice();
 // will choose a random element
+var sequence = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.ChunkBySize(3);
+// outcome: { [0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10] }
 ```
 - [Tests](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx.Specs/Outcomes/EnumerableExtensionsSpecs.cs) cover only new and modified extension methods.
 
