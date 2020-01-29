@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.FSharp.Collections;
@@ -100,6 +101,17 @@ public class EnumerableExtensionsSpecs
         var outcome = sequence.FlattenOnce();
         
         outcome.Should().BeEquivalentTo(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8});
+    }
+    #endregion
+
+    #region Tail
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void Should_return_the_tail_of_a_sequence(FSharpList<int> values)
+    {
+        var outcome = values.Tail();
+
+        outcome.Should().HaveCount(values.Count() - 1)
+            .And.BeEquivalentTo(values.Skip(1));
     }
     #endregion
 }
