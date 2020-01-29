@@ -341,7 +341,7 @@ namespace CSharpx
         }
 
         /// <summary>Return everything except first element without throwing exception if empty.</summary>
-        public static IEnumerable<T> TailNoFail<T>(this IEnumerable<T> source)
+        public static IEnumerable<T> TailOrEmpty<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
