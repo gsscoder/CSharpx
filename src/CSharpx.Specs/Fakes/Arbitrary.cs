@@ -15,6 +15,6 @@ static class ArbitraryListOfIntegers
 static class ArbitraryListOfStrings
 {
     public static Arbitrary<string[]> StringListGenerator() => Gen.Shuffle(new [] {
-            "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"})
+            "one", "two", "three", null, "four", "five", "six", null, "seven", "eight", "nine", null, "ten"})
             .ToArbitrary();
 }
