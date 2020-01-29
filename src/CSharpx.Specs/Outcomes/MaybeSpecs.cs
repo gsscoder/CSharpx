@@ -1,3 +1,4 @@
+using Xunit;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
@@ -6,36 +7,22 @@ using CSharpx;
 public class MaybeSpecs
 {
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-    public void Constructing_a_monadic_number_allows_the_same_to_be_returned_unchanged(int value)
+    public void Shoud_build_a_Just(int value)
     {
-        var maybeInt = Maybe.Return(value);
-        switch (maybeInt.Tag)
-        {
-            case MaybeType.Just:
-                ((Just<int>)maybeInt).Value.Should().Be(value);
-                break;
-            default:
-                default(int).Should().Be(value);
-                maybeInt.Should().BeOfType<Nothing<int>>();
-                break;
-        };
+        var outcome = Maybe.Just(value);
+
+        outcome.Should().NotBeNull()
+            .And.BeOfType<Just<int>>();
+        outcome.FromJust().Should().Be(value);
     }
 
-    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
-    public void Constructing_a_monadic_string_allows_the_same_to_be_returned_unchanged(string[] values)
+    [Fact]
+    public void Shoud_build_a_Nothing()
     {
-        values.ForEach(value => {
-            var maybeInt = Maybe.Return(value);
-            switch (maybeInt.Tag)
-            {
-                case MaybeType.Just:
-                    ((Just<string>)maybeInt).Value.Should().Be(value);
-                    break;
-                default:
-                    default(string).Should().Be(value);
-                    maybeInt.Should().BeOfType<Nothing<string>>();
-                    break;
-            };
-        });
+        var outcome = Maybe.Nothing<int>();
+
+        outcome.Should().NotBeNull()
+            .And.BeOfType<Nothing<int>>();
+        outcome.Tag.Should().Be(MaybeType.Nothing);
     }
 }
