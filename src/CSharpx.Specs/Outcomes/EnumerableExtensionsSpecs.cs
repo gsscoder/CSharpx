@@ -11,21 +11,21 @@ using CSharpx;
 public class EnumerableExtensionsSpecs
 {
     #region TryHead
-    [Fact]
-    public void When_trying_to_get_head_element_should_return_none_in_case_of_empty_sequence()
-    {
-        var outcome = Enumerable.Empty<int>().TryHead();
-
-        outcome.Should().BeEquivalentTo(Maybe.Nothing<int>());
-    }
-
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
-    public void When_trying_to_get_head_element_should_return_Just_in_case_of_not_empty_sequence(
+    public void Trying_to_get_the_head_element_of_a_sequence_should_return_Just(
         FSharpList<int> values)
     {
         var outcome = values.TryHead();
 
         outcome.Should().BeEquivalentTo(Maybe.Just(values.ElementAt(0)));
+    }
+
+    [Fact]
+    public void Trying_to_get_the_head_element_of_an_empty_sequence_should_return_Nothing()
+    {
+        var outcome = Enumerable.Empty<int>().TryHead();
+
+        outcome.Should().BeEquivalentTo(Maybe.Nothing<int>());
     }
     #endregion
 
