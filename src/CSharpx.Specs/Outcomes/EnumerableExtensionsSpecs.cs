@@ -113,5 +113,14 @@ public class EnumerableExtensionsSpecs
         outcome.Should().HaveCount(values.Count() - 1)
             .And.BeEquivalentTo(values.Skip(1));
     }
+
+    [Fact]
+    public void Trying_to_get_the_tail_of_an_empty_sequence_throws_ArgumentException()
+    {
+        Action action = () => { foreach (var _ in Enumerable.Empty<int>().Tail()) { } };
+
+        action.Should().ThrowExactly<ArgumentException>()
+            .WithMessage("The input sequence has an insufficient number of elements.");
+    }
     #endregion
 }

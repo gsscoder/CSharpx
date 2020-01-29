@@ -337,7 +337,7 @@ namespace CSharpx
                 }
                 else {
                     throw new ArgumentException(
-                        "The input sequence has an insufficient number of elements.", nameof(source));
+                        "The input sequence has an insufficient number of elements.");
                 }
             }
         }
