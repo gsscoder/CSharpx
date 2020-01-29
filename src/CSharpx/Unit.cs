@@ -10,7 +10,7 @@ namespace CSharpx
 #if !CSX_UNIT_INTERNAL
     public
 #endif
-    struct Unit : IComparable<Unit>
+    struct Unit : IComparable
     {
         private static readonly Unit @default = new Unit();
 
@@ -19,12 +19,10 @@ namespace CSharpx
 
         /// <summary>Determines whether this instance and a specified object, which must also be a
         /// <c>Unit</c> object, have the same value.</summary>
-        public override bool Equals(object obj) => obj is Unit;
+        public override bool Equals(object obj) => obj == null || obj is Unit ? true : false;
 
-        /// <summary>Compares this instance with a specified object and indicates whether this instance
-        /// precedes, follows, or appears in the same position in the sort order as the specified
-        /// object.</summary>
-        public int CompareTo(Unit obj) => 0;
+        /// <summary>Compares always to equality.</summary>
+        public int CompareTo(object obj) => 0;
 
         /// <summary>Converts this instance to a string representation.</summary>
         public override string ToString() => "()";
