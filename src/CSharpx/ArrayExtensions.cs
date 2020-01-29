@@ -13,6 +13,8 @@ namespace CSharpx
         /// <summary>Sorts an array pure way.</summary>
         public static T[] Sort<T>(this T[] array)
         {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+
             var copy = new T[array.Length];
             Array.Copy(array, copy, array.Length);
             Array.Sort(copy);
@@ -22,6 +24,8 @@ namespace CSharpx
         /// <summary>Chooses a random element from an array.</summary>
         public static T Choice<T>(this T[] array)
         {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+
 #if CSX_REM_CRYPTORAND        
             var index = new Random().Next(array.Length - 1);
 #else
