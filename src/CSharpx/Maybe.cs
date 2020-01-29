@@ -50,15 +50,6 @@ namespace CSharpx
     }
     #endregion
 
-    /// <summary> Models a <c>Maybe</c> when in empty state.</summary>
-#if !CSX_MAYBE_INTERNAL
-    public
-#endif
-    sealed class Nothing<T> : Maybe<T>
-    {
-        internal Nothing() : base(MaybeType.Nothing) { }
-    }
-
     /// <summary>Models a <c>Maybe</c> when contains a value.</summary>
 #if !CSX_MAYBE_INTERNAL
     public
@@ -71,6 +62,15 @@ namespace CSharpx
 
         /// <summary>The wrapped value.</summary>
         public T Value { get { return _value; } }
+    }
+
+    /// <summary>Models a <c>Maybe</c> when in empty state.</summary>
+#if !CSX_MAYBE_INTERNAL
+    public
+#endif
+    sealed class Nothing<T> : Maybe<T>
+    {
+        internal Nothing() : base(MaybeType.Nothing) { }
     }
 
     /// <summary>Provides static methods for manipulating <c>Maybe</c>.</summary>
