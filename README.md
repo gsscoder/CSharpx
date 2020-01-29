@@ -100,7 +100,7 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 ## [FSharpResultExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/FSharpResultExtensions.cs)
 
-- Supplies convenient extension methods to consume `FSharpResult<T, TError>` in simple and functional way from **C#**.
+- Convenient extension methods to consume `FSharpResult<T, TError>` in simple and functional way from **C#**.
 ```csharp
 // pattern match like
 var result = Query.GetStockQuote("ORCL");
