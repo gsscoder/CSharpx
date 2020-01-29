@@ -7,7 +7,7 @@ using CSharpx;
 
 public class SetOnceSpecs
 {
-    [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void Should_set_a_value_once(string value)
     {
         var sut = new SetOnce<string>();
@@ -61,7 +61,7 @@ public class SetOnceSpecs
         sut.HasValue.Should().BeFalse();
     }
 
-    [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void If_value_is_set_HasValue_should_be_true(string[] values)
     {
         values.ForEach(value => {
@@ -76,7 +76,7 @@ public class SetOnceSpecs
 
 public class BlockingSetOnceSpecs
 {
-    [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void Should_set_a_value_once(string[] values)
     {
         values.ForEach(value => {
@@ -132,7 +132,7 @@ public class BlockingSetOnceSpecs
         sut.HasValue.Should().BeFalse();
     }
 
-    [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void If_value_is_set_HasValue_should_be_true(string[] values)
     {
         values.ForEach(value => {

@@ -21,7 +21,7 @@ public class MaybeSpecs
         };
     }
 
-    [Property(Arbitrary = new[] { typeof(ArbitraryStrings) })]
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void Constructing_a_monadic_string_allows_the_same_to_be_returned_unchanged(string[] values)
     {
         values.ForEach(value => {

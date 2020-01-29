@@ -12,7 +12,7 @@ static class ArbitraryListOfIntegers
         Gen.Choose(-30, 30)).ToArbitrary();
 }
 
-static class ArbitraryStrings
+static class ArbitraryListOfStrings
 {
     public static Arbitrary<string[]> StringGenerator() => Gen.Shuffle(new [] {
             "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"})
