@@ -162,9 +162,9 @@ public class EnumerableExtensionsSpecs
     #endregion
 
     [Fact]
-    public void Should_memoize_a_sequence()
+    public void Should_materialize_a_sequence()
     {
-        Action action = () => NullYielder(true).Memoize();
+        Action action = () => NullYielder(true).Materialize();
 
         action.Should().Throw<Exception>();
 

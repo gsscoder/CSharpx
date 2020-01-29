@@ -312,7 +312,7 @@ namespace CSharpx
 
         static IEnumerable<T> RepeatImpl<T>(IEnumerable<T> source, int? count)
         {
-            var memo = source.Memoize();
+            var memo = source.Materialize();
             using (memo as IDisposable)
             {
                 while (count == null || count-- > 0)
@@ -355,7 +355,7 @@ namespace CSharpx
         }
 
         /// <summary>Captures the current state of a sequence.</summary>
-        public static IEnumerable<T> Memoize<T>(this IEnumerable<T> source)
+        public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
