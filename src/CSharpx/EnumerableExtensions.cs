@@ -264,37 +264,6 @@ namespace CSharpx
         }
         #endregion
 
-        #region Materialize
-        /// <summary>Creates an immutable copy of a sequence.</summary>
-        public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
-        {
-            if (source is MaterializedEnumerable<T> || source.GetType().IsArray) {
-                return source;
-            }
-            return new MaterializedEnumerable<T>(source);
-        }
-
-        class MaterializedEnumerable<T> : IEnumerable<T>
-        {
-            readonly ICollection<T> inner;
-
-            public MaterializedEnumerable(IEnumerable<T> enumerable)
-            {
-                inner = enumerable as ICollection<T> ?? enumerable.ToArray();
-            }
-
-            public IEnumerator<T> GetEnumerator()
-            {
-                return inner.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-        }
-        #endregion
-
         #region DistinctBy
         /// <summary>Returns all distinct elements of the given source, where "distinctness"
         /// is determined via a projection and the default equality comparer for the projected
