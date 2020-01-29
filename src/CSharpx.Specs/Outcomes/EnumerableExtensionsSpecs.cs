@@ -161,6 +161,21 @@ public class EnumerableExtensionsSpecs
     }
     #endregion
 
+    [Fact]
+    public void Should_memoize_a_sequence()
+    {
+        Action action = () => NullYielder(true).Memoize();
+
+        action.Should().Throw<Exception>();
+
+        IEnumerable<object> NullYielder(bool raise)
+        {
+            if (raise) throw new Exception();
+
+            yield return null;
+        }
+    }
+
     #region ChunkBySize
     [Fact]
     public void Should_partition_a_sequence_by_chunk_size_into_arrays_without_remainder()
