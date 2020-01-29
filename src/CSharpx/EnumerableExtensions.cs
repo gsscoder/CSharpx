@@ -328,6 +328,8 @@ namespace CSharpx
         /// <summary>Return everything except first element and throws exception if empty.</summary>
         public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             using (var e = source.GetEnumerator()) {
                 if (e.MoveNext()) {
                     while (e.MoveNext()) {
@@ -344,6 +346,8 @@ namespace CSharpx
         /// <summary>Return everything except first element without throwing exception if empty.</summary>
         public static IEnumerable<T> TailNoFail<T>(this IEnumerable<T> source)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             using (var e = source.GetEnumerator()) {
                 if (e.MoveNext()) {
                     while (e.MoveNext()) {
@@ -354,12 +358,18 @@ namespace CSharpx
         }
 
         /// <summary>Captures the current state of a sequence.</summary>
-        public static IEnumerable<T> Memoize<T>(
-            this IEnumerable<T> source) => source.GetType().IsArray ? source : source.ToArray();
+        public static IEnumerable<T> Memoize<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            return source.GetType().IsArray ? source : source.ToArray();
+        }
 
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
         {
+        if (source == null) throw new ArgumentNullException(nameof(source));
+
         #if CSX_REM_CRYPTORAND
             var index = new Random().Next(source.Count() - 1);
         #else
@@ -372,6 +382,7 @@ namespace CSharpx
         /// elements.</summary>
         public static IEnumerable<T> Intersperse<T>(this IEnumerable<T> source, T element)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
             if (element == null) throw new ArgumentNullException(nameof(element));
 
             var count = source.Count();
@@ -387,6 +398,8 @@ namespace CSharpx
         /// <summary>Flattens a sequence by one level.</summary>
         public static IEnumerable<T> FlattenOnce<T>(this IEnumerable<IEnumerable<T>> source)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             foreach (var element in source) {
                 foreach (var subelement in element) {
                     yield return subelement;
@@ -398,6 +411,8 @@ namespace CSharpx
         /// <summary>Safe function that returns Just(first element) or None.</summary>
         public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             using (var e = source.GetEnumerator()) {
                 return e.MoveNext()
                     ? Maybe.Just(e.Current)
@@ -408,6 +423,8 @@ namespace CSharpx
         /// <summary>Turns an empty sequence to Nothing, otherwise Just(sequence).</summary>
         public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             using (var e = source.GetEnumerator()) {
                 return e.MoveNext()
                     ? Maybe.Just(source)
