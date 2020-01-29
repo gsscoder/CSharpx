@@ -179,9 +179,9 @@ static Unit Print(string value)
 ## Latest Changes
 
 - Added `FSharpResultExtensions`.
-- Added `Return` extension method to `Maybe` type.
-- Added `IEnumerable<T>.Choose` extension method.
 - Added tests to `EnumerableExtensionsSpecs`.
+- Added `IEnumerable<T>.TailOrEmpty` extension method.
+- Added `IEnumerable<T>.TryHead` extension method.
 
 ## Related Projects
 
