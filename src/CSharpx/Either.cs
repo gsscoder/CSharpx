@@ -101,8 +101,11 @@ namespace CSharpx
             Either.Right<string, TRight>(value);
 
         /// <summary>Monadic bind.</summary>
-        public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, Either<TLeft, TResult>> func)
+        public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(
+            Either<TLeft, TRight> either, Func<TRight, Either<TLeft, TResult>> func)
         {
+            if (func == null) throw new ArgumentNullException(nameof(func));
+
             if (either.MatchRight(out TRight right)) {
                 return func(right);
             }
@@ -112,8 +115,11 @@ namespace CSharpx
 
         #region Functor
         /// <summary>Transforms a <c>Either</c> right value by using a specified mapping function.</summary>
-        public static Either<TLeft, TResult> Map<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, TResult> func)
+        public static Either<TLeft, TResult> Map<TLeft, TRight, TResult>(Either<TLeft, TRight> either,
+            Func<TRight, TResult> func)
         {
+            if (func == null) throw new ArgumentNullException(nameof(func));
+
             if (either.MatchRight(out TRight right)) {
                 return Either.Right<TLeft, TResult>(func(right));
             }
@@ -124,8 +130,12 @@ namespace CSharpx
         #region Bifunctor
         /// <summary>Maps both parts of a Either type. Applies the first function if <c>Either</c>
         /// is <c>Left</c>. Otherwise applies the second function.</summary>
-        public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either, Func<TLeft, TLeft1> mapLeft, Func<TRight, TRight1> mapRight)
+        public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either,
+            Func<TLeft, TLeft1> mapLeft, Func<TRight, TRight1> mapRight)
         {
+            if (mapLeft == null) throw new ArgumentNullException(nameof(mapLeft));
+            if (mapRight == null) throw new ArgumentNullException(nameof(mapRight));
+
             if (either.MatchRight(out TRight right)) {
                 return Either.Right<TLeft1, TRight1>(mapRight(right));
             }
@@ -167,6 +177,8 @@ namespace CSharpx
         /// <summary>Wraps a function, encapsulates any exception thrown within to a <c>Either</c>.</summary>
         public static Either<Exception, TRight> Try<TRight>(Func<TRight> func)
         {
+            if (func == null) throw new ArgumentNullException(nameof(func));
+
             try {
                 return new Right<Exception, TRight>(func());
             }
@@ -184,6 +196,8 @@ namespace CSharpx
         /// <c>Left</c>.</summary>
         public static Either<TLeft, TRight> FromMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
         {
+            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
+
             if (maybe.Tag == MaybeType.Just) {
                 return Either.Right<TLeft, TRight>(((Just<TRight>)maybe).Value);
             }
@@ -191,8 +205,12 @@ namespace CSharpx
         }
 #endif
 
-        static TLeft GetLeft<TLeft, TRight>(this Either<TLeft, TRight> either) => 
-            ((Left<TLeft, TRight>)either).Value;
+        static TLeft GetLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
+        { 
+            if (either == null) throw new ArgumentNullException(nameof(either));
+
+            return ((Left<TLeft, TRight>)either).Value;
+        }
     }
 
 #if !CSX_EITHER_INTERNAL
@@ -201,8 +219,13 @@ namespace CSharpx
     static class EitherExtensions
     {
         #region Alternative Match Methods
-        public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifLeft, Action<TRight> ifRight)
+        public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either,
+            Action<TLeft> ifLeft, Action<TRight> ifRight)
         {
+            if (either == null) throw new ArgumentNullException(nameof(either));
+            if (ifLeft == null) throw new ArgumentNullException(nameof(ifLeft));
+            if (ifRight == null) throw new ArgumentNullException(nameof(ifRight));
+
             if (either.MatchLeft(out TLeft left)) {
                 ifLeft(left);
                 return;
@@ -232,11 +255,19 @@ namespace CSharpx
             Func<TRight, TRight1> mapRight) => Either.Bimap(either, mapLeft, mapRight);
 
         /// <summary>Returns <c>true</c> if it is in form of <c>Left</c>.</summary>
-        public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either) =>
-            either.Tag == EitherType.Left;
+        public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            if (either == null) throw new ArgumentNullException(nameof(either));
+
+            return either.Tag == EitherType.Left;
+        }
 
         /// <summary>Returns <c>true</c> if it is in form of <c>Right</c>.</summary>
-        public static bool IsRight<TLeft, TRight>(this Either<TLeft, TRight> either) =>
-            either.Tag == EitherType.Right;
+        public static bool IsRight<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            if (either == null) throw new ArgumentNullException(nameof(either));
+
+            return either.Tag == EitherType.Right;
+        }
     }
 }
