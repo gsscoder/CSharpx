@@ -3,6 +3,7 @@
 //#define CSX_REM_CRYPTORAND // Uncomment or define at build time to remove dependency to CryptoRandom.cs.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -354,13 +355,29 @@ namespace CSharpx
             }
         }
 
+        #region Materialize
+        class MaterializedEnumerable<T> : IEnumerable<T>
+        {
+            readonly ICollection<T> _inner;
+
+            internal MaterializedEnumerable(IEnumerable<T> enumerable) =>
+                _inner = enumerable as ICollection<T> ?? enumerable.ToArray();
+
+            public IEnumerator<T> GetEnumerator() => _inner.GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
         /// <summary>Captures the current state of a sequence.</summary>
         public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-
-            return source.GetType().IsArray ? source : source.ToArray();
+            switch (source) {
+                case null                        : throw new ArgumentNullException(nameof(source));
+                case MaterializedEnumerable<T> _ : return source;
+                default : return new MaterializedEnumerable<T>(source);
+            }
         }
+        #endregion
 
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
