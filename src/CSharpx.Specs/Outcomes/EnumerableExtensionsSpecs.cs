@@ -160,4 +160,83 @@ public class EnumerableExtensionsSpecs
             .And.BeEquivalentTo(Enumerable.Empty<int>());
     }
     #endregion
+
+    #region ChunkBySize
+    [Fact]
+    public void Should_partition_a_sequence_by_chunk_size_into_arrays_without_remainder()
+    {
+        var values = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+
+        var outcome = values.ChunkBySize(3);
+
+        outcome.Should().NotBeNullOrEmpty()
+            .And.HaveCount(3)
+            .And.SatisfyRespectively(
+                item => item.Should().BeEquivalentTo(new int[] { 0, 1, 2 }),
+                item => item.Should().BeEquivalentTo(new int[] { 3, 4, 5 }),
+                item => item.Should().BeEquivalentTo(new int[] { 6, 7, 8 }));
+    }
+
+    [Fact]
+    public void Should_partition_a_sequence_by_chunk_size_into_arrays_with_remainder()
+    {
+        var values = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+        var outcome = values.ChunkBySize(3);
+
+        outcome.Should().NotBeNullOrEmpty()
+            .And.HaveCount(4)
+            .And.SatisfyRespectively(
+                item => item.Should().BeEquivalentTo(new int[] { 0, 1, 2 }),
+                item => item.Should().BeEquivalentTo(new int[] { 3, 4, 5 }),
+                item => item.Should().BeEquivalentTo(new int[] { 6, 7, 8 }),
+                item => item.Should().BeEquivalentTo(new int[] { 9, 10 }));
+    }
+
+    [Fact]
+    public void Should_partition_a_sequence_in_a_single_chunk_if_chunk_size_is_equal_than_elements_count()
+    {
+        var values = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        var outcome = values.ChunkBySize(10);
+
+        outcome.Should().NotBeNullOrEmpty()
+            .And.HaveCount(1)
+            .And.SatisfyRespectively(
+                item => item.Should().BeEquivalentTo(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
+    }
+
+    [Fact]
+    public void Should_partition_a_sequence_in_a_single_chunk_if_chunk_size_is_greater_than_elements_count()
+    {
+        var values = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        var outcome = values.ChunkBySize(11);
+
+        outcome.Should().NotBeNullOrEmpty()
+            .And.HaveCount(1)
+            .And.SatisfyRespectively(
+                item => item.Should().BeEquivalentTo(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void Trying_to_partition_a_sequence_by_zero_chunks_throws_ArgumentException(
+        FSharpList<int> values)
+    {
+        Action action = () => { foreach (var _ in values.ChunkBySize(0)) {}; };
+
+        action.Should().ThrowExactly<ArgumentException>()
+            .WithMessage("The input must be positive.");
+    }
+    
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void Trying_to_partition_a_sequence_by_a_negative_number_of_chunks_throws_ArgumentException(
+        FSharpList<int> values)
+    {
+        Action action = () => { foreach (var _ in values.ChunkBySize(-1)) {}; };
+
+        action.Should().ThrowExactly<ArgumentException>()
+            .WithMessage("The input must be positive.");
+    }
+    #endregion
 }

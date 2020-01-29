@@ -430,6 +430,33 @@ namespace CSharpx
             }
         }
 
+        /// <summary>Partition a sequence in to chunks of given size. Each chunk is an array of the
+        /// resulting sequence.</summary>
+        public static IEnumerable<T[]> ChunkBySize<T>(this IEnumerable<T> source, int chunkSize)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (chunkSize <= 0) throw new ArgumentException("The input must be positive.");
+
+            using (var e = source.GetEnumerator()) {
+                while (e.MoveNext()) {
+                    var result = new T[chunkSize];
+                    result[0] = e.Current;
+                    var i = 1;
+                    while (i < chunkSize && e.MoveNext()) {
+                        result[i] = e.Current;
+                        i++;
+                    }
+                    yield return i == chunkSize? result : SubArray(result, 0, i);
+                }
+            }
+
+            T[] SubArray(T[] array, int index, int length) {
+                T[] result = new T[length];
+                Array.Copy(array, index, result, 0, length);
+                return result;
+            }
+        }
+
         /// <summary>Turns an empty sequence to Nothing, otherwise Just(sequence).</summary>
         public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
         {
