@@ -271,7 +271,7 @@ namespace CSharpx
         }
 
         /// <summary>Extracts the element out of <c>Left</c> and returns a default value if it is
-        /// in form of<c>Right</c>.</summary>
+        /// in form of <c>Right</c>.</summary>
         public static TLeft FromLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
         {
             if (either == null) throw new ArgumentNullException(nameof(either));
@@ -280,6 +280,19 @@ namespace CSharpx
                 return value;
             }
             return default;
+        }
+
+        /// <summary>Extracts the element out of <c>Left</c> and throws an exception if it is form of
+        /// <c>Right</c>.</summary>
+        public static TLeft FromLeftOrFail<TLeft, TRight>(this Either<TLeft, TRight> either,
+            Exception exceptionToThrow = null)
+        {
+            if (either == null) throw new ArgumentNullException(nameof(either));
+
+            if (either.MatchLeft(out TLeft value)) {
+                return value;
+            }
+            throw exceptionToThrow ?? new Exception("The value is empty.");
         }
 
         /// <summary>Extracts the element out of <c>Left</c> and returns a default value if it is
@@ -292,6 +305,19 @@ namespace CSharpx
                 return value;
             }
             return default;
+        }
+
+        /// <summary>Extracts the element out of <c>Left</c> and throws an exception if it is form of
+        /// <c>Right</c>.</summary>
+        public static TRight FromRightOrFail<TLeft, TRight>(this Either<TLeft, TRight> either,
+            Exception exceptionToThrow = null)
+        {
+            if (either == null) throw new ArgumentNullException(nameof(either));
+
+            if (either.MatchRight(out TRight value)) {
+                return value;
+            }
+            throw exceptionToThrow ?? new Exception("The value is empty.");
         }
     }
 }
