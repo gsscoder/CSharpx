@@ -180,10 +180,10 @@ static Unit Print(string value)
 
 ## Latest Changes
 
-- Added tests to `EnumerableExtensionsSpecs`.
 - Added `IEnumerable<T>.TailOrEmpty` extension method.
 - Added `IEnumerable<T>.TryHead` extension method.
 - Reimplemented `IEnumerable<T>.Materialize` extension method.
+- Added `Pair` type.
 
 ## Related Projects
 
