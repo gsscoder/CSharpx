@@ -178,6 +178,16 @@ static Unit Print(string value)
 }
 ```
 
+## [Pair](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Pair.cs)
+
+- `Pair<TFirst, TSecond>` models pair or a _tuple-2_, it's equivalent to `Tuple<T1, T2>`. Since tuples with two values are a very common case, it leads to clearer code (further when compared to anonymous types).
+```csharp
+public Pair<double, double> LossAndGain(IInvestment investment) =>
+    Pair.Create(
+        Financial.GetLoss(investment),
+        Financial.GetGain(investment));
+```
+
 ## Latest Changes
 
 - Added `IEnumerable<T>.TryHead` extension method.
