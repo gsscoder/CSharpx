@@ -90,7 +90,7 @@ public class EnumerableExtensionsSpecs
 
         var outcome = sequence.Intersperse(value);
 
-        outcome.Should().NotBeEmpty()
+        outcome.Should().NotBeNullOrEmpty()
             .And.HaveCount(sequence.Count() * 2 - 1)
             .And.SatisfyRespectively(
                 item => item.Should().Be(0),
