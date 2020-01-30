@@ -180,10 +180,11 @@ static Unit Print(string value)
 
 ## Latest Changes
 
-- Added `IEnumerable<T>.TailOrEmpty` extension method.
 - Added `IEnumerable<T>.TryHead` extension method.
 - Reimplemented `IEnumerable<T>.Materialize` extension method.
 - Added `Pair` type.
+- Added new extensions method to `Either` type.
+- Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
 
 ## Related Projects
 

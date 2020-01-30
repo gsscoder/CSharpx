@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using FluentAssertions;
 using FsCheck;
@@ -53,5 +55,30 @@ public class EitherSpecs
 
         action.Should().ThrowExactly<Exception>()
             .WithMessage("The value is empty.");
+    }
+
+    [Fact]
+    public void Shoud_partition_lefts_from_rights()
+    {
+        var eithers = new List<Either<string, int>>()
+            {
+                Either.Left<string, int>("foo"),
+                Either.Right<string, int>(3),
+                Either.Left<string, int>("bar"),
+                Either.Right<string, int>(7),
+                Either.Left<string, int>("baz"),
+            };
+
+        var outcome = eithers.Partition();
+
+        outcome.Should().NotBeNull();
+        outcome.First.Should().NotBeNullOrEmpty()
+            .And.HaveCount(3)
+            .And.ContainInOrder(from either in eithers.OfType<Left<string, int>>()
+                                select either.FromLeft());
+        outcome.Second.Should().NotBeNullOrEmpty()
+            .And.HaveCount(2)
+            .And.ContainInOrder(from either in eithers.OfType<Right<string, int>>()
+                                select either.FromRight());
     }
 }

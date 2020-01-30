@@ -2,6 +2,8 @@
 //#define CSX_REM_MAYBE_FUNC // Uncomment or define at build time to remove dependency to Maybe.cs.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CSharpx
 {
@@ -318,6 +320,24 @@ namespace CSharpx
                 return value;
             }
             throw exceptionToThrow ?? new Exception("The value is empty.");
+        }
+
+        /// <summary>Partitions a sequence of <c>Either</c> into two sequences. All the <c>Left</c>
+        /// elements are extracted, in order, to the first component of the pair. Similarly the <c>Right</c>
+        /// elements are extracted to the second component of the pair.</summary>
+        public static Pair<IEnumerable<TLeft>, IEnumerable<TRight>> Partition<TLeft, TRight>(
+            this IEnumerable<Either<TLeft, TRight>> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            var lefts = new List<TLeft>();
+            var rights = new List<TRight>();
+
+            foreach (var either in source) {
+                if (either.Tag == EitherType.Left) lefts.Add(either.FromLeft());
+                else rights.Add(either.FromRight());
+            }
+            return new Pair<IEnumerable<TLeft>, IEnumerable<TRight>>(lefts, rights);
         }
     }
 }

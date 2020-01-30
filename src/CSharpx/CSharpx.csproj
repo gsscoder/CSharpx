@@ -5,14 +5,13 @@
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Title>Functional programming and other utilities for C#</Title>
     <Description>Functional programming and other utilities for C#</Description>
-    <Version>2.3.0-beta</Version>
+    <Version>2.3.1-beta</Version>
     <Authors>gsscoder</Authors>
     <Copyright>Copyright © Giacomo Stelluti Scala, 2015-2020</Copyright>
     <PackageProjectUrl>https://github.com/gsscoder/csharpx</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gsscoder/csharpx</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>functional;utility;api;library</PackageTags>
-    <Company />
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
