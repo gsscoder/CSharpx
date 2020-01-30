@@ -7,7 +7,7 @@ using CSharpx;
 public class MaybeSpecs
 {
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-    public void Shoud_build_a_Just(int value)
+    public void Shoud_build_Just(int value)
     {
         if (value == default(int)) return;// Skip default values
 
@@ -19,7 +19,7 @@ public class MaybeSpecs
     }
 
     [Fact]
-    public void Shoud_build_a_Nothing()
+    public void Shoud_build_Nothing()
     {
         var outcome = Maybe.Nothing<int>();
 
