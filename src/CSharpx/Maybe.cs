@@ -122,8 +122,8 @@ namespace CSharpx
         }
 
 #if !CSX_REM_EITHER_FUNC
-        /// <summary>Maps <c>Either</c> right value to <c>Just</c>, otherwise returns Maybe
-///     /// <c>Nothing</c>.</summary>
+        /// <summary>Maps <c>Either</c> right value to <c>Just</c>, otherwise returns
+        /// <c>Nothing</c>.</summary>
         public static Maybe<TRight> FromEither<TLeft, TRight>(Either<TLeft, TRight> either)
         {
             if (either.Tag == EitherType.Right) {
@@ -278,7 +278,7 @@ namespace CSharpx
             return maybe.Tag == MaybeType.Nothing;
         }
 
-        /// <summary>Extracts the element out of a <c>Just</c> and returns a default value if it is
+        /// <summary>Extracts the element out of <c>Just</c> and returns a default value if it is
         /// in form of<c>Nothing</c>.</summary>
         public static T FromJust<T>(this Maybe<T> maybe)
         {
@@ -290,7 +290,7 @@ namespace CSharpx
             return default;
         }
 
-        /// <summary>Extracts the element out of a <c>Just</c> and throws an exception if it is form of
+        /// <summary>Extracts the element out of <c>Just</c> and throws an exception if it is form of
         /// <c>Nothing</c>.</summary>
         public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
         {
@@ -317,7 +317,7 @@ namespace CSharpx
         }
 
         /// <summary>Returns an empty sequence when given <c>Nothing</c> or a singleton sequence in
-        /// case of a <c>Just</c>.</summary>
+        /// case of <c>Just</c>.</summary>
         public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> maybe)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
