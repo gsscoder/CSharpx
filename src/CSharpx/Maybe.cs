@@ -279,8 +279,7 @@ namespace CSharpx
         }
 
         /// <summary>Extracts the element out of a <c>Just</c> and returns a default value if it is
-        /// in form of<c>Nothing</c>.
-        /// </summary>
+        /// in form of<c>Nothing</c>.</summary>
         public static T FromJust<T>(this Maybe<T> maybe)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
@@ -292,7 +291,7 @@ namespace CSharpx
         }
 
         /// <summary>Extracts the element out of a <c>Just</c> and throws an exception if it is form of
-        /// <c>Nothing</c>. </summary>
+        /// <c>Nothing</c>.</summary>
         public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
