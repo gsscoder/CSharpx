@@ -322,6 +322,29 @@ namespace CSharpx
             throw exceptionToThrow ?? new Exception("The value is empty.");
         }
 
+        #region IEnumerable
+        /// <summary>Extracts from a sequence of <c>Either</c> all the <c>Left</c> elements. All the
+        /// <c>Left</c> elements are extracted in order.</summary>
+        public static IEnumerable<TLeft> Lefts<TLeft, TRight>(this IEnumerable<Either<TLeft, TRight>> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            foreach (var either in source) {
+                if (either.Tag == EitherType.Left) yield return either.FromLeft();
+            }
+        }
+
+        /// <summary>Extracts from a sequence of <c>Either</c> all the <c>Right</c> elements. All the
+        /// <c>Rights</c> elements are extracted in order.</summary>
+        public static IEnumerable<TRight> Rights<TLeft, TRight>(this IEnumerable<Either<TLeft, TRight>> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            foreach (var either in source) {
+                if (either.Tag == EitherType.Right) yield return either.FromRight();
+            }
+        }       
+
         /// <summary>Partitions a sequence of <c>Either</c> into two sequences. All the <c>Left</c>
         /// elements are extracted, in order, to the first component of the pair. Similarly the <c>Right</c>
         /// elements are extracted to the second component of the pair.</summary>
@@ -339,5 +362,6 @@ namespace CSharpx
             }
             return new Pair<IEnumerable<TLeft>, IEnumerable<TRight>>(lefts, rights);
         }
+        #endregion
     }
 }

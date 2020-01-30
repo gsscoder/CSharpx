@@ -74,11 +74,9 @@ public class EitherSpecs
         outcome.Should().NotBeNull();
         outcome.First.Should().NotBeNullOrEmpty()
             .And.HaveCount(3)
-            .And.ContainInOrder(from either in eithers.OfType<Left<string, int>>()
-                                select either.FromLeft());
+            .And.ContainInOrder(eithers.Lefts());
         outcome.Second.Should().NotBeNullOrEmpty()
             .And.HaveCount(2)
-            .And.ContainInOrder(from either in eithers.OfType<Right<string, int>>()
-                                select either.FromRight());
+            .And.ContainInOrder(eithers.Rights());
     }
 }
