@@ -193,7 +193,7 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
 - Added `IEnumerable<T>.TryHead` extension method.
 - Reimplemented `IEnumerable<T>.Materialize` extension method.
 - Added `Pair` type.
-- Added new extensions method to `Either` type.
+- Added new extension methods to `Either` type.
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
 
 ## Related Projects
