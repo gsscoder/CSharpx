@@ -269,5 +269,29 @@ namespace CSharpx
 
             return either.Tag == EitherType.Right;
         }
+
+        /// <summary>Extracts the element out of <c>Left</c> and returns a default value if it is
+        /// in form of<c>Right</c>.</summary>
+        public static TLeft FromLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            if (either == null) throw new ArgumentNullException(nameof(either));
+
+            if (either.MatchLeft(out TLeft value)) {
+                return value;
+            }
+            return default;
+        }
+
+        /// <summary>Extracts the element out of <c>Left</c> and returns a default value if it is
+        /// in form of<c>Right</c>.</summary>
+        public static TRight FromRight<TLeft, TRight>(this Either<TLeft, TRight> either)
+        {
+            if (either == null) throw new ArgumentNullException(nameof(either));
+
+            if (either.MatchRight(out TRight value)) {
+                return value;
+            }
+            return default;
+        }
     }
 }

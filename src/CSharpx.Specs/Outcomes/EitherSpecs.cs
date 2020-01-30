@@ -16,8 +16,7 @@ public class EitherSpecs
 
             outcome.Should().NotBeNull()
                 .And.BeOfType<Left<string, int>>();
-            outcome.MatchLeft(out string left).Should().BeTrue();
-            left.Should().Be(value);
+            outcome.FromLeft().Should().Be(value);
         });
     }
 
@@ -30,7 +29,6 @@ public class EitherSpecs
 
         outcome.Should().NotBeNull()
             .And.BeOfType<Right<string, int>>();
-        outcome.MatchRight(out int right).Should().BeTrue();
-        right.Should().Be(value);
+        outcome.FromRight().Should().Be(value);
     }
 }
