@@ -195,6 +195,7 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
 - Added `IEnumerable<Either<TLeft, TRight>>.Lefts` extension method.
 - Added `IEnumerable<Either<TLeft, TRight>>.Rights` extension method.
+- `Maybe<T>.GetValueOrDefault` implemented in `Maybe<T>.FromJust`.
 
 ## Related Projects
 
