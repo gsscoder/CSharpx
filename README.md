@@ -174,7 +174,7 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
 ```csharp
 class Server
 {
-    private SetOnce<int> _portNumber = new SetOnce<int>();
+    SetOnce<int> _portNumber = new SetOnce<int>();
     public int PortNumber
     {
         get { return _portNumber.Value; }
