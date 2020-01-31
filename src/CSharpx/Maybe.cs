@@ -316,6 +316,7 @@ namespace CSharpx
             return maybe.MatchJust(out T1 value1) ? func(value1) : noneValue;
         }
 
+        #region
         /// <summary>Returns an empty sequence when given <c>Nothing</c> or a singleton sequence in
         /// case of <c>Just</c>.</summary>
         public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> maybe)
@@ -350,5 +351,19 @@ namespace CSharpx
             }
             return count;
         }
+
+        /// <summary>This is a version of map which can throw out elements. In particular, the functional
+        /// argument returns something of type <c>Maybe&lt;T2&gt;</c>. If this is Nothing, no element is
+        /// added on to the result sequence. If it is <c>Just&lt;T2&gt;</c>, then <c>T2</c> is included
+        /// in the result sequence.</summary>
+        public static IEnumerable<T2> Map<T1, T2>(this IEnumerable<T1> source, Func<T1, Maybe<T2>> func)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            foreach (var element in source) {
+                if (func(element).MatchJust(out T2 value)) yield return value;
+            }
+        }
+        #endregion
     }
 }
