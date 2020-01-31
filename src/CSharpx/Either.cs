@@ -34,7 +34,7 @@ namespace CSharpx
 
         protected Either(EitherType tag) => _tag = tag;
 
-        public EitherType Tag { get { return _tag; } }
+        public EitherType Tag => _tag;
 
         #region Basic Match Methods
         /// <summary>Matches a <c>Left</c> value returning <c>true</c> and value itself via an output
@@ -65,7 +65,7 @@ namespace CSharpx
         internal Left(TLeft value) : base(EitherType.Left) => _value = value;
 
         /// <summary>The wrapped value.</summary>
-        public TLeft Value { get { return _value; } }
+        public TLeft Value => _value;
     }
 
 #if !CSX_EITHER_INTERNAL
@@ -78,7 +78,7 @@ namespace CSharpx
         internal Right(TRight value) : base(EitherType.Right) => _value = value;
 
         /// <summary>The wrapped value.</summary>
-        public TRight Value { get { return _value; } }
+        public TRight Value => _value;
     }
     #endregion
 
