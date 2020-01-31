@@ -277,16 +277,13 @@ namespace CSharpx
             return maybe.Tag == MaybeType.Nothing;
         }
 
-        /// <summary>Extracts the element out of <c>Just</c> and returns a default value if it is
-        /// in form of<c>Nothing</c>.</summary>
-        public static T FromJust<T>(this Maybe<T> maybe)
+        /// <summary>Extracts the element out of <c>Just</c> and returns a default value (or <c>noneValue</c>
+        /// when given) if it is in form of<c>Nothing</c>.</summary>
+        public static T FromJust<T>(this Maybe<T> maybe, T noneValue = default(T))
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
 
-            if (maybe.MatchJust(out T value)) {
-                return value;
-            }
-            return default;
+            return maybe.MatchJust(out T value) ? value : noneValue;
         }
 
         /// <summary>Extracts the element out of <c>Just</c> and throws an exception if it is form of
@@ -300,10 +297,6 @@ namespace CSharpx
             }
             throw exceptionToThrow ?? new Exception("The value is empty.");
         }
-
-        /// <summary>If contains a values returns it, otherwise returns <c>noneValue</c>.</summary>
-        public static T GetValueOrDefault<T>(this Maybe<T> maybe, T noneValue) =>
-            maybe.MatchJust(out T value) ? value : noneValue;
 
         /// <summary>If contains a values executes a mapping function over it, otherwise returns
         /// <c>noneValue</c>.</summary>
