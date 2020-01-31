@@ -271,13 +271,13 @@ namespace CSharpx
             return maybe.Tag == MaybeType.Nothing;
         }
 
-        /// <summary>Extracts the element out of <c>Just</c> and returns a default value (or <c>noneValue</c>
+        /// <summary>Extracts the element out of <c>Just</c> and returns a default value (or <c>@default</c>
         /// when given) if it is in form of<c>Nothing</c>.</summary>
-        public static T FromJust<T>(this Maybe<T> maybe, T noneValue = default(T))
+        public static T FromJust<T>(this Maybe<T> maybe, T @default = default(T))
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
 
-            return maybe.MatchJust(out T value) ? value : noneValue;
+            return maybe.MatchJust(out T value) ? value : @default;
         }
 
         /// <summary>Extracts the element out of <c>Just</c> and throws an exception if it is form of
@@ -293,13 +293,13 @@ namespace CSharpx
         }
 
         /// <summary>If contains a values executes a mapping function over it, otherwise returns
-        /// <c>noneValue</c>.</summary>
-        public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue)
+        /// <c>@default</c>.</summary>
+        public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 @default)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
             if (func == null) throw new ArgumentNullException(nameof(func));
 
-            return maybe.MatchJust(out T1 value) ? func(value) : noneValue;
+            return maybe.MatchJust(out T1 value) ? func(value) : @default;
         }
 
         #region
