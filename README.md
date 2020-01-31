@@ -35,7 +35,7 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.4.0-beta
+$ dotnet add package CSharpx --version 2.4.3-beta
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
