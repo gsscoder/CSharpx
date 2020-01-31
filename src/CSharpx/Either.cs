@@ -148,15 +148,6 @@ namespace CSharpx
         /// <summary>Fail with a message. Not part of mathematical definition of a monad.</summary>
         public static Either<string, TRight> Fail<TRight>(string message) => throw new Exception(message);
 
-        /// <summary>Returns a <c>Right</c> or fail with an exception.</summary>
-        public static TRight GetOrFail<TLeft, TRight>(Either<TLeft, TRight> either)
-        {
-            if (either.MatchRight(out TRight value)) {
-                return value;
-            }
-            throw new Exception($"The either value was Left {either}.");
-        }
-
         /// <summary>Returns a <c>Left</c> or a defualt value.</summary>
         public static TLeft GetLeftOrDefault<TLeft, TRight>(Either<TLeft, TRight> either, TLeft @default) =>
             either.MatchLeft(out TLeft value) ? value : @default;
