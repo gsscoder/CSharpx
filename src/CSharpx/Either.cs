@@ -263,16 +263,14 @@ namespace CSharpx
             return either.Tag == EitherType.Right;
         }
 
-        /// <summary>Extracts the element out of <c>Left</c> and returns a default value if it is
-        /// in form of <c>Right</c>.</summary>
-        public static TLeft FromLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
+        /// <summary>Extracts the element out of <c>Left</c> and returns a default value (or <c>noneValue</c>
+        /// when given) if it is in form of <c>Right</c>.</summary>
+        public static TLeft FromLeft<TLeft, TRight>(this Either<TLeft, TRight> either,
+            TLeft noneValue = default(TLeft))
         {
             if (either == null) throw new ArgumentNullException(nameof(either));
 
-            if (either.MatchLeft(out TLeft value)) {
-                return value;
-            }
-            return default;
+            return either.MatchLeft(out TLeft value) ? value : noneValue;
         }
 
         /// <summary>Extracts the element out of <c>Left</c> and throws an exception if it is form of
@@ -288,16 +286,14 @@ namespace CSharpx
             throw exceptionToThrow ?? new Exception("The value is empty.");
         }
 
-        /// <summary>Extracts the element out of <c>Left</c> and returns a default value if it is
-        /// in form of<c>Right</c>.</summary>
-        public static TRight FromRight<TLeft, TRight>(this Either<TLeft, TRight> either)
+        /// <summary>Extracts the element out of <c>Left</c> and returns a default (or <c>noneValue</c>
+        /// when given) value if it is in form of<c>Right</c>.</summary>
+        public static TRight FromRight<TLeft, TRight>(this Either<TLeft, TRight> either,
+            TRight noneValue = default(TRight))
         {
             if (either == null) throw new ArgumentNullException(nameof(either));
 
-            if (either.MatchRight(out TRight value)) {
-                return value;
-            }
-            return default;
+            return either.MatchRight(out TRight value) ? value : noneValue;
         }
 
         /// <summary>Extracts the element out of <c>Left</c> and throws an exception if it is form of
