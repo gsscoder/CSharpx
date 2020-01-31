@@ -470,6 +470,25 @@ namespace CSharpx
                     : Maybe.Nothing<IEnumerable<T>>();
             }
         }
+
+        /// <summary>Applies a function to each element of the source sequence and returns a new
+        /// sequence of elements where the function returns Just(value).</summary>
+        public static IEnumerable<TResult> Choose<T, TResult>(this IEnumerable<T> source,
+            Func<T, Maybe<TResult>> chooser)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (chooser == null) throw new ArgumentNullException(nameof(chooser));
+
+            return _(); IEnumerable<TResult> _()
+            {
+                foreach (var item in source) {
+                    var result = chooser(item);
+                    if (result.MatchJust(out TResult value)) {
+                        yield return value;
+                    }
+                }
+            }
+        }
         #endif
 
         /// <summary>Partition a sequence in to chunks of given size. Each chunk is an array of the
@@ -499,25 +518,6 @@ namespace CSharpx
                 T[] result = new T[length];
                 Array.Copy(array, index, result, 0, length);
                 return result;
-            }
-        }
-
-        /// <summary>Applies a function to each element of the source sequence and returns a new
-        /// sequence of elements where the function returns Just(value).</summary>
-        public static IEnumerable<TResult> Choose<T, TResult>(this IEnumerable<T> source,
-            Func<T, Maybe<TResult>> chooser)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (chooser == null) throw new ArgumentNullException(nameof(chooser));
-
-            return _(); IEnumerable<TResult> _()
-            {
-                foreach (var item in source) {
-                    var result = chooser(item);
-                    if (result.MatchJust(out TResult value)) {
-                        yield return value;
-                    }
-                }
             }
         }
     }
