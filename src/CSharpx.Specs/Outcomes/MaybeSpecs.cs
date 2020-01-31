@@ -66,6 +66,23 @@ public class MaybeSpecs
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Should_return_a_singleton_sequence_with_Just_and_an_empty_with_Nothing(string[] values)
+    {
+        values.ForEach(value =>
+            {
+                var outcome = value.ToMaybe().ToEnumerable();
+
+                if (value == null) {
+                    outcome.Should().NotBeNull().And.BeEmpty();
+                }
+                else {
+                    outcome.Should().NotBeNullOrEmpty().And.HaveCount(1);
+                    outcome.ElementAt(0).Should().Be(value);
+                }
+            });
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void Should_return_Just_values_from_a_sequence(string[] values)
     {
         var maybes = from value in values select value.ToMaybe();
