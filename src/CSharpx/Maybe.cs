@@ -61,7 +61,7 @@ namespace CSharpx
         internal Just(T value) : base(MaybeType.Just) => _value = value;
 
         /// <summary>The wrapped value.</summary>
-        public T Value { get { return _value; } }
+        public T Value => _value;
     }
 
     /// <summary>Models a <c>Maybe</c> when in empty state.</summary>
