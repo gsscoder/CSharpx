@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 using FluentAssertions;
@@ -84,5 +85,22 @@ public class MaybeSpecs
         var outcome = maybes.Nothings();
 
         outcome.Should().BeLessOrEqualTo(values.Count());
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Should_throw_out_Just_values_from_a_sequence(string[] values)
+    {
+        Func<string, Maybe<int>> readInt = value => { 
+            if (int.TryParse(value, out int result)) return Maybe.Just(result);
+            return Maybe.Nothing<int>(); };
+
+        var expected = from value in values where int.TryParse(value, out int _)
+                       select int.Parse(value);
+
+        var outcome = values.Map(readInt);
+
+        outcome.Should().NotBeNullOrEmpty()
+            .And.HaveCount(expected.Count())
+            .And.ContainInOrder(expected);
     }
 }
