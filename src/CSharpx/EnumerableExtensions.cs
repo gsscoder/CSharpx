@@ -325,115 +325,7 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>Return everything except first element and throws exception if empty.</summary>
-        public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-
-            return _(); IEnumerable<T> _()
-            {
-                using (var e = source.GetEnumerator()) {
-                    if (!e.MoveNext()) {
-                        throw new ArgumentException(
-                            "The input sequence has an insufficient number of elements.");
-                    }
-                    while (e.MoveNext()) {
-                        yield return e.Current;
-                    }
-                }
-            }
-        }
-
-        /// <summary>Return everything except first element without throwing exception if empty.</summary>
-        public static IEnumerable<T> TailOrEmpty<T>(this IEnumerable<T> source)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-
-            return _(); IEnumerable<T> _()
-            {
-                using (var e = source.GetEnumerator()) {
-                    if (e.MoveNext()) {
-                        while (e.MoveNext()) {
-                            yield return e.Current;
-                        }
-                    }
-                }
-            }
-        }
-
-        #region Materialize
-        class MaterializedEnumerable<T> : IEnumerable<T>
-        {
-            readonly ICollection<T> _inner;
-
-            internal MaterializedEnumerable(IEnumerable<T> enumerable) =>
-                _inner = enumerable as ICollection<T> ?? enumerable.ToArray();
-
-            public IEnumerator<T> GetEnumerator() => _inner.GetEnumerator();
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
-        /// <summary>Captures the current state of a sequence.</summary>
-        public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
-        {
-            switch (source) {
-                case null                        : throw new ArgumentNullException(nameof(source));
-                case MaterializedEnumerable<T> _ : return source;
-                default : return new MaterializedEnumerable<T>(source);
-            }
-        }
-        #endregion
-
-        /// <summary>Selects a random element.</summary>
-        public static T Choice<T>(this IEnumerable<T> source)
-        {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-
-        #if CSX_REM_CRYPTORAND
-            var index = new Random().Next(source.Count() - 1);
-        #else
-            var index = new CryptoRandom().Next(source.Count() - 1);
-        #endif
-            return source.ElementAt(index);
-        }
-
-        /// <summary>Takes an element and a sequence and `intersperses' that element between its
-        /// elements.</summary>
-        public static IEnumerable<T> Intersperse<T>(this IEnumerable<T> source, T element)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (element == null) throw new ArgumentNullException(nameof(element));
-
-            return _(); IEnumerable<T> _()
-            {
-                var count = source.Count();
-                var last = count - 1;
-                for (var i = 0; i < count; i++) {
-                    yield return source.ElementAt(i);
-                    if (i != last) {
-                        yield return element;
-                    }
-                }
-            }
-        }
-
-        /// <summary>Flattens a sequence by one level.</summary>
-        public static IEnumerable<T> FlattenOnce<T>(this IEnumerable<IEnumerable<T>> source)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-
-            return _(); IEnumerable<T> _()
-            {
-                foreach (var element in source) {
-                    foreach (var subelement in element) {
-                        yield return subelement;
-                    }
-                }
-            }
-        }
-
-        #if !CSX_REM_MAYBE_FUNC
+       #if !CSX_REM_MAYBE_FUNC
         /// <summary>Safe function that returns Just(first element) or Nothing.</summary>
         public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
         {
@@ -491,6 +383,42 @@ namespace CSharpx
         }
         #endif
 
+        /// <summary>Return everything except first element and throws exception if empty.</summary>
+        public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            return _(); IEnumerable<T> _()
+            {
+                using (var e = source.GetEnumerator()) {
+                    if (!e.MoveNext()) {
+                        throw new ArgumentException(
+                            "The input sequence has an insufficient number of elements.");
+                    }
+                    while (e.MoveNext()) {
+                        yield return e.Current;
+                    }
+                }
+            }
+        }
+
+        /// <summary>Return everything except first element without throwing exception if empty.</summary>
+        public static IEnumerable<T> TailOrEmpty<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            return _(); IEnumerable<T> _()
+            {
+                using (var e = source.GetEnumerator()) {
+                    if (e.MoveNext()) {
+                        while (e.MoveNext()) {
+                            yield return e.Current;
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>Partition a sequence in to chunks of given size. Each chunk is an array of the
         /// resulting sequence.</summary>
         public static IEnumerable<T[]> ChunkBySize<T>(this IEnumerable<T> source, int chunkSize)
@@ -518,6 +446,78 @@ namespace CSharpx
                 T[] result = new T[length];
                 Array.Copy(array, index, result, 0, length);
                 return result;
+            }
+        }
+
+        /// <summary>Selects a random element.</summary>
+        public static T Choice<T>(this IEnumerable<T> source)
+        {
+        if (source == null) throw new ArgumentNullException(nameof(source));
+
+        #if CSX_REM_CRYPTORAND
+            var index = new Random().Next(source.Count() - 1);
+        #else
+            var index = new CryptoRandom().Next(source.Count() - 1);
+        #endif
+            return source.ElementAt(index);
+        }
+
+        /// <summary>Takes an element and a sequence and `intersperses' that element between its
+        /// elements.</summary>
+        public static IEnumerable<T> Intersperse<T>(this IEnumerable<T> source, T element)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (element == null) throw new ArgumentNullException(nameof(element));
+
+            return _(); IEnumerable<T> _()
+            {
+                var count = source.Count();
+                var last = count - 1;
+                for (var i = 0; i < count; i++) {
+                    yield return source.ElementAt(i);
+                    if (i != last) {
+                        yield return element;
+                    }
+                }
+            }
+        }
+
+        #region Materialize
+        class MaterializedEnumerable<T> : IEnumerable<T>
+        {
+            readonly ICollection<T> _inner;
+
+            internal MaterializedEnumerable(IEnumerable<T> enumerable) =>
+                _inner = enumerable as ICollection<T> ?? enumerable.ToArray();
+
+            public IEnumerator<T> GetEnumerator() => _inner.GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        /// <summary>Captures the current state of a sequence.</summary>
+        public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
+        {
+            switch (source) {
+                case null                        : throw new ArgumentNullException(nameof(source));
+                case MaterializedEnumerable<T> _ : return source;
+                default : return new MaterializedEnumerable<T>(source);
+            }
+        }
+        #endregion
+
+        /// <summary>Flattens a sequence by one level.</summary>
+        public static IEnumerable<T> FlattenOnce<T>(this IEnumerable<IEnumerable<T>> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            return _(); IEnumerable<T> _()
+            {
+                foreach (var element in source) {
+                    foreach (var subelement in element) {
+                        yield return subelement;
+                    }
+                }
             }
         }
     }
