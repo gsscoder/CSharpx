@@ -323,10 +323,7 @@ namespace CSharpx
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
 
-            if (maybe.MatchJust(out T value)) {
-                return Enumerable.Empty<T>().Concat(new[] { value });
-            }
-            return Enumerable.Empty<T>();
+            if (maybe.MatchJust(out T value)) yield return value;
         }
 
         /// <summary>Takes a sequence of <c>Maybe</c> and returns a sequence of all the <c>Just</c>
