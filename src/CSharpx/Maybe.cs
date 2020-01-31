@@ -291,7 +291,7 @@ namespace CSharpx
             return maybe.MatchJust(out T value) ? value : @default();
         }
 
-        /// <summary>Extracts the element out of <c>Just</c> and throws an exception if it is form of
+        /// <summary>Extracts the element out of <c>Just</c> or throws an exception if it is form of
         /// <c>Nothing</c>.</summary>
         public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
         {
