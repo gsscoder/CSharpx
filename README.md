@@ -193,8 +193,9 @@ server.PortNumber = 8080; // will throw InvalidOperationException
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
 - Added `IEnumerable<Either<TLeft, TRight>>.Lefts` extension method.
 - Added `IEnumerable<Either<TLeft, TRight>>.Rights` extension method.
-- `Maybe<T>.GetValueOrDefault` implemented in `Maybe<T>.FromJust`.
 - Removed some superfluous `Either` method.
+- Added `Maybe<T>.FromJustOrNull` extension method.
+- Implement `ToString` for `Maybe` type.
 
 ## Related Projects
 
