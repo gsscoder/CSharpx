@@ -447,6 +447,19 @@ namespace CSharpx
             }
         }
 
+        /// <summary>Turns an empty sequence to Nothing, otherwise Just(sequence).</summary>
+        public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            using (var e = source.GetEnumerator()) {
+                return e.MoveNext()
+                    ? Maybe.Just(source)
+                    : Maybe.Nothing<IEnumerable<T>>();
+            }
+        }
+        #endif
+
         /// <summary>Partition a sequence in to chunks of given size. Each chunk is an array of the
         /// resulting sequence.</summary>
         public static IEnumerable<T[]> ChunkBySize<T>(this IEnumerable<T> source, int chunkSize)
@@ -474,18 +487,6 @@ namespace CSharpx
             }
         }
 
-        /// <summary>Turns an empty sequence to Nothing, otherwise Just(sequence).</summary>
-        public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-
-            using (var e = source.GetEnumerator()) {
-                return e.MoveNext()
-                    ? Maybe.Just(source)
-                    : Maybe.Nothing<IEnumerable<T>>();
-            }
-        }
-
         /// <summary>Applies a function to each element of the source sequence and returns a new
         /// sequence of elements where the function returns Just(value).</summary>
         public static IEnumerable<TResult> Choose<T, TResult>(this IEnumerable<T> source,
@@ -503,6 +504,5 @@ namespace CSharpx
                 }
             }
         }
-        #endif
     }
 }
