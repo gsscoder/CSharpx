@@ -229,9 +229,7 @@ namespace CSharpx
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
 
             if (maybe.MatchJust(out TSource value)) {
-                if (predicate(value)) {
-                    return maybe;
-                }
+                if (predicate(value)) return maybe;
             }
             return Maybe.Nothing<TSource>();
         }
@@ -244,9 +242,7 @@ namespace CSharpx
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
             if (action == null) throw new ArgumentNullException(nameof(action));
 
-            if (maybe.MatchJust(out T value)) {
-                action(value);
-            }
+            if (maybe.MatchJust(out T value)) action(value);
         }
 
         /// <summary>If contans a value executes a <c>System.Action<c> delegate over it.</summary>
@@ -255,9 +251,7 @@ namespace CSharpx
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
             if (action == null) throw new ArgumentNullException(nameof(action));
 
-            if (maybe.MatchJust(out T1 value1, out T2 value2)) {
-                action(value1, value2);
-            }
+            if (maybe.MatchJust(out T1 value1, out T2 value2)) action(value1, value2);
         }
         #endregion
 
