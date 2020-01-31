@@ -30,11 +30,11 @@ namespace CSharpx
     /// used to hold a correct value (mnemonic: "right" also means "correct").</summary>
     abstract class Either<TLeft, TRight>
     {
-        readonly EitherType tag;
+        readonly EitherType _tag;
 
-        protected Either(EitherType tag) => this.tag = tag;
+        protected Either(EitherType tag) => _tag = tag;
 
-        public EitherType Tag { get { return this.tag; } }
+        public EitherType Tag { get { return _tag; } }
 
         #region Basic Match Methods
         /// <summary>Matches a <c>Left</c> value returning <c>true</c> and value itself via an output
@@ -60,12 +60,12 @@ namespace CSharpx
 #endif
     sealed class Left<TLeft, TRight> : Either<TLeft, TRight>
     {
-        readonly TLeft value;
+        readonly TLeft _value;
 
-        internal Left(TLeft value) : base(EitherType.Left) => this.value = value;
+        internal Left(TLeft value) : base(EitherType.Left) => _value = value;
 
         /// <summary>The wrapped value.</summary>
-        public TLeft Value { get { return value; } }
+        public TLeft Value { get { return _value; } }
     }
 
 #if !CSX_EITHER_INTERNAL
@@ -73,12 +73,12 @@ namespace CSharpx
 #endif
     sealed class Right<TLeft, TRight> : Either<TLeft, TRight>
     {
-        readonly TRight value;
+        readonly TRight _value;
 
-        internal Right(TRight value) : base(EitherType.Right) => this.value = value;
+        internal Right(TRight value) : base(EitherType.Right) => _value = value;
 
         /// <summary>The wrapped value.</summary>
-        public TRight Value { get { return value; } }
+        public TRight Value { get { return _value; } }
     }
     #endregion
 
