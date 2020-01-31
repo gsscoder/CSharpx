@@ -55,7 +55,7 @@ public class MaybeSpecs
 
                 outcome.Should().NotBeNull();
 
-                if (value == default(string)) {
+                if (value == null) {
                     outcome.Should().BeOfType<Nothing<string>>();
                 }
                 else {
