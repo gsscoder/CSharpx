@@ -97,7 +97,7 @@ namespace CSharpx
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
 
-            return maybe.MatchJust(out T1 value1) ? func(value1) : Nothing<T2>();
+            return maybe.MatchJust(out T1 value) ? func(value) : Nothing<T2>();
         }
         #endregion
 
@@ -107,7 +107,7 @@ namespace CSharpx
         {
             if (func == null) throw new ArgumentNullException(nameof(func));
 
-            return maybe.MatchJust(out T1 value1) ? Just(func(value1)) : Nothing<T2>();
+            return maybe.MatchJust(out T1 value) ? Just(func(value)) : Nothing<T2>();
         }
         #endregion
 
@@ -204,8 +204,8 @@ namespace CSharpx
 
         /// <summary>Unwraps a value applying a function o returns another value on fail.</summary>
         public static T2 Return<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue) =>
-            maybe.MatchJust(out T1 value1)
-                ? func(value1)
+            maybe.MatchJust(out T1 value)
+                ? func(value)
                 : noneValue;
         #endregion
 
@@ -313,7 +313,7 @@ namespace CSharpx
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
             if (func == null) throw new ArgumentNullException(nameof(func));
 
-            return maybe.MatchJust(out T1 value1) ? func(value1) : noneValue;
+            return maybe.MatchJust(out T1 value) ? func(value) : noneValue;
         }
 
         #region
