@@ -83,6 +83,20 @@ public class MaybeSpecs
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void FromJustOrNull_should_unwrap_the_value_or_return_null(string[] values)
+    {
+        values.ForEach(value =>
+            {
+                var sut = Maybe.Return(value);
+
+                var outcome = sut.FromJustOrNull();
+
+                if (value == null) outcome.Should().BeNull();
+                else outcome.Should().NotBeNull().And.Be(value);
+            });
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void Should_return_a_singleton_sequence_with_Just_and_an_empty_with_Nothing(string[] values)
     {
         values.ForEach(value =>
