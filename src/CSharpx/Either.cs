@@ -145,17 +145,6 @@ namespace CSharpx
         }
         #endregion
 
-        #region LINQ Operators
-        /// <summary>Map operation compatible with LINQ.</summary>
-        public static Either<TLeft, TResult> Select<TLeft, TRight, TResult>(
-            this Either<TLeft, TRight> either,
-            Func<TRight, TResult> selector) => Either.Map(either, selector);
-
-        /// <summary>Map operation compatible with LINQ.</summary>
-        public static Either<TLeft, TResult> SelectMany<TLeft, TRight, TResult>(this Either<TLeft, TRight> result,
-            Func<TRight, Either<TLeft, TResult>> func) => Either.Bind(result, func);
-        #endregion
-
         /// <summary>Fail with a message. Not part of mathematical definition of a monad.</summary>
         public static Either<string, TRight> Fail<TRight>(string message) => throw new Exception(message);
 
@@ -220,6 +209,17 @@ namespace CSharpx
 #endif
     static class EitherExtensions
     {
+        #region LINQ Operators
+        /// <summary>Map operation compatible with LINQ.</summary>
+        public static Either<TLeft, TResult> Select<TLeft, TRight, TResult>(
+            this Either<TLeft, TRight> either,
+            Func<TRight, TResult> selector) => Either.Map(either, selector);
+
+        /// <summary>Map operation compatible with LINQ.</summary>
+        public static Either<TLeft, TResult> SelectMany<TLeft, TRight, TResult>(this Either<TLeft, TRight> result,
+            Func<TRight, Either<TLeft, TResult>> func) => Either.Bind(result, func);
+        #endregion
+
         #region Alternative Match Methods
         public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either,
             Action<TLeft> ifLeft, Action<TRight> ifRight)
