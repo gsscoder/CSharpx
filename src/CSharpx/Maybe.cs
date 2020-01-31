@@ -2,6 +2,7 @@
 //#define CSX_REM_EITHER_FUNC // Uncomment or define at build time to remove dependency to Either.cs.
 
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace CSharpx
@@ -61,6 +62,16 @@ namespace CSharpx
 
         /// <summary>The wrapped value.</summary>
         public T Value => _value;
+
+        /// <summary>Returns a string that represents the value of this <c>Maybe</c>
+        /// instance in form of <c>Just</c>.</summary>
+        public override string ToString()
+        {
+            var builder = new StringBuilder("Just(");
+            builder.Append(_value);
+            builder.Append(")");
+            return builder.ToString();
+        }
     }
 
     /// <summary>Models a <c>Maybe</c> when in empty state.</summary>
