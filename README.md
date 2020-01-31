@@ -35,7 +35,7 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.4.3-beta
+$ dotnet add package CSharpx --version 2.4.5-beta
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
@@ -190,12 +190,11 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
 
 ## Latest Changes
 
-- Reimplemented `IEnumerable<T>.Materialize` extension method.
-- Added `Pair` type.
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
 - Added `IEnumerable<Either<TLeft, TRight>>.Lefts` extension method.
 - Added `IEnumerable<Either<TLeft, TRight>>.Rights` extension method.
 - `Maybe<T>.GetValueOrDefault` implemented in `Maybe<T>.FromJust`.
+- Removed some superfluous `Either` method.
 
 ## Related Projects
 
