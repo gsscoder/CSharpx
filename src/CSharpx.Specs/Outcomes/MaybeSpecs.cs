@@ -83,7 +83,9 @@ public class MaybeSpecs
     {
         values.ForEach(value =>
             {
-                var outcome = value.ToMaybe().ToEnumerable();
+                var sut = value.ToMaybe();
+
+                var outcome = sut.ToEnumerable();
 
                 if (value == null) {
                     outcome.Should().NotBeNull().And.BeEmpty();
