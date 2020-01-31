@@ -282,6 +282,15 @@ namespace CSharpx
             return maybe.MatchJust(out T value) ? value : @default;
         }
 
+        /// <summary>Lazy version of <c>FromJust</c>. Extracts the element out of <c>Just</c> and returns
+        /// a default value returned by <c>@default</c> function if it is in form of<c>Nothing</c>.</summary>
+        public static T FromJust<T>(this Maybe<T> maybe, Func<T> @default)
+        {
+            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
+
+            return maybe.MatchJust(out T value) ? value : @default();
+        }
+
         /// <summary>Extracts the element out of <c>Just</c> and throws an exception if it is form of
         /// <c>Nothing</c>.</summary>
         public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)

@@ -65,6 +65,19 @@ public class MaybeSpecs
             });
     }
 
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void FromJust_in_case_of_Nothing_should_lazily_return_a_default_value_from_a_function(int value)
+    {
+        Func<int> func = () => value;
+
+        var sut = Maybe.Nothing<int>();
+
+        var outcome = sut.FromJust(func);
+
+        outcome.Should().Be(func());
+    }
+
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void Should_return_a_singleton_sequence_with_Just_and_an_empty_with_Nothing(string[] values)
     {
