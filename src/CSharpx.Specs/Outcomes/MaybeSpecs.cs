@@ -66,16 +66,20 @@ public class MaybeSpecs
     }
 
 
-    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
-    public void FromJust_in_case_of_Nothing_should_lazily_return_a_default_value_from_a_function(int value)
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void FromJust_should_unwrap_the_value_or_lazily_return_from_a_function(string[] values)
     {
-        Func<int> func = () => value;
+        values.ForEach(value =>
+            {
+                Func<string> func = () => "foo";
 
-        var sut = Maybe.Nothing<int>();
+                var sut = Maybe.Return(value);
 
-        var outcome = sut.FromJust(func);
+                var outcome = sut.FromJust(func);
 
-        outcome.Should().Be(func());
+                if (value == null) outcome.Should().NotBeNull().And.Be(func());
+                else outcome.Should().NotBeNull().And.Be(value);
+            });
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
