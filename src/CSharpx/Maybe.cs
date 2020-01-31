@@ -70,6 +70,10 @@ namespace CSharpx
     sealed class Nothing<T> : Maybe<T>
     {
         internal Nothing() : base(MaybeType.Nothing) { }
+
+        /// <summary>Returns a string that represents the value of this <c>Maybe</c>
+        /// instance in form of <c>Nothing</c>.</summary>
+        public override string ToString() => "<Nothing>";
     }
 
     /// <summary>Provides static methods for manipulating <c>Maybe</c>.</summary>
