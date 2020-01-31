@@ -175,6 +175,7 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
 class Server
 {
     SetOnce<int> _portNumber = new SetOnce<int>();
+
     public int PortNumber
     {
         get { return _portNumber.Value; }
