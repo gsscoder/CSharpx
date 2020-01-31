@@ -327,5 +327,28 @@ namespace CSharpx
             }
             return Enumerable.Empty<T>();
         }
+
+        /// <summary>Takes a sequence of <c>Maybe</c> and returns a sequence of all the <c>Just</c>
+        /// values.</summary>
+        public static IEnumerable<T> Justs<T>(this IEnumerable<Maybe<T>> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            foreach (var maybe in source) {
+                if (maybe.Tag == MaybeType.Just) yield return maybe.FromJust();
+            }
+        }
+
+        /// <summary>Takes a sequence of <c>Maybe</c> and counts all the <c>Nothing</c> values.</summary>
+        public static int Nothings<T>(this IEnumerable<Maybe<T>> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            var count = 0;
+            foreach (var maybe in source) {
+                if (maybe.Tag == MaybeType.Just) count++;
+            }
+            return count;
+        }
     }
 }

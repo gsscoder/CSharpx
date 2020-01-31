@@ -1,3 +1,4 @@
+using System.Linq;
 using Xunit;
 using FluentAssertions;
 using FsCheck;
@@ -61,5 +62,27 @@ public class MaybeSpecs
                     outcome.FromJust().Should().Be(value);
                 }
             });
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Should_return_Just_values_from_a_sequence(string[] values)
+    {
+        var maybes = from value in values select value.ToMaybe();
+
+        var outcome = maybes.Justs();
+
+        outcome.Should().NotBeNullOrEmpty()
+            .And.HaveCountLessOrEqualTo(values.Count())
+            .And.ContainInOrder(from value in values where value != null select value);
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Should_count_Nothing_values_of_a_sequence(string[] values)
+    {
+        var maybes = from value in values select value.ToMaybe();
+
+        var outcome = maybes.Nothings();
+
+        outcome.Should().BeLessOrEqualTo(values.Count());
     }
 }
