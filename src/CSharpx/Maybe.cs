@@ -202,10 +202,12 @@ namespace CSharpx
             Maybe.Map(maybe, func);
 
         /// <summary>Unwraps a value applying a function o returns another value on fail.</summary>
-        public static T2 Return<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 noneValue) =>
-            maybe.MatchJust(out T1 value)
-                ? func(value)
-                : noneValue;
+        public static T2 Return<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 @default)
+        {
+            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
+ 
+            return maybe.MatchJust(out T1 value) ? func(value) : @default;
+        }
         #endregion
 
         #region LINQ Operators
