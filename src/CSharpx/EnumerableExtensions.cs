@@ -330,13 +330,16 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            using (var e = source.GetEnumerator()) {
-                if (!e.MoveNext()) {
-                    throw new ArgumentException(
-                        "The input sequence has an insufficient number of elements.");
-                }
-                while (e.MoveNext()) {
-                    yield return e.Current;
+            return _(); IEnumerable<T> _()
+            {
+                using (var e = source.GetEnumerator()) {
+                    if (!e.MoveNext()) {
+                        throw new ArgumentException(
+                            "The input sequence has an insufficient number of elements.");
+                    }
+                    while (e.MoveNext()) {
+                        yield return e.Current;
+                    }
                 }
             }
         }
@@ -346,10 +349,13 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            using (var e = source.GetEnumerator()) {
-                if (e.MoveNext()) {
-                    while (e.MoveNext()) {
-                        yield return e.Current;
+            return _(); IEnumerable<T> _()
+            {
+                using (var e = source.GetEnumerator()) {
+                    if (e.MoveNext()) {
+                        while (e.MoveNext()) {
+                            yield return e.Current;
+                        }
                     }
                 }
             }
@@ -399,12 +405,15 @@ namespace CSharpx
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (element == null) throw new ArgumentNullException(nameof(element));
 
-            var count = source.Count();
-            var last = count - 1;
-            for (var i = 0; i < count; i++) {
-                yield return source.ElementAt(i);
-                if (i != last) {
-                    yield return element;
+            return _(); IEnumerable<T> _()
+            {
+                var count = source.Count();
+                var last = count - 1;
+                for (var i = 0; i < count; i++) {
+                    yield return source.ElementAt(i);
+                    if (i != last) {
+                        yield return element;
+                    }
                 }
             }
         }
@@ -414,9 +423,12 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            foreach (var element in source) {
-                foreach (var subelement in element) {
-                    yield return subelement;
+            return _(); IEnumerable<T> _()
+            {
+                foreach (var element in source) {
+                    foreach (var subelement in element) {
+                        yield return subelement;
+                    }
                 }
             }
         }
@@ -467,16 +479,19 @@ namespace CSharpx
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (chunkSize <= 0) throw new ArgumentException("The input must be positive.");
 
-            using (var e = source.GetEnumerator()) {
-                while (e.MoveNext()) {
-                    var result = new T[chunkSize];
-                    result[0] = e.Current;
-                    var i = 1;
-                    while (i < chunkSize && e.MoveNext()) {
-                        result[i] = e.Current;
-                        i++;
+            return _(); IEnumerable<T[]> _()
+            {
+                using (var e = source.GetEnumerator()) {
+                    while (e.MoveNext()) {
+                        var result = new T[chunkSize];
+                        result[0] = e.Current;
+                        var i = 1;
+                        while (i < chunkSize && e.MoveNext()) {
+                            result[i] = e.Current;
+                            i++;
+                        }
+                        yield return i == chunkSize? result : SubArray(result, 0, i);
                     }
-                    yield return i == chunkSize? result : SubArray(result, 0, i);
                 }
             }
 
@@ -495,7 +510,8 @@ namespace CSharpx
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (chooser == null) throw new ArgumentNullException(nameof(chooser));
 
-            return _(); IEnumerable<TResult> _() {
+            return _(); IEnumerable<TResult> _()
+            {
                 foreach (var item in source) {
                     var result = chooser(item);
                     if (result.MatchJust(out TResult value)) {

@@ -329,8 +329,11 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            foreach (var either in source) {
-                if (either.Tag == EitherType.Left) yield return either.FromLeft();
+            return _(); IEnumerable<TLeft> _()
+            {
+                foreach (var either in source) {
+                    if (either.Tag == EitherType.Left) yield return either.FromLeft();
+                }
             }
         }
 
@@ -340,8 +343,11 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            foreach (var either in source) {
-                if (either.Tag == EitherType.Right) yield return either.FromRight();
+            return _(); IEnumerable<TRight> _()
+            {
+                foreach (var either in source) {
+                    if (either.Tag == EitherType.Right) yield return either.FromRight();
+                }
             }
         }       
 

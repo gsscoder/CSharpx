@@ -232,10 +232,13 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            foreach (var element in source) {
-                var parts = element.Split();
-                foreach (var part in parts) {
-                    yield return part;
+            return _(); IEnumerable<string> _()
+            {
+                foreach (var element in source) {
+                    var parts = element.Split();
+                    foreach (var part in parts) {
+                        yield return part;
+                    }
                 }
             }
         }

@@ -309,7 +309,10 @@ namespace CSharpx
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
 
-            if (maybe.MatchJust(out T value)) yield return value;
+            return _(); IEnumerable<T> _()
+            {
+                if (maybe.MatchJust(out T value)) yield return value;
+            }
         }
 
         /// <summary>Takes a sequence of <c>Maybe</c> and returns a sequence of all the <c>Just</c>
@@ -318,8 +321,11 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            foreach (var maybe in source) {
-                if (maybe.Tag == MaybeType.Just) yield return maybe.FromJust();
+            return _(); IEnumerable<T> _()
+            {
+                foreach (var maybe in source) {
+                    if (maybe.Tag == MaybeType.Just) yield return maybe.FromJust();
+                }
             }
         }
 
@@ -343,8 +349,11 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            foreach (var element in source) {
-                if (func(element).MatchJust(out T2 value)) yield return value;
+            return _(); IEnumerable<T2> _()
+            {
+                foreach (var element in source) {
+                    if (func(element).MatchJust(out T2 value)) yield return value;
+                }
             }
         }
         #endregion
