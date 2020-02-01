@@ -87,7 +87,7 @@ public class MaybeSpecs
     {
         values.ForEach(value =>
             {
-                var sut = value.ToMaybe();
+                var sut = Maybe.Return(value);
 
                 var outcome = sut.ToEnumerable();
 
@@ -104,7 +104,7 @@ public class MaybeSpecs
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void Should_return_Just_values_from_a_sequence(string[] values)
     {
-        var maybes = from value in values select value.ToMaybe();
+        var maybes = from value in values select Maybe.Return(value);
 
         var outcome = maybes.Justs();
 
@@ -116,7 +116,7 @@ public class MaybeSpecs
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
     public void Should_count_Nothing_values_of_a_sequence(string[] values)
     {
-        var maybes = from value in values select value.ToMaybe();
+        var maybes = from value in values select Maybe.Return(values);
 
         var outcome = maybes.Nothings();
 
