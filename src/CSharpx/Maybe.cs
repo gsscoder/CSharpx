@@ -318,15 +318,6 @@ namespace CSharpx
             throw exceptionToThrow ?? new Exception("The value is empty.");
         }
 
-        /// <summary>Extracts the element out of <c>Just</c> or <c>returns</c> a null if it is form of
-        /// <c>Nothing</c>.</summary>
-        public static T FromJustOrNull<T>(this Maybe<T> maybe) where T : class
-        {
-            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-
-            return maybe.MatchJust(out T value) ? value : null;
-        }
-
         /// <summary>If contains a values executes a mapping function over it, otherwise returns
         /// <c>@default</c>.</summary>
         public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 @default)
