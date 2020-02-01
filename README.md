@@ -35,7 +35,7 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.4.5-beta
+$ dotnet add package CSharpx --version 2.4.20-beta
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
@@ -192,12 +192,9 @@ server.PortNumber = 8080; // will throw InvalidOperationException
 ## Latest Changes
 
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
-- Added `IEnumerable<Either<TLeft, TRight>>.Lefts` extension method.
-- Added `IEnumerable<Either<TLeft, TRight>>.Rights` extension method.
-- Removed some superfluous `Either` method.
-- Added `Maybe<T>.FromJustOrNull` extension method.
 - Implement `ToString` for `Maybe` type.
-- Added `FSharpResult<T, TError>.ToEither` extension method.
+- `MapValueOrDefault` defined as overload of `Maybe.Map`.
+- `Maybe<T>.FromJustOrNull`removed.
 
 ## Related Projects
 
