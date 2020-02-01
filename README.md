@@ -197,6 +197,7 @@ server.PortNumber = 8080; // will throw InvalidOperationException
 - Removed some superfluous `Either` method.
 - Added `Maybe<T>.FromJustOrNull` extension method.
 - Implement `ToString` for `Maybe` type.
+- Added `FSharpResult<T, TError>.ToEither` extension method.
 
 ## Related Projects
 
