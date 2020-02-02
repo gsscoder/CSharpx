@@ -35,7 +35,7 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.4.20-beta
+$ dotnet add package CSharpx --version 2.5.0-beta
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
@@ -167,34 +167,13 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
         Financial.GetGain(investment));
 ```
 
-## [SetOnce](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/SetOnce.cs)
-
-- Types to allow setting of a value only once.
-- Included thread-safe implementation.
-```csharp
-class Server
-{
-    SetOnce<int> _portNumber = new SetOnce<int>();
-
-    public int PortNumber
-    {
-        get { return _portNumber.Value; }
-        set { _portNumber.Value = value; }
-    }
-    // ...
-}
-
-var server = new Server();
-server.PortNumber = 6060;
-server.PortNumber = 8080; // will throw InvalidOperationException
-```
-
 ## Latest Changes
 
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
 - Implement `ToString` for `Maybe` type.
 - `MapValueOrDefault` defined as overload of `Maybe.Map`.
 - `Maybe<T>.FromJustOrNull`removed.
+- `SetOnce<T>`, `BlockingSetOnce<T>` removed.
 
 ## Related Projects
 
