@@ -1,3 +1,7 @@
+[![NuGet](https://img.shields.io/nuget/dt/csharpx.svg)](https://nuget.org/packages/csharpx)
+[![NuGet](https://img.shields.io/nuget/v/csharpx.svg)](https://www.nuget.org/packages/csharpx)
+[![NuGet](https://img.shields.io/nuget/vpre/csharpx.svg)](https://www.nuget.org/packages/csharpx)
+
 # <img src="/assets/icon.png" height="30px" alt="CSharpx Logo"> CSharpx
 
 Functional programming and other utilities for C#, following *don't reinvent the wheel* philosophy. This project was inspired by [Real-World Functional Programming](https://www.amazon.com/Real-World-Functional-Programming-Tomas-Petricek/dp/1933988924/ref=sr_1_1?keywords=Real-World+Functional+Programming&qid=1580118924&s=books&sr=1-1) and includes code from [MoreLINQ](https://github.com/morelinq/MoreLINQ).
