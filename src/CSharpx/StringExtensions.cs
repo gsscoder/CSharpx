@@ -15,9 +15,9 @@ namespace CSharpx
     static class StringExtensions
     {
     #if CSX_REM_CRYPTORAND
-        private static readonly Random _random = new Random();
+        static readonly Random _random = new Random();
     #else
-        private static readonly CryptoRandom _random = new CryptoRandom();
+        static readonly Random _random = new CryptoRandom();
     #endif
         static string[] _mangleChars =
             {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "=", "?", "^", "[", "]", "*", "@", "°",
