@@ -33,7 +33,7 @@ namespace CSharpx
         protected Maybe(MaybeType tag) => _tag = tag;
 
         /// <summary>Type discriminator. </summary>
-        public MaybeType Tag { get { return _tag; } }
+        public MaybeType Tag => _tag;
 
         #region Basic Match Methods
         /// <summary>Matches a value returning <c>true</c> and value itself via an output
