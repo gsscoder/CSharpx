@@ -195,17 +195,6 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>Immediately executes the given action on each element in the source sequence.</summary>
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (action == null) throw new ArgumentNullException(nameof(action));
-
-            foreach (var element in source) {
-                action(element);
-            }
-        }
-
         #region Pairwise
         /// <summary>Returns a sequence resulting from applying a function to each element in the
         /// source sequence and its predecessor, with the exception of the first element which is 
@@ -383,6 +372,17 @@ namespace CSharpx
             }
         }
         #endif
+
+        /// <summary>Immediately executes the given action on each element in the source sequence.</summary>
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            foreach (var element in source) {
+                action(element);
+            }
+        }
 
         /// <summary>Return everything except first element and throws exception if empty.</summary>
         public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
