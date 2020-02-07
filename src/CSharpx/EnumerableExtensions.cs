@@ -1,5 +1,6 @@
 //#define CSX_ENUM_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 //#define CSX_REM_MAYBE_FUNC // Uncomment or define at build time to remove dependency to Maybe.cs.
+//#define CSX_REM_UNIT_FUNC // Uncomment or define at build time to remove dependency to Unit.cs.
 //#define CSX_REM_CRYPTORAND // Uncomment or define at build time to remove dependency to CryptoRandom.cs.
 
 using System;
@@ -373,8 +374,9 @@ namespace CSharpx
         }
         #endif
 
+        #if !CSX_REM_UNIT_FUNC
         /// <summary>Immediately executes the given action on each element in the source sequence.</summary>
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        public static Unit ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (action == null) throw new ArgumentNullException(nameof(action));
@@ -382,7 +384,9 @@ namespace CSharpx
             foreach (var element in source) {
                 action(element);
             }
+            return Unit.Default;
         }
+        #endif
 
         /// <summary>Return everything except first element and throws exception if empty.</summary>
         public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
