@@ -178,6 +178,7 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
 - `MapValueOrDefault` defined as overload of `Maybe.Map`.
 - `Maybe<T>.FromJustOrNull`removed.
 - `SetOnce<T>`, `BlockingSetOnce<T>` removed.
+- `ForEach<T>` returns `Unit`.
 
 ## Related Projects
 
