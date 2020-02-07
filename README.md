@@ -142,7 +142,7 @@ var sequence = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.ChunkBySize(3);
 
 ## [Unit](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Unit.cs)
 
-- `Unit` is similar to `void` but, since it's a *real* type, it allows the use functions without a result in a computation (*functional style*). It's essentially **F#** `unit` and **Haskell** `()`.
+- `Unit` is similar to `void` but, since it's a *real* type. `void` is not, in fact you can't declare a variable of that type. `Unit` allows the use functions without a result in a computation (*functional style*). It's essentially **F#** `unit` and **Haskell** `Unit`.
 ```csharp
 // prints each word and returns 0 to the shell
 static int Main(string[] args)
