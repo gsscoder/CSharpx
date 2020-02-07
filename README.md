@@ -11,7 +11,7 @@ and set other preferences.
 
 If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way.
 
-Project that includes **CSharpx** as source:
+Project that includes **CSharpx**:
 - [PickAll](https://github.com/gsscoder/pickall)
 - [Tagger](https://github.com/gsscoder/tagger)
 - [Command Line Parser Library](https://github.com/commandlineparser/commandline)
