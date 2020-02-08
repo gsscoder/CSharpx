@@ -139,4 +139,31 @@ public class MaybeSpecs
             .And.HaveCount(expected.Count())
             .And.ContainInOrder(expected);
     }
+
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void Should_match_Just_of_anonymous_tuple_type_with_lambda_function(int value)
+    {
+        var sut = Maybe.Just((value, value / 2));
+
+        int? outcome1 = null;
+        int? outcome2 = null;
+        sut.Match(
+            (value1, value2) => { outcome1 = value1; outcome2 = value2; },
+            () => { });
+        outcome1.Should().NotBeNull().And.Be(value);
+        outcome2.Should().NotBeNull().And.Be(value / 2);
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void Should_match_Just_of_anonymous_tuple_type(int value)
+    {
+        var sut = Maybe.Just((value, value / 2));
+
+        var outcome = sut.MatchJust(out int outcome1, out int outcome2);
+
+        outcome.Should().BeTrue();
+        outcome1.Should().Be(value);
+        outcome2.Should().Be(value /2);
+    }
 }

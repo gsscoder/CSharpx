@@ -184,6 +184,22 @@ namespace CSharpx
             ifNothing();
         }
 
+        /// <summary>Provides pattern matching using <c>System.Action</c> delegates over a <c>Maybe</c>
+        /// with tupled wrapped value (defined by an anonymous tuple).</summary>
+        public static void Match<T1, T2>(this Maybe<(T1, T2)> maybe,
+            Action<T1, T2> ifJust, Action ifNothing)
+        {
+            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
+            if (ifNothing == null) throw new ArgumentNullException(nameof(ifNothing));
+            if (ifJust == null) throw new ArgumentNullException(nameof(ifJust));
+
+            if (maybe.MatchJust(out T1 value1, out T2 value2)) {
+                ifJust(value1, value2);
+                return;
+            }
+            ifNothing();
+        }
+
         /// <summary>Matches a value returning <c>true</c> and the tupled value itself via two output
         /// parameters.</summary>
         public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybeTuple,
@@ -192,6 +208,23 @@ namespace CSharpx
             if (maybeTuple == null) throw new ArgumentNullException(nameof(maybeTuple));
 
             if (maybeTuple.MatchJust(out Tuple<T1, T2> value)) {
+                value1 = value.Item1;
+                value2 = value.Item2;
+                return true;
+            }
+            value1 = default;
+            value2 = default;
+            return false;
+        }
+
+        /// <summary>Matches a value returning <c>true</c> and the tupled value (defined by an anonymous
+        /// tuple) itself via two output arameters.</summary>
+        public static bool MatchJust<T1, T2>(this Maybe<(T1, T2)> maybeTuple,
+            out T1 value1, out T2 value2)
+        {
+            if (maybeTuple == null) throw new ArgumentNullException(nameof(maybeTuple));
+
+            if (maybeTuple.MatchJust(out (T1, T2) value)) {
                 value1 = value.Item1;
                 value2 = value.Item2;
                 return true;

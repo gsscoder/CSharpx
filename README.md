@@ -179,6 +179,7 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
 - `Maybe<T>.FromJustOrNull`removed.
 - `ForEach<T>` returns `Unit`.
 - `Pair<T1, T2>` removed.
+- Added `Match` and `MatchJust` overloads for `Maybe<T1, T2>`.
 
 ## Related Projects
 
