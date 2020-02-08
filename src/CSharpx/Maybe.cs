@@ -127,6 +127,7 @@ namespace CSharpx
 
         /// <summary>If both <c>Maybe</c> values contain a value, it merges them into a <c>Maybe</c>
         /// with a tupled value. </summary>
+        [Obsolete("Obsolete, will be replaced and removed.")]
         public static Maybe<Tuple<T1, T2>> Merge<T1, T2>(Maybe<T1> first, Maybe<T2> second)
         {
             if (first.MatchJust(out T1 value1) && second.MatchJust(out T2 value2)) {
@@ -170,6 +171,7 @@ namespace CSharpx
 
         /// <summary>Provides pattern matching using <c>System.Action</c> delegates over a <c>Maybe</c>
         /// with tupled wrapped value.</summary>
+        [Obsolete("Obsolete, will be removed.")]
         public static void Match<T1, T2>(this Maybe<Tuple<T1, T2>> maybe,
             Action<T1, T2> ifJust, Action ifNothing)
         {
@@ -202,6 +204,7 @@ namespace CSharpx
 
         /// <summary>Matches a value returning <c>true</c> and the tupled value itself via two output
         /// parameters.</summary>
+        [Obsolete("Obsolete, will be removed.")]
         public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybeTuple,
             out T1 value1, out T2 value2)
         {
