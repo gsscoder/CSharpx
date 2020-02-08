@@ -33,7 +33,7 @@ File:Maybe.cs Internal
 ## Targets
 
 - .NET Standard 2.0
-- .NET Framework 4.6.1
+- .NET Framework 4.7
 
 ## Install via NuGet
 
