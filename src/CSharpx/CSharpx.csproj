@@ -2,10 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net47</TargetFrameworks>
     <Title>Functional programming and other utilities for C#</Title>
     <Description>Functional programming and other utilities for C#</Description>
-    <Version>2.5.3-beta</Version>
+    <Version>2.5.5-beta</Version>
     <Authors>gsscoder</Authors>
     <Copyright>Copyright © Giacomo Stelluti Scala, 2015-2020</Copyright>
     <PackageProjectUrl>https://github.com/gsscoder/csharpx</PackageProjectUrl>

@@ -72,10 +72,10 @@ public class EitherSpecs
         var outcome = eithers.Partition();
 
         outcome.Should().NotBeNull();
-        outcome.First.Should().NotBeNullOrEmpty()
+        outcome.Item1.Should().NotBeNullOrEmpty()
             .And.HaveCount(3)
             .And.ContainInOrder(eithers.Lefts());
-        outcome.Second.Should().NotBeNullOrEmpty()
+        outcome.Item2.Should().NotBeNullOrEmpty()
             .And.HaveCount(2)
             .And.ContainInOrder(eithers.Rights());
     }

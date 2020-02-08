@@ -333,7 +333,7 @@ namespace CSharpx
         /// <summary>Partitions a sequence of <c>Either</c> into two sequences. All the <c>Left</c>
         /// elements are extracted, in order, to the first component of the pair. Similarly the <c>Right</c>
         /// elements are extracted to the second component of the pair.</summary>
-        public static Pair<IEnumerable<TLeft>, IEnumerable<TRight>> Partition<TLeft, TRight>(
+        public static (IEnumerable<TLeft>, IEnumerable<TRight>) Partition<TLeft, TRight>(
             this IEnumerable<Either<TLeft, TRight>> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -345,7 +345,7 @@ namespace CSharpx
                 if (either.Tag == EitherType.Left) lefts.Add(either.FromLeft());
                 else rights.Add(either.FromRight());
             }
-            return new Pair<IEnumerable<TLeft>, IEnumerable<TRight>>(lefts, rights);
+            return (lefts, rights);
         }
         #endregion
     }

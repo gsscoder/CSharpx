@@ -174,11 +174,11 @@ public Pair<double, double> LossAndGain(IInvestment investment) =>
 ## Latest Changes
 
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
-- Implement `ToString` for `Maybe` type.
+- Implemented `ToString` for `Maybe` type.
 - `MapValueOrDefault` defined as overload of `Maybe.Map`.
 - `Maybe<T>.FromJustOrNull`removed.
-- `SetOnce<T>`, `BlockingSetOnce<T>` removed.
 - `ForEach<T>` returns `Unit`.
+- `Pair<T1, T2>` removed.
 
 ## Related Projects
 
