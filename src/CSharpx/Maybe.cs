@@ -309,7 +309,17 @@ namespace CSharpx
         }
 
         /// <summary>If contans a value executes a <c>System.Action<c> delegate over it.</summary>
+        [Obsolete("Obsolete, will be removed.")]
         public static void Do<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, Action<T1, T2> action)
+        {
+            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            if (maybe.MatchJust(out T1 value1, out T2 value2)) action(value1, value2);
+        }
+
+        /// <summary>If contans a value executes a <c>System.Action<c> delegate over it.</summary>
+        public static void Do<T1, T2>(this Maybe<(T1, T2)> maybe, Action<T1, T2> action)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
             if (action == null) throw new ArgumentNullException(nameof(action));
