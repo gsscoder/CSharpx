@@ -234,11 +234,13 @@ public class EnumerableExtensionsSpecs
                 item => item.Should().BeEquivalentTo(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
     }
 
-    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
-    public void Trying_to_partition_a_sequence_by_zero_chunks_throws_ArgumentException(
-        FSharpList<int> values)
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void Trying_to_partition_a_sequence_by_zero_or_less_chunks_throws_ArgumentException(
+        int value)
     {
-        Action action = () => { foreach (var _ in values.ChunkBySize(0)) {}; };
+        Action action = () => { foreach (var _ in new[] { 0, 1, 2  }.ChunkBySize(value)) {}; };
 
         action.Should().ThrowExactly<ArgumentException>()
             .WithMessage("The input must be positive.");
@@ -284,6 +286,26 @@ public class EnumerableExtensionsSpecs
 
         outcome.Item1.Should().NotBeNullOrEmpty().And.BeEquivalentTo(value);
         outcome.Item2.Should().BeEmpty();
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void Trying_to_split_a_sequence_with_a_negative_index_throws_ArgumentException(
+        FSharpList<int> values)
+    {
+        Action action = () => values.SplitAt(-1);
+
+        action.Should().ThrowExactly<ArgumentException>()
+            .WithMessage("The input must be non-negative.");
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
+    public void Trying_to_split_a_sequence_with_an_index_greater_than_elements_count_throws_ArgumentException(
+        FSharpList<int> values)
+    {
+        Action action = () => values.SplitAt(values.Count() + 1);
+
+        action.Should().ThrowExactly<ArgumentException>()
+            .WithMessage("The input sequence has an insufficient number of elements.");
     }
     #endregion
 }
