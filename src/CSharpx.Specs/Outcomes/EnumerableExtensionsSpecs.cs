@@ -254,4 +254,36 @@ public class EnumerableExtensionsSpecs
             .WithMessage("The input must be positive.");
     }
     #endregion
+
+    #region SplitAt
+    [Fact]
+    public void Should_split_a_sequence_before_index()
+    {
+        var value = new int[] { 0, 1, 3, 4, 5 };
+        var outcome = value.SplitAt(3);
+
+        outcome.Item1.Should().NotBeNullOrEmpty().And.HaveCount(3).And.ContainInOrder(0, 1, 3);
+        outcome.Item2.Should().NotBeNullOrEmpty().And.HaveCount(2).And.ContainInOrder(4, 5);
+    }
+
+    [Fact]
+    public void Left_array_is_empty_when_splitting_at_index_zero()
+    {
+        var value = new int[] { 0, 1, 3, 4, 5 };
+        var outcome = value.SplitAt(0);
+
+        outcome.Item1.Should().BeEmpty();
+        outcome.Item2.Should().NotBeNullOrEmpty().And.BeEquivalentTo(value);
+    }
+
+    [Fact]
+    public void Right_array_is_empty_when_splitting_with_index_equal_to_sequence_elements_count()
+    {
+        var value = new int[] { 0, 1, 3, 4, 5 };
+        var outcome = value.SplitAt(value.Count());
+
+        outcome.Item1.Should().NotBeNullOrEmpty().And.BeEquivalentTo(value);
+        outcome.Item2.Should().BeEmpty();
+    }
+    #endregion
 }

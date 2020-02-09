@@ -454,6 +454,22 @@ namespace CSharpx
             }
         }
 
+        /// <summary>Splits an array into two parts at a given index. The first part ends just before
+        /// the element at the given index; the second part starts with the element at the given
+        /// index.</summary>
+        public static (T[], T[]) SplitAt<T>(this IEnumerable<T> source, int index)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (index < 0) throw new ArgumentException("The input must be non-negative.");
+            if (source.Count() < index) throw new ArgumentException("The input sequence has an insufficient number of elements.");
+
+            if (index == 0) return (new T[] {}, source.ToArray());
+            if (index == source.Count()) return (source.ToArray(), new T[] {});
+            var left = source.Take(index).ToArray();
+            var right = source.Skip(index).Take(source.Count() - index).ToArray();
+            return (left, right);
+        }
+
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
         {
