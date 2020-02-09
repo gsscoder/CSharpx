@@ -127,13 +127,12 @@ namespace CSharpx
 
         /// <summary>If both <c>Maybe</c> values contain a value, it merges them into a <c>Maybe</c>
         /// with a tupled value. </summary>
-        [Obsolete("Obsolete, will be replaced and removed.")]
-        public static Maybe<Tuple<T1, T2>> Merge<T1, T2>(Maybe<T1> first, Maybe<T2> second)
+        public static Maybe<(T1, T2)> Merge<T1, T2>(Maybe<T1> first, Maybe<T2> second)
         {
             if (first.MatchJust(out T1 value1) && second.MatchJust(out T2 value2)) {
-                return Just(Tuple.Create(value1, value2));
+                return Just((value1, value2));
             }
-            return Nothing<Tuple<T1, T2>>();
+            return Nothing<(T1, T2)>();
         }
 
 #if !CSX_REM_EITHER_FUNC
@@ -171,23 +170,6 @@ namespace CSharpx
 
         /// <summary>Provides pattern matching using <c>System.Action</c> delegates over a <c>Maybe</c>
         /// with tupled wrapped value.</summary>
-        [Obsolete("Obsolete, will be removed.")]
-        public static void Match<T1, T2>(this Maybe<Tuple<T1, T2>> maybe,
-            Action<T1, T2> onJust, Action onNothing)
-        {
-            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-            if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
-            if (onJust == null) throw new ArgumentNullException(nameof(onJust));
-
-            if (maybe.MatchJust(out T1 value1, out T2 value2)) {
-                onJust(value1, value2);
-                return;
-            }
-            onNothing();
-        }
-
-        /// <summary>Provides pattern matching using <c>System.Action</c> delegates over a <c>Maybe</c>
-        /// with tupled wrapped value (defined by an anonymous tuple).</summary>
         public static void Match<T1, T2>(this Maybe<(T1, T2)> maybe,
             Action<T1, T2> onJust, Action onNothing)
         {
@@ -204,24 +186,6 @@ namespace CSharpx
 
         /// <summary>Matches a value returning <c>true</c> and the tupled value itself via two output
         /// parameters.</summary>
-        [Obsolete("Obsolete, will be removed.")]
-        public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybeTuple,
-            out T1 value1, out T2 value2)
-        {
-            if (maybeTuple == null) throw new ArgumentNullException(nameof(maybeTuple));
-
-            if (maybeTuple.MatchJust(out Tuple<T1, T2> value)) {
-                value1 = value.Item1;
-                value2 = value.Item2;
-                return true;
-            }
-            value1 = default;
-            value2 = default;
-            return false;
-        }
-
-        /// <summary>Matches a value returning <c>true</c> and the tupled value (defined by an anonymous
-        /// tuple) itself via two output arameters.</summary>
         public static bool MatchJust<T1, T2>(this Maybe<(T1, T2)> maybeTuple,
             out T1 value1, out T2 value2)
         {
@@ -306,16 +270,6 @@ namespace CSharpx
             if (action == null) throw new ArgumentNullException(nameof(action));
 
             if (maybe.MatchJust(out T value)) action(value);
-        }
-
-        /// <summary>If contans a value executes a <c>System.Action<c> delegate over it.</summary>
-        [Obsolete("Obsolete, will be removed.")]
-        public static void Do<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, Action<T1, T2> action)
-        {
-            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-            if (action == null) throw new ArgumentNullException(nameof(action));
-
-            if (maybe.MatchJust(out T1 value1, out T2 value2)) action(value1, value2);
         }
 
         /// <summary>If contans a value executes a <c>System.Action<c> delegate over it.</summary>
