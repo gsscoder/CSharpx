@@ -107,21 +107,21 @@ namespace CSharpx
 
         /// <summary>Sequentially compose two actions, passing any value produced by the first as
         /// an argument to the second.</summary>
-        public static Maybe<T2> Bind<T1, T2>(Maybe<T1> maybe, Func<T1, Maybe<T2>> func)
+        public static Maybe<T2> Bind<T1, T2>(Maybe<T1> maybe, Func<T1, Maybe<T2>> onJust)
         {
-            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (onJust == null) throw new ArgumentNullException(nameof(onJust));
 
-            return maybe.MatchJust(out T1 value) ? func(value) : Nothing<T2>();
+            return maybe.MatchJust(out T1 value) ? onJust(value) : Nothing<T2>();
         }
         #endregion
 
         #region Functor
         /// <summary>Transforms a <c>Maybe</c> value by using a specified mapping function.</summary>
-        public static Maybe<T2> Map<T1, T2>(Maybe<T1> maybe, Func<T1, T2> func)
+        public static Maybe<T2> Map<T1, T2>(Maybe<T1> maybe, Func<T1, T2> onJust)
         {
-            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (onJust == null) throw new ArgumentNullException(nameof(onJust));
 
-            return maybe.MatchJust(out T1 value) ? Just(func(value)) : Nothing<T2>();
+            return maybe.MatchJust(out T1 value) ? Just(onJust(value)) : Nothing<T2>();
         }
         #endregion
 
@@ -157,49 +157,49 @@ namespace CSharpx
     {
         #region Alternative Match Methods
         /// <summary>Provides pattern matching using <c>System.Action</c> delegates.</summary>
-        public static void Match<T>(this Maybe<T> maybe, Action<T> ifJust, Action ifNothing)
+        public static void Match<T>(this Maybe<T> maybe, Action<T> onJust, Action onNothing)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-            if (ifNothing == null) throw new ArgumentNullException(nameof(ifNothing));
+            if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
 
             if (maybe.MatchJust(out T value)) {
-                ifJust(value);
+                onJust(value);
                 return;
             }
-            ifNothing();
+            onNothing();
         }
 
         /// <summary>Provides pattern matching using <c>System.Action</c> delegates over a <c>Maybe</c>
         /// with tupled wrapped value.</summary>
         [Obsolete("Obsolete, will be removed.")]
         public static void Match<T1, T2>(this Maybe<Tuple<T1, T2>> maybe,
-            Action<T1, T2> ifJust, Action ifNothing)
+            Action<T1, T2> onJust, Action onNothing)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-            if (ifNothing == null) throw new ArgumentNullException(nameof(ifNothing));
-            if (ifJust == null) throw new ArgumentNullException(nameof(ifJust));
+            if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
+            if (onJust == null) throw new ArgumentNullException(nameof(onJust));
 
             if (maybe.MatchJust(out T1 value1, out T2 value2)) {
-                ifJust(value1, value2);
+                onJust(value1, value2);
                 return;
             }
-            ifNothing();
+            onNothing();
         }
 
         /// <summary>Provides pattern matching using <c>System.Action</c> delegates over a <c>Maybe</c>
         /// with tupled wrapped value (defined by an anonymous tuple).</summary>
         public static void Match<T1, T2>(this Maybe<(T1, T2)> maybe,
-            Action<T1, T2> ifJust, Action ifNothing)
+            Action<T1, T2> onJust, Action onNothing)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-            if (ifNothing == null) throw new ArgumentNullException(nameof(ifNothing));
-            if (ifJust == null) throw new ArgumentNullException(nameof(ifJust));
+            if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
+            if (onJust == null) throw new ArgumentNullException(nameof(onJust));
 
             if (maybe.MatchJust(out T1 value1, out T2 value2)) {
-                ifJust(value1, value2);
+                onJust(value1, value2);
                 return;
             }
-            ifNothing();
+            onNothing();
         }
 
         /// <summary>Matches a value returning <c>true</c> and the tupled value itself via two output
@@ -245,30 +245,30 @@ namespace CSharpx
         public static Maybe<T> ToMaybe<T>(this T value) => Maybe.Return(value);
 
         /// <summary>Invokes a function on this maybe value that itself yields a maybe.</summary>
-        public static Maybe<T2> Bind<T1, T2>(this Maybe<T1> maybe, Func<T1, Maybe<T2>> func) =>
-            Maybe.Bind(maybe, func);
+        public static Maybe<T2> Bind<T1, T2>(this Maybe<T1> maybe, Func<T1, Maybe<T2>> onJust) =>
+            Maybe.Bind(maybe, onJust);
 
         /// <summary>Transforms a maybe value by using a specified mapping function.</summary>
-        public static Maybe<T2> Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func) =>
-            Maybe.Map(maybe, func);
+        public static Maybe<T2> Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> onJust) =>
+            Maybe.Map(maybe, onJust);
 
         /// <summary>Unwraps a value applying a function o returns another value on fail.</summary>
-        public static T2 Return<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 @default)
+        public static T2 Return<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> onJust, T2 @default)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
  
-            return maybe.MatchJust(out T1 value) ? func(value) : @default;
+            return maybe.MatchJust(out T1 value) ? onJust(value) : @default;
         }
         #endregion
 
         /// <summary>This is a version of map which can throw out the value. If contains a <c>Just</c>
         /// executes a mapping function over it, in case of <c>Nothing</c> returns <c>@default</c>.</summary>
-        public static T2 Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, T2 @default = default(T2))
+        public static T2 Map<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> onJust, T2 @default = default(T2))
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (onJust == null) throw new ArgumentNullException(nameof(onJust));
 
-            return maybe.MatchJust(out T1 value) ? func(value) : @default;
+            return maybe.MatchJust(out T1 value) ? onJust(value) : @default;
         }
 
         #region LINQ Operators
@@ -417,14 +417,14 @@ namespace CSharpx
         /// argument returns something of type <c>Maybe&lt;T2&gt;</c>. If this is Nothing, no element is
         /// added on to the result sequence. If it is <c>Just&lt;T2&gt;</c>, then <c>T2</c> is included
         /// in the result sequence.</summary>
-        public static IEnumerable<T2> Map<T1, T2>(this IEnumerable<T1> source, Func<T1, Maybe<T2>> func)
+        public static IEnumerable<T2> Map<T1, T2>(this IEnumerable<T1> source, Func<T1, Maybe<T2>> onElement)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
             return _(); IEnumerable<T2> _()
             {
                 foreach (var element in source) {
-                    if (func(element).MatchJust(out T2 value)) yield return value;
+                    if (onElement(element).MatchJust(out T2 value)) yield return value;
                 }
             }
         }
