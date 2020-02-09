@@ -24,7 +24,7 @@ namespace CSharpx
     public
 #endif
     /// <summary>The <c>Either</c> type represents values with two possibilities: a value of type
-    /// <c>Either</c> T1 T2 is either <c>Left</c> T1 or <c>Right</c> T2. The <c>Either</c> type is
+    /// <c>Either</c> T U is either <c>Left</c> T or <c>Right</c> U. The <c>Either</c> type is
     /// sometimes used to represent a value which is either correct or an error; by convention, the
     /// <c>Left</c> constructor is used to hold an error value and the <c>Right</c> constructor is
     /// used to hold a correct value (mnemonic: "right" also means "correct").</summary>
