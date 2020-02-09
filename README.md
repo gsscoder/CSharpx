@@ -131,15 +131,6 @@ var sequence = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.ChunkBySize(3);
 ```
 - [Tests](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx.Specs/Outcomes/EnumerableExtensionsSpecs.cs) cover only new and modified extension methods.
 
-## [ArrayExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/ArrayExtensions.cs)
-
-- Few array helper methods.
-```csharp
-    var array = new int[] {2, 0, 4, 1, 3};
-    var sorted = array.Sort(); // sort as pure function
-    // outcome: {0, 1, 2, 3, 4}
-```
-
 ## [Unit](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Unit.cs)
 
 - `Unit` is similar to `void` but, since it's a *real* type. `void` is not, in fact you can't declare a variable of that type. `Unit` allows the use functions without a result in a computation (*functional style*). It's essentially **F#** `unit` and **Haskell** `Unit`.
@@ -164,10 +155,10 @@ static Unit Print(string value)
 ## Latest Changes
 
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
-- Implemented `ToString` for `Maybe` type.
 - `ForEach<T>` returns `Unit`.
 - Added `Match` and `MatchJust` overloads for `Maybe<T1, T2>`.
 - `Maybe` extensions for `Tuple<T1, T2>` replaced using anonymous tuple.
+- `ArrayExtensions` removed.
 
 ## Related Projects
 
