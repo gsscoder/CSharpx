@@ -161,25 +161,13 @@ static Unit Print(string value)
 }
 ```
 
-## [Pair](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Pair.cs)
-
-- `Pair<TFirst, TSecond>` models pair or a _tuple-2_, it's equivalent to `Tuple<T1, T2>`. Since tuples with two values are a very common case, it leads to clearer code (further when compared to anonymous types).
-```csharp
-public Pair<double, double> LossAndGain(IInvestment investment) =>
-    Pair.Create(
-        Financial.GetLoss(investment),
-        Financial.GetGain(investment));
-```
-
 ## Latest Changes
 
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
 - Implemented `ToString` for `Maybe` type.
-- `MapValueOrDefault` defined as overload of `Maybe.Map`.
-- `Maybe<T>.FromJustOrNull`removed.
 - `ForEach<T>` returns `Unit`.
-- `Pair<T1, T2>` removed.
 - Added `Match` and `MatchJust` overloads for `Maybe<T1, T2>`.
+- `Maybe` extensions for `Tuple<T1, T2>` replaced using anonymous tuple.
 
 ## Related Projects
 
