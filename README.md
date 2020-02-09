@@ -14,6 +14,7 @@ If you can't customize it enough using compiler directives, please tell me or fo
 Project that includes **CSharpx**:
 - [PickAll](https://github.com/gsscoder/pickall)
 - [Tagger](https://github.com/gsscoder/tagger)
+- [Integrity](https://github.com/gsscoder/integrity)
 - [Command Line Parser Library](https://github.com/commandlineparser/commandline)
 
 ## Reference
@@ -39,7 +40,7 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.6.1-beta
+$ dotnet add package CSharpx --version 2.6.5-rc1
 ```
 The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
 
@@ -166,4 +167,4 @@ static Unit Print(string value)
 
 ## Icon
 
-[Sharp](https://thenounproject.com/search/?q=sharp&i=1808600) icon designed by Alex Burte from [The Noun Project](https://thenounproject.com/).
+[Sharp](https://thenounproject.com/search/?q=sharp&i=1808600) icon designed by Alex Burte from [The Noun Project](https://thenounproject.com/)
