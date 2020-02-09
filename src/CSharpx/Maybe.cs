@@ -50,6 +50,19 @@ namespace CSharpx
     }
     #endregion
 
+    /// <summary>Models a <c>Maybe</c> when in empty state.</summary>
+#if !CSX_MAYBE_INTERNAL
+    public
+#endif
+    sealed class Nothing<T> : Maybe<T>
+    {
+        internal Nothing() : base(MaybeType.Nothing) { }
+
+        /// <summary>Returns a string that represents the value of this <c>Maybe</c>
+        /// instance in form of <c>Nothing</c>.</summary>
+        public override string ToString() => "<Nothing>";
+    }
+
     /// <summary>Models a <c>Maybe</c> when contains a value.</summary>
 #if !CSX_MAYBE_INTERNAL
     public
@@ -72,19 +85,6 @@ namespace CSharpx
             builder.Append(")");
             return builder.ToString();
         }
-    }
-
-    /// <summary>Models a <c>Maybe</c> when in empty state.</summary>
-#if !CSX_MAYBE_INTERNAL
-    public
-#endif
-    sealed class Nothing<T> : Maybe<T>
-    {
-        internal Nothing() : base(MaybeType.Nothing) { }
-
-        /// <summary>Returns a string that represents the value of this <c>Maybe</c>
-        /// instance in form of <c>Nothing</c>.</summary>
-        public override string ToString() => "<Nothing>";
     }
 
     /// <summary>Provides static methods for manipulating <c>Maybe</c>.</summary>
@@ -328,20 +328,20 @@ namespace CSharpx
         }
         #endregion
 
-        /// <summary>Returns <c>true</c> if it is in form <c>Just</c>.</summary>
-        public static bool IsJust<T>(this Maybe<T> maybe)
-        {
-            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-
-            return maybe.Tag == MaybeType.Just;
-        }
-
         /// <summary>Returns <c>true</c> if it is in form of <c>Nothing</c>.</summary>
         public static bool IsNothing<T>(this Maybe<T> maybe)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
 
             return maybe.Tag == MaybeType.Nothing;
+        }
+
+        /// <summary>Returns <c>true</c> if it is in form <c>Just</c>.</summary>
+        public static bool IsJust<T>(this Maybe<T> maybe)
+        {
+            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
+
+            return maybe.Tag == MaybeType.Just;
         }
 
         /// <summary>Extracts the element out of <c>Just</c> and returns a default value (or <c>@default</c>
@@ -387,6 +387,18 @@ namespace CSharpx
             }
         }
 
+        /// <summary>Takes a sequence of <c>Maybe</c> and counts all the <c>Nothing</c> values.</summary>
+        public static int Nothings<T>(this IEnumerable<Maybe<T>> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            var count = 0;
+            foreach (var maybe in source) {
+                if (maybe.Tag == MaybeType.Just) count++;
+            }
+            return count;
+        }
+
         /// <summary>Takes a sequence of <c>Maybe</c> and returns a sequence of all the <c>Just</c>
         /// values.</summary>
         public static IEnumerable<T> Justs<T>(this IEnumerable<Maybe<T>> source)
@@ -399,18 +411,6 @@ namespace CSharpx
                     if (maybe.Tag == MaybeType.Just) yield return maybe.FromJust();
                 }
             }
-        }
-
-        /// <summary>Takes a sequence of <c>Maybe</c> and counts all the <c>Nothing</c> values.</summary>
-        public static int Nothings<T>(this IEnumerable<Maybe<T>> source)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-
-            var count = 0;
-            foreach (var maybe in source) {
-                if (maybe.Tag == MaybeType.Just) count++;
-            }
-            return count;
         }
 
         /// <summary>This is a version of map which can throw out elements. In particular, the functional
