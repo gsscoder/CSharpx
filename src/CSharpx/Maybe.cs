@@ -290,7 +290,7 @@ namespace CSharpx
             return maybe.Tag == MaybeType.Nothing;
         }
 
-        /// <summary>Returns <c>true</c> if it is in form <c>Just</c>.</summary>
+        /// <summary>Returns <c>true</c> if it is in form of <c>Just</c>.</summary>
         public static bool IsJust<T>(this Maybe<T> maybe)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
@@ -299,7 +299,7 @@ namespace CSharpx
         }
 
         /// <summary>Extracts the element out of <c>Just</c> and returns a default value (or <c>@default</c>
-        /// when given) if it is in form of<c>Nothing</c>.</summary>
+        /// when given) if it is in form of <c>Nothing</c>.</summary>
         public static T FromJust<T>(this Maybe<T> maybe, T @default = default(T))
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
@@ -308,7 +308,7 @@ namespace CSharpx
         }
 
         /// <summary>Lazy version of <c>FromJust</c>. Extracts the element out of <c>Just</c> and returns
-        /// a default value returned by <c>@default</c> function if it is in form of<c>Nothing</c>.</summary>
+        /// a default value returned by <c>@default</c> function if it is in form of <c>Nothing</c>.</summary>
         public static T FromJust<T>(this Maybe<T> maybe, Func<T> @default)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
