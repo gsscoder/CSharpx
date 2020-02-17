@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../../src/CSharpx/CSharpx.csproj" />
+  </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <IsPackable>false</IsPackable>
@@ -7,8 +10,5 @@
     <Authors>gsscoder</Authors>
     <Product>CSharpx</Product>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\CSharpx\CSharpx.csproj" />
-  </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
+  <Import Project="../../.paket/Paket.Restore.targets" />
 </Project>

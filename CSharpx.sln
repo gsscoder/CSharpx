@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpx", "CSharpx\CSharpx.csproj", "{2F3B15E9-0A38-4B2C-8304-78566D1BC3ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpx", "src/CSharpx/CSharpx.csproj", "{2F3B15E9-0A38-4B2C-8304-78566D1BC3ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpx.Specs", "CSharpx.Specs\CSharpx.Specs.csproj", "{BBDB5904-5A75-49E7-A57E-EB92E32A7527}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpx.Specs", "tests/CSharpx.Specs/CSharpx.Specs.csproj", "{BBDB5904-5A75-49E7-A57E-EB92E32A7527}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
