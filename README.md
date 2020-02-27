@@ -42,7 +42,7 @@ If you prefer, you can install it via NuGet:
 ```sh
 $ dotnet add package CSharpx --version 2.6.6
 ```
-The latest stable version is [1.4.0](https://www.nuget.org/packages/CSharpx/1.4.0).
+The latest stable version is [2.6.6](https://www.nuget.org/packages/CSharpx/2.6.6).
 
 ## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
 
