@@ -114,6 +114,7 @@ Console.WriteLine(
 
 - Most useful extension methods from [MoreLINQ](https://github.com/morelinq/MoreLINQ).
 - Some of these reimplemnted (e.g. `Choose` using `Maybe`):
+- **LINQ** `...OrDefault` implemented with `Maybe` type as return value.
 ```csharp
 var numbers = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 var evens = numbers.Choose(x => x % 2 == 0
@@ -129,6 +130,8 @@ var element = sequence.Choice();
 // will choose a random element
 var sequence = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.ChunkBySize(3);
 // outcome: { [0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10] }
+var maybeFirst = new int[] {0, 1, 2}.FirstOrNothing(x => x == 1)
+// outcome: Just(1)
 ```
 - [Tests](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx.Specs/Outcomes/EnumerableExtensionsSpecs.cs) cover only new and modified extension methods.
 
@@ -159,6 +162,7 @@ static Unit Print(string value)
 - `ForEach<T>` returns `Unit`.
 - `Maybe` extensions for `Tuple<T1, T2>` replaced using anonymous tuple.
 - Added lazy version of `Map`.
+- LINQ `...OrDefault()` methods implemented using `Maybe` as return value.
 
 
 ## Related Projects
