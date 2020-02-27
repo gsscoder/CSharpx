@@ -314,7 +314,7 @@ namespace CSharpx
         #endregion
 
        #if !CSX_REM_MAYBE_FUNC
-        /// <summary>Safe function that returns Just(first element) or Nothing.</summary>
+        /// <summary>Safe function that returns Just(first element) or <c>Nothing</c>.</summary>
         public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -326,7 +326,7 @@ namespace CSharpx
             }
         }
 
-        /// <summary>Safe function that returns Just(last element) or Nothing.</summary>
+        /// <summary>Safe function that returns Just(last element) or <c>Nothing</c>.</summary>
         public static Maybe<T> TryLast<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -339,7 +339,7 @@ namespace CSharpx
             }
         }
 
-        /// <summary>Turns an empty sequence to Nothing, otherwise Just(sequence).</summary>
+        /// <summary>Turns an empty sequence to <c>Nothing</c>, otherwise Just(sequence).</summary>
         public static Maybe<IEnumerable<T>> ToMaybe<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -368,6 +368,144 @@ namespace CSharpx
                     }
                 }
             }
+        }
+
+        /// <summary>Returns the first element of a sequence as Just, or <c>Nothing</c> if the sequence
+        /// contains no elements.</summary>
+        public static Maybe<TSource> FirstOrNothing<TSource>(this IEnumerable<TSource> source) {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            var list = source as IList<TSource>;
+            if (list != null) {
+                if (list.Count > 0) return Maybe.Just(list[0]);
+            }
+            else {
+                using (IEnumerator<TSource> e = source.GetEnumerator()) {
+                    if (e.MoveNext()) return Maybe.Just(e.Current);
+                }
+            }
+            return Maybe.Nothing<TSource>();
+        }
+
+        /// <summary>Returns the first element of the sequence as <c>Just</c> that satisfies a condition or
+        /// <c>Nothing</c> if no such element is found.</summary>
+        public static Maybe<TSource> FirstOrNothing<TSource>(this IEnumerable<TSource> source,
+            Func<TSource, bool> predicate) {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            foreach (TSource element in source) {
+                if (predicate(element)) return Maybe.Just(element);
+            }
+            return Maybe.Nothing<TSource>();
+        }
+
+        /// <summary>Returns the last element of a sequence as <c>Just</c>, or <c>Nothing</c> if the sequence
+        /// contains no elements. </summary>
+        public static Maybe<TSource> LastOrNothing<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            var list = source as IList<TSource>;
+            if (list != null) {
+                int count = list.Count;
+                if (count > 0) return Maybe.Just(list[count - 1]);
+            }
+            else {
+                using (IEnumerator<TSource> e = source.GetEnumerator()) {
+                    if (e.MoveNext()) {
+                        TSource result;
+                        do {
+                            result = e.Current;
+                        } while (e.MoveNext());
+                        return Maybe.Just(result);
+                    }
+                }
+            }
+            return Maybe.Nothing<TSource>();
+        }
+
+        /// <summary>Returns the last element of a sequence as <c>Just</c> that satisfies a condition or <c>Nothing</c> if
+        /// no such element is found.</summary>
+        public static Maybe<TSource> LastOrNothing<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var result = Maybe.Nothing<TSource>();
+            foreach (var element in source) {
+                if (predicate(element)) {
+                    result = Maybe.Just(element);
+                }
+            }
+            return result;
+        }
+
+        /// <summary> Returns the only element of a sequence as <c>Just</c>, or <c>Nothing</c> if the sequence is
+        /// empty; this method throws an exception if there is more than one element in the
+        /// sequence.</summary>
+        public static Maybe<TSource> SingleOrNothing<TSource>(this IEnumerable<TSource> source) {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            var list = source as IList<TSource>;
+            if (list != null) {
+                switch (list.Count) {
+                    case 0: return Maybe.Nothing<TSource>();
+                    case 1: return Maybe.Just(list[0]);
+                }
+            }
+            else {
+                using (IEnumerator<TSource> e = source.GetEnumerator()) {
+                    if (!e.MoveNext()) return  Maybe.Nothing<TSource>();
+                    TSource result = e.Current;
+                    if (!e.MoveNext()) return Maybe.Just(result);
+                }
+            }
+            throw new InvalidOperationException("Sequence contains more than one element");
+        }
+
+        /// <summary>Returns the only element of a sequence that satisfies a specified condition as
+        /// <c>Just</c> or a <c>Nothing</c> if no such element exists; this method throws an exception if more than
+        /// one element satisfies the condition.</summary>
+        public static Maybe<TSource> SingleOrNothing<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var result = Maybe.Nothing<TSource>();
+            var count = 0L;
+            foreach (var element in source) {
+                if (predicate(element)) {
+                    result = Maybe.Just(element);
+                    checked { count++; }
+                }
+            }
+            switch (count) {
+                case 0: return Maybe.Nothing<TSource>();
+                case 1: return result;
+            }
+            throw new InvalidOperationException("Sequence contains more than one element");
+        }
+
+        /// <summary> Returns the element at a specified index in a sequence as <c>Just</c> or <c>Nothing</c>
+        /// if the index is out of range.</summary>
+        public static Maybe<TSource> ElementAtOrNothing<TSource>(this IEnumerable<TSource> source, int index) {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            if (index >= 0) {
+                var list = source as IList<TSource>;
+                if (list != null) {
+                    if (index < list.Count) return Maybe.Just(list[index]);
+                }
+                else {
+                    using (IEnumerator<TSource> e = source.GetEnumerator()) {
+                        while (true) {
+                            if (!e.MoveNext()) break;
+                            if (index == 0) return Maybe.Just(e.Current);
+                            index--;
+                        }
+                    }
+                }
+            }
+            return Maybe.Nothing<TSource>();
         }
         #endif
 
