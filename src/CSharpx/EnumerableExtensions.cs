@@ -441,8 +441,7 @@ namespace CSharpx
         }
 
         /// <summary> Returns the only element of a sequence as <c>Just</c>, or <c>Nothing</c> if the sequence is
-        /// empty; this method throws an exception if there is more than one element in the
-        /// sequence.</summary>
+        /// empty.</summary>
         public static Maybe<TSource> SingleOrNothing<TSource>(this IEnumerable<TSource> source) {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
@@ -455,12 +454,12 @@ namespace CSharpx
             }
             else {
                 using (IEnumerator<TSource> e = source.GetEnumerator()) {
-                    if (!e.MoveNext()) return  Maybe.Nothing<TSource>();
+                    if (!e.MoveNext()) return Maybe.Nothing<TSource>();
                     TSource result = e.Current;
                     if (!e.MoveNext()) return Maybe.Just(result);
                 }
             }
-            throw new InvalidOperationException("Sequence contains more than one element");
+            return Maybe.Nothing<TSource>();
         }
 
         /// <summary>Returns the only element of a sequence that satisfies a specified condition as
