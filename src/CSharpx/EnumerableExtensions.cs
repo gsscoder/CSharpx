@@ -370,7 +370,7 @@ namespace CSharpx
             }
         }
 
-        /// <summary>Returns the first element of a sequence as Just, or <c>Nothing</c> if the sequence
+        /// <summary>Returns the first element of a sequence as <c>Just</c>, or <c>Nothing</c> if the sequence
         /// contains no elements.</summary>
         public static Maybe<TSource> FirstOrNothing<TSource>(this IEnumerable<TSource> source) {
             if (source == null) throw new ArgumentNullException(nameof(source));
