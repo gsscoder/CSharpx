@@ -214,7 +214,6 @@ namespace CSharpx
                 if (!e.MoveNext()) {
                     yield break;
                 }
-
                 var previous = e.Current;
                 while (e.MoveNext()) {
                     yield return resultSelector(previous, e.Current);
@@ -305,10 +304,8 @@ namespace CSharpx
         static IEnumerable<T> RepeatImpl<T>(IEnumerable<T> source, int? count)
         {
             var memo = source.Materialize();
-            using (memo as IDisposable)
-            {
-                while (count == null || count-- > 0)
-                {
+            using (memo as IDisposable) {
+                while (count == null || count-- > 0) {
                     foreach (var item in memo)
                         yield return item;
                 }
