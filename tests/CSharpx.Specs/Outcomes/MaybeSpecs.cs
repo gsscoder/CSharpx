@@ -166,4 +166,20 @@ public class MaybeSpecs
         outcome1.Should().Be(value);
         outcome2.Should().Be(value /2);
     }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Should_throw_out_and_map_a_Just_value_or_lazily_build_one_in_case_of_Nothing(string[] values)
+    {
+        values.ForEach(value =>
+            {
+                Func<string> func = () => "foo";
+
+                var sut = Maybe.Return(value);
+
+                var outcome = sut.Map(v => v, func);
+
+                if (value == null) outcome.Should().NotBeNull().And.Be(func());
+                else outcome.Should().NotBeNull().And.Be(value);
+            });
+    }
 }

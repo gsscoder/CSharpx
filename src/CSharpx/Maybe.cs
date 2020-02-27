@@ -235,6 +235,16 @@ namespace CSharpx
             return maybe.MatchJust(out T value) ? onJust(value) : @default;
         }
 
+        /// <summary>Lazy version of <c>Map</c>. If contains a <c>Just</c> executes a mapping function
+        /// over it, in case of <c>Nothing</c> returns a value built by <c>@default</c> function.</summary>
+        public static U Map<T, U>(this Maybe<T> maybe, Func<T, U> onJust, Func<U> @default)
+        {
+            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
+            if (onJust == null) throw new ArgumentNullException(nameof(onJust));
+
+            return maybe.MatchJust(out T value) ? onJust(value) : @default();
+        }
+
         #region LINQ Operators
         /// <summary>Map operation compatible with LINQ.</summary>
         public static Maybe<TResult> Select<TSource, TResult>(this Maybe<TSource> maybe,
@@ -308,7 +318,7 @@ namespace CSharpx
         }
 
         /// <summary>Lazy version of <c>FromJust</c>. Extracts the element out of <c>Just</c> and returns
-        /// a default value returned by <c>@default</c> function if it is in form of <c>Nothing</c>.</summary>
+        /// a value built by <c>@default</c> function if it is in form of <c>Nothing</c>.</summary>
         public static T FromJust<T>(this Maybe<T> maybe, Func<T> @default)
         {
             if (maybe == null) throw new ArgumentNullException(nameof(maybe));
