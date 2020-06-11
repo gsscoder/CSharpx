@@ -182,4 +182,16 @@ public class MaybeSpecs
                 else outcome.Should().NotBeNull().And.Be(value);
             });
     }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    public void Should_return_a_Just_when_Try_succeed_otherwise_Nothing(int value)
+    {
+        var number = new CryptoRandom().Next();
+        var outcome = Maybe.Try(() => number / value);
+
+        if (value == 0) outcome.Should().NotBeNull().And.BeEquivalentTo(Maybe.Nothing<int>());
+        else outcome.Should().NotBeNull().And.BeEquivalentTo(Maybe.Just(number));
+    }
 }

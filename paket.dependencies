@@ -1,7 +1,7 @@
 source https://www.nuget.org/api/v2
 
 nuget coverlet.collector 1.0.1
-nuget FluentAssertions 5.9.0
+nuget FluentAssertions 5.10.3
 nuget FsCheck 3.0.0-alpha4 prerelease
 nuget FsCheck.Xunit 3.0.0-alpha4 prerelease
 nuget Microsoft.NET.Test.Sdk 16.2.0
