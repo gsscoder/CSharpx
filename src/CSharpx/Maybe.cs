@@ -135,6 +135,19 @@ namespace CSharpx
             return Nothing<(T, U)>();
         }
 
+        /// <summary>Executes the given function on a <c>Just</c> success or returns a <c>Nothing</c>.</summary>
+        public static Maybe<T> Try<T>(Func<T> func)
+        {
+            if (func == null) throw new ArgumentException(nameof(func));
+
+            try {
+                return Maybe.Just(func());
+            }
+            catch {
+                return Maybe.Nothing<T>();
+            }
+        }
+
 #if !CSX_REM_EITHER_FUNC
         /// <summary>Maps <c>Either</c> right value to <c>Just</c>, otherwise returns
         /// <c>Nothing</c>.</summary>
