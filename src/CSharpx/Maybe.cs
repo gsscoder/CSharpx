@@ -98,7 +98,7 @@ namespace CSharpx
         public static Maybe<T> Nothing<T>() => new Nothing<T>();
 
         /// <summary>Builds the case when <c>Maybe</c> contains a value.</summary>
-        public static Just<T> Just<T>(T value) => new Just<T>(value);
+        public static Maybe<T> Just<T>(T value) => new Just<T>(value);
         #endregion
 
         #region Monad

@@ -40,9 +40,9 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.6.8
+$ dotnet add package CSharpx --version 2.7.0
 ```
-The latest stable version is [2.6.8](https://www.nuget.org/packages/CSharpx/2.6.8).
+The latest stable version is [2.7.0](https://www.nuget.org/packages/CSharpx/2.7.0).
 
 ## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
 
@@ -159,10 +159,10 @@ static Unit Print(string value)
 ## Latest Changes
 
 - Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
-- `ForEach<T>` returns `Unit`.
 - `Maybe` extensions for `Tuple<T1, T2>` replaced using anonymous tuple.
 - LINQ `...OrDefault()` methods implemented using `Maybe` as return value.
 - Added `Try` method to `Maybe` type.
+- `Maybe.Just<T>` must return `Maybe<T>`.
 
 
 ## Related Projects
