@@ -42,7 +42,11 @@ If you prefer, you can install it via NuGet:
 ```sh
 $ dotnet add package CSharpx --version 2.7.0
 ```
-The latest stable version is [2.7.0](https://www.nuget.org/packages/CSharpx/2.7.0).
+
+## Versions
+
+- The latest version on NuGet is [2.7.0](https://www.nuget.org/packages/CSharpx/2.7.0) (stable).
+- The latest version of source code is 2.7.2 (stable).
 
 ## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
 
@@ -158,12 +162,9 @@ static Unit Print(string value)
 
 ## Latest Changes
 
-- Added `IEnumerable<Either<TLeft, TRight>>.Partition` extension method.
-- `Maybe` extensions for `Tuple<T1, T2>` replaced using anonymous tuple.
 - LINQ `...OrDefault()` methods implemented using `Maybe` as return value.
-- Added `Try` method to `Maybe` type.
 - `Maybe.Just<T>` must return `Maybe<T>`.
-
+- Added `To(Upper/Lower)FirstLetter` to `StringExtensions`.
 
 ## Related Projects
 

@@ -63,6 +63,24 @@ namespace CSharpx
             return false;
         }
 
+        /// <summary>Returns a copy of this string with first letter converted to uppercase.</summary>
+        public static string ToUpperFirstLetter(this string value)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (value.Trim().Length == 0) throw new ArgumentException(nameof(value));
+
+            return $"{char.ToUpper(value[0])}{value.Substring(1)}";
+        }
+
+        /// <summary>Returns a copy of this string with first letter converted to lowercase.</summary>
+        public static string ToLowerFirstLetter(this string value)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (value.Trim().Length == 0) throw new ArgumentException(nameof(value));
+
+            return $"{char.ToLower(value[0])}{value.Substring(1)}";
+        }
+
         /// <summary>Replicates a string for a given number of times using a seperator.</summary>
         public static string Replicate(this string value, int count, string separator = " ")
         {
