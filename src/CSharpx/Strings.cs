@@ -1,4 +1,4 @@
-//#define CSX_STRING_EXT_INTERNAL // Uncomment or define at build time to set accessibility to internal.
+//#define CSX_STRINGS_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 //#define CSX_REM_CRYPTORAND // Uncomment or define at build time to remove dependency to CryptoRandom.cs.
 
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace CSharpx
 {
-#if !CSX_STRING_EXT_INTERNAL
+#if !CSX_STRINGS_INTERNAL
     public
 #endif
     static class StringExtensions
