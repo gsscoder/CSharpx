@@ -101,7 +101,7 @@ result.Map(
 ```
 - Blog [post](https://gsscoder.github.io/consuming-fsharp-results-in-c/) about it.
 
-## [StringExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/StringExtensions.cs)
+## [StringExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Strings.cs#L34)
 
 - General purpose string manipulation extensions.
 ```csharp
@@ -165,6 +165,7 @@ static Unit Print(string value)
 - LINQ `...OrDefault()` methods implemented using `Maybe` as return value.
 - `Maybe.Just<T>` must return `Maybe<T>`.
 - Added `To(Upper/Lower)FirstLetter` to `StringExtensions`.
+- Added `Replicate` to `CharExtensions`.
 
 ## Related Projects
 
