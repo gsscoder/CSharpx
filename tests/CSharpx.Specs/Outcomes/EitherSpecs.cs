@@ -36,7 +36,7 @@ public class EitherSpecs
     }
 
     [Fact]
-    public void Trying_to_get_a_value_from_Left_with_FromLeftOrFail_raise_Exception_in_case_of_Right()
+    public void Trying_to_get_a_value_from_Left_with_FromLeftOrFail_raises_Exception_in_case_of_Right()
     {
         var sut = Either.Right<string, int>(new CryptoRandom().Next());
 
@@ -47,7 +47,7 @@ public class EitherSpecs
     }
 
     [Fact]
-    public void Trying_to_get_a_value_from_Right_with_FromRightOrFail_raise_Exception_in_case_of_Left()
+    public void Trying_to_get_a_value_from_Right_with_FromRightOrFail_raises_Exception_in_case_of_Left()
     {
         var sut = Either.Left<string, int>("bad result");
 

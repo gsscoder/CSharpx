@@ -40,13 +40,13 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.7.0
+$ dotnet add package CSharpx --version 2.7.3
 ```
 
 ## Versions
 
-- The latest version on NuGet is [2.7.0](https://www.nuget.org/packages/CSharpx/2.7.0) (stable).
-- The latest version of source code is 2.7.2 (stable).
+- The latest version on NuGet is [2.7.3](https://www.nuget.org/packages/CSharpx/2.7.3) (stable).
+- The latest version of source code is 2.7.3 (stable).
 
 ## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
 
@@ -166,6 +166,7 @@ static Unit Print(string value)
 - `Maybe.Just<T>` must return `Maybe<T>`.
 - Added `To(Upper/Lower)FirstLetter` to `StringExtensions`.
 - Added `Replicate` to `CharExtensions`.
+- Added random string generator (`StringUtil.Generate`).
 
 ## Related Projects
 

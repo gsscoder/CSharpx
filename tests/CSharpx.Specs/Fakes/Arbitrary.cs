@@ -1,9 +1,19 @@
 using Microsoft.FSharp.Collections;
 using FsCheck;
 
+static class ArbitraryNegativeIntegers
+{
+    public static Arbitrary<int> IntegerGenerator() => Gen.Choose(-60, -30).ToArbitrary();
+}
+
 static class ArbitraryIntegers
 {
     public static Arbitrary<int> IntegerGenerator() => Gen.Choose(-30, 30).ToArbitrary();
+}
+
+static class ArbitraryPositiveIntegers
+{
+    public static Arbitrary<int> IntegerGenerator() => Gen.Choose(1, 60).ToArbitrary();
 }
 
 static class ArbitraryListOfIntegers

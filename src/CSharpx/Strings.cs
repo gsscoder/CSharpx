@@ -12,6 +12,28 @@ namespace CSharpx
 #if !CSX_STRINGS_INTERNAL
     public
 #endif
+    static class StringUtil
+    {
+    #if CSX_REM_CRYPTORAND
+        static readonly Random _random = new Random();
+    #else
+        static readonly Random _random = new CryptoRandom();
+    #endif
+        const string _chars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        /// <summary>Generates a random string of given length.</summary>
+        public static string Generate(int length)
+        {
+            if (length < 0) throw new ArgumentException(nameof(length));
+
+            return new string((from c in Enumerable.Repeat(_chars, length)
+                               select c[_random.Next(c.Length)]).ToArray());
+        }
+    }
+
+#if !CSX_STRINGS_INTERNAL
+    public
+#endif
     static class CharExtensions
     {
         /// <summary>Replicates a character for a given number of times using a seperator.</summary>
@@ -253,7 +275,7 @@ namespace CSharpx
             return _stripMl.Replace(value, string.Empty);
         }
 
-        /// <summary>Removes words of a given length.</summary>
+        /// <summary>Removes words of given length.</summary>
         public static string StripByLength(this string value, int length)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
