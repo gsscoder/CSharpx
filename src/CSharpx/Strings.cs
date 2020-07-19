@@ -22,7 +22,7 @@ namespace CSharpx
 
             if (separator.Length == 0) return new string(value, count);
 
-            var builder = new StringBuilder();
+            var builder = new StringBuilder((1 + separator.Length) * count);
             for (var i = 0; i < count; i++) {
                 builder.Append(value);
                 builder.Append(separator);
@@ -110,7 +110,7 @@ namespace CSharpx
             if (count < 0) throw new ArgumentException(nameof(count));
             if (separator == null) throw new ArgumentNullException(nameof(separator));
 
-            var builder = new StringBuilder();
+            var builder = new StringBuilder((value.Length + separator.Length) * count);
             for (var i = 0; i < count; i++) {
                 builder.Append(value);
                 builder.Append(separator);
