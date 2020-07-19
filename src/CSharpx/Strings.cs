@@ -104,7 +104,7 @@ namespace CSharpx
         }
 
         /// <summary>Replicates a string for a given number of times using a seperator.</summary>
-        public static string Replicate(this string value, int count, string separator = " ")
+        public static string Replicate(this string value, int count, string separator = "")
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             if (count < 0) throw new ArgumentException(nameof(count));
