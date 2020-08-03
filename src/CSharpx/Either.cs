@@ -203,7 +203,7 @@ namespace CSharpx
             Func<TRight, Either<TLeft, TResult>> func) => Either.Bind(result, func);
         #endregion
 
-        #region Alternative Match Methods
+        #region Alternative Match Method
         public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either,
             Action<TLeft> ifLeft, Action<TRight> ifRight)
         {
