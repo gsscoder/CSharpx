@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CSharpx
 {
@@ -170,10 +169,8 @@ namespace CSharpx
         /// <c>Left</c>.</summary>
         public static Either<TLeft, TRight> FromMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
         {
-            if (maybe == null) throw new ArgumentNullException(nameof(maybe));
-
             if (maybe.Tag == MaybeType.Just) {
-                return Either.Right<TLeft, TRight>(((Just<TRight>)maybe).Value);
+                return Either.Right<TLeft, TRight>(maybe.FromJust());
             }
             return Either.Left<TLeft, TRight>(left);
         }
