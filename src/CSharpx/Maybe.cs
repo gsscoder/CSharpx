@@ -132,7 +132,7 @@ namespace CSharpx
         public static Maybe<TRight> FromEither<TLeft, TRight>(Either<TLeft, TRight> either)
         {
             if (either.Tag == EitherType.Right) {
-                return Just(((Right<TLeft, TRight>)either).Value);
+                return Just(either.FromRight());
             }
             return Nothing<TRight>();
         }

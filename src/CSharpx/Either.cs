@@ -27,20 +27,33 @@ namespace CSharpx
     /// sometimes used to represent a value which is either correct or an error; by convention, the
     /// <c>Left</c> constructor is used to hold an error value and the <c>Right</c> constructor is
     /// used to hold a correct value (mnemonic: "right" also means "correct").</summary>
-    abstract class Either<TLeft, TRight>
+    struct Either<TLeft, TRight>
     {
-        readonly EitherType _tag;
+        readonly TLeft _leftValue;
+        readonly TRight _rightValue;
 
-        protected Either(EitherType tag) => _tag = tag;
+        internal Either(TLeft value)
+        {
+            _leftValue = value;
+            _rightValue = default;
+            Tag = EitherType.Left;
+        }
 
-        public EitherType Tag => _tag;
+        internal Either(TRight value)
+        {
+            _leftValue = default;
+            _rightValue = value;
+            Tag = EitherType.Right;
+        }
+
+        public EitherType Tag { get; private set; }
 
         #region Basic Match Methods
         /// <summary>Matches a <c>Left</c> value returning <c>true</c> and value itself via an output
         /// parameter.</summary>
         public bool MatchLeft(out TLeft value)
         {
-            value = Tag == EitherType.Left ? ((Left<TLeft, TRight>)this).Value : default;
+            value = Tag == EitherType.Left ? _leftValue : default;
             return Tag == EitherType.Left;
         }
 
@@ -48,52 +61,22 @@ namespace CSharpx
         /// parameter.</summary>
         public bool MatchRight(out TRight value)
         {
-            value = Tag == EitherType.Right ? ((Right<TLeft, TRight>)this).Value : default;
+            value = Tag == EitherType.Right ? _rightValue : default;
             return Tag == EitherType.Right;
         }
         #endregion
     }
 
-#if !CSX_EITHER_INTERNAL
-    public
-#endif
-    sealed class Left<TLeft, TRight> : Either<TLeft, TRight>
-    {
-        readonly TLeft _value;
-
-        internal Left(TLeft value) : base(EitherType.Left) => _value = value;
-
-        /// <summary>The wrapped value.</summary>
-        public TLeft Value => _value;
-    }
-
-#if !CSX_EITHER_INTERNAL
-    public
-#endif
-    sealed class Right<TLeft, TRight> : Either<TLeft, TRight>
-    {
-        readonly TRight _value;
-
-        internal Right(TRight value) : base(EitherType.Right) => _value = value;
-
-        /// <summary>The wrapped value.</summary>
-        public TRight Value => _value;
-    }
-    #endregion
-
-#if !CSX_EITHER_INTERNAL
-    public
-#endif
     static class Either
     {
         #region Value Case Constructors
         /// <summary>Builds the <c>Left</c> case of an <c>Either</c> value.</summary>
         public static Either<TLeft, TRight> Left<TLeft, TRight>(TLeft value) =>
-            new Left<TLeft, TRight>(value);
+            new Either<TLeft, TRight>(value);
 
         /// <summary>Builds the <c>Right</c> case of an <c>Either</c> value.</summary>
         public static Either<TLeft, TRight> Right<TLeft, TRight>(TRight value) =>
-            new Right<TLeft, TRight>(value);
+            new Either<TLeft, TRight>(value);
         #endregion
 
         #region Monad
@@ -153,10 +136,10 @@ namespace CSharpx
             if (func == null) throw new ArgumentNullException(nameof(func));
 
             try {
-                return new Right<Exception, TRight>(func());
+                return new Either<Exception, TRight>(func());
             }
             catch (Exception ex) {
-                return new Left<Exception, TRight>(ex);
+                return new Either<Exception, TRight>(ex);
             }
         }
 
@@ -176,12 +159,7 @@ namespace CSharpx
         }
 #endif
 
-        static TLeft GetLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
-        { 
-            if (either == null) throw new ArgumentNullException(nameof(either));
-
-            return ((Left<TLeft, TRight>)either).Value;
-        }
+        static TLeft GetLeft<TLeft, TRight>(this Either<TLeft, TRight> either) => either.FromLeft();
     }
 
 #if !CSX_EITHER_INTERNAL
@@ -204,7 +182,6 @@ namespace CSharpx
         public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either,
             Action<TLeft> ifLeft, Action<TRight> ifRight)
         {
-            if (either == null) throw new ArgumentNullException(nameof(either));
             if (ifLeft == null) throw new ArgumentNullException(nameof(ifLeft));
             if (ifRight == null) throw new ArgumentNullException(nameof(ifRight));
 
@@ -212,7 +189,7 @@ namespace CSharpx
                 ifLeft(left);
                 return;
             }
-            ifRight(((Right<TLeft, TRight>)either).Value);
+            ifRight(either.FromRight());
         }
         #endregion
 
@@ -237,38 +214,23 @@ namespace CSharpx
             Func<TRight, TRight1> mapRight) => Either.Bimap(either, mapLeft, mapRight);
 
         /// <summary>Returns <c>true</c> if it is in form of <c>Left</c>.</summary>
-        public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either)
-        {
-            if (either == null) throw new ArgumentNullException(nameof(either));
-
-            return either.Tag == EitherType.Left;
-        }
+        public static bool IsLeft<TLeft, TRight>(this Either<TLeft, TRight> either) =>
+            either.Tag == EitherType.Left;
 
         /// <summary>Returns <c>true</c> if it is in form of <c>Right</c>.</summary>
-        public static bool IsRight<TLeft, TRight>(this Either<TLeft, TRight> either)
-        {
-            if (either == null) throw new ArgumentNullException(nameof(either));
-
-            return either.Tag == EitherType.Right;
-        }
+        public static bool IsRight<TLeft, TRight>(this Either<TLeft, TRight> either) =>
+            either.Tag == EitherType.Right;
 
         /// <summary>Extracts the element out of <c>Left</c> and returns a default value (or <c>noneValue</c>
         /// when given) if it is in form of <c>Right</c>.</summary>
         public static TLeft FromLeft<TLeft, TRight>(this Either<TLeft, TRight> either,
-            TLeft noneValue = default)
-        {
-            if (either == null) throw new ArgumentNullException(nameof(either));
-
-            return either.MatchLeft(out TLeft value) ? value : noneValue;
-        }
+            TLeft noneValue = default) => either.MatchLeft(out TLeft value) ? value : noneValue;
 
         /// <summary>Extracts the element out of <c>Left</c> and throws an exception if it is form of
         /// <c>Right</c>.</summary>
         public static TLeft FromLeftOrFail<TLeft, TRight>(this Either<TLeft, TRight> either,
             Exception exceptionToThrow = null)
         {
-            if (either == null) throw new ArgumentNullException(nameof(either));
-
             if (either.MatchLeft(out TLeft value)) {
                 return value;
             }
@@ -278,20 +240,13 @@ namespace CSharpx
         /// <summary>Extracts the element out of <c>Left</c> and returns a default (or <c>noneValue</c>
         /// when given) value if it is in form of<c>Right</c>.</summary>
         public static TRight FromRight<TLeft, TRight>(this Either<TLeft, TRight> either,
-            TRight noneValue = default)
-        {
-            if (either == null) throw new ArgumentNullException(nameof(either));
-
-            return either.MatchRight(out TRight value) ? value : noneValue;
-        }
+            TRight noneValue = default) => either.MatchRight(out TRight value) ? value : noneValue;
 
         /// <summary>Extracts the element out of <c>Left</c> and throws an exception if it is form of
         /// <c>Right</c>.</summary>
         public static TRight FromRightOrFail<TLeft, TRight>(this Either<TLeft, TRight> either,
             Exception exceptionToThrow = null)
         {
-            if (either == null) throw new ArgumentNullException(nameof(either));
-
             if (either.MatchRight(out TRight value)) {
                 return value;
             }
@@ -346,4 +301,5 @@ namespace CSharpx
         }
         #endregion
     }
+    #endregion
 }
