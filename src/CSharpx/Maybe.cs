@@ -30,7 +30,7 @@ namespace CSharpx
     {
         readonly T _value;
 
-        public Maybe(T value)
+        internal Maybe(T value)
         {
             _value = value;
             Tag = MaybeType.Just;
