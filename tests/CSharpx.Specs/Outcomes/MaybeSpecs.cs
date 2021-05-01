@@ -15,8 +15,7 @@ public class MaybeSpecs
 
         var outcome = Maybe.Just(value);
 
-        outcome.Should().NotBeNull()
-            .And.BeOfType<Just<int>>();
+        outcome.IsJust().Should().BeTrue();
         outcome.FromJust().Should().Be(value);
     }
 
@@ -25,8 +24,7 @@ public class MaybeSpecs
     {
         var outcome = Maybe.Nothing<int>();
 
-        outcome.Should().NotBeNull()
-            .And.BeOfType<Nothing<int>>();
+        outcome.IsNothing().Should().BeTrue();
         outcome.Tag.Should().Be(MaybeType.Nothing);
     }
 
@@ -38,10 +36,10 @@ public class MaybeSpecs
          outcome.Should().NotBeNull();
 
         if (value == default(int)) {
-            outcome.Should().BeOfType<Nothing<int>>();
+            outcome.IsNothing().Should().BeTrue();
         }
         else {
-            outcome.Should().BeOfType<Just<int>>();
+            outcome.IsJust().Should().BeTrue();
             outcome.FromJust().Should().Be(value);
         }
     }
@@ -56,10 +54,10 @@ public class MaybeSpecs
                 outcome.Should().NotBeNull();
 
                 if (value == null) {
-                    outcome.Should().BeOfType<Nothing<string>>();
+                    outcome.IsNothing().Should().BeTrue();
                 }
                 else {
-                    outcome.Should().BeOfType<Just<string>>();
+                    outcome.IsJust().Should().BeTrue();
                     outcome.FromJust().Should().Be(value);
                 }
             });

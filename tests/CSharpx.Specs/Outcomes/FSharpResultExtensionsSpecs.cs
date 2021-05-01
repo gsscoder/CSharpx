@@ -133,7 +133,7 @@ public class FSharpResultExtensionsSpecs
 
         var outcome = sut.ToMaybe();
 
-        outcome.Should().BeOfType<Just<int>>();
+        outcome.IsJust().Should().BeTrue();
         outcome.FromJust().Should().Be(value);
     }
 
@@ -144,6 +144,6 @@ public class FSharpResultExtensionsSpecs
 
         var outcome = sut.ToMaybe();
 
-        outcome.Should().BeOfType<Nothing<int>>();
+        outcome.IsNothing().Should().BeTrue();
     }
 }
