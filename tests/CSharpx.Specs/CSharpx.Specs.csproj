@@ -4,7 +4,7 @@
     <ProjectReference Include="../../src/CSharpx/CSharpx.csproj" />
   </ItemGroup>
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <Company>gsscoder</Company>
     <Authors>gsscoder</Authors>
