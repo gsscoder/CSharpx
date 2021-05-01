@@ -210,7 +210,7 @@ namespace CSharpx
 
         /// <summary>This is a version of map which can throw out the value. If contains a <c>Just</c>
         /// executes a mapping function over it, in case of <c>Nothing</c> returns <c>@default</c>.</summary>
-        public static U Map<T, U>(this Maybe<T> maybe, Func<T, U> onJust, U @default = default(U))
+        public static U Map<T, U>(this Maybe<T> maybe, Func<T, U> onJust, U @default = default)
         {
             if (onJust == null) throw new ArgumentNullException(nameof(onJust));
 
@@ -277,7 +277,7 @@ namespace CSharpx
 
         /// <summary>Extracts the element out of <c>Just</c> and returns a default value (or <c>@default</c>
         /// when given) if it is in form of <c>Nothing</c>.</summary>
-        public static T FromJust<T>(this Maybe<T> maybe, T @default = default(T)) => maybe.MatchJust(out T value) ? value : @default;
+        public static T FromJust<T>(this Maybe<T> maybe, T @default = default) => maybe.MatchJust(out T value) ? value : @default;
 
         /// <summary>Lazy version of <c>FromJust</c>. Extracts the element out of <c>Just</c> and returns
         /// a value built by <c>@default</c> function if it is in form of <c>Nothing</c>.</summary>

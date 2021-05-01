@@ -11,7 +11,7 @@ public class MaybeSpecs
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
     public void Shoud_build_Just(int value)
     {
-        if (value == default(int)) return;// Skip default values
+        if (value == default) return;// Skip default values
 
         var outcome = Maybe.Just(value);
 
@@ -35,7 +35,7 @@ public class MaybeSpecs
 
          outcome.Should().NotBeNull();
 
-        if (value == default(int)) {
+        if (value == default) {
             outcome.IsNothing().Should().BeTrue();
         }
         else {

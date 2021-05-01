@@ -40,7 +40,7 @@ namespace CSharpx
         /// parameter.</summary>
         public bool MatchLeft(out TLeft value)
         {
-            value = Tag == EitherType.Left ? ((Left<TLeft, TRight>)this).Value : default(TLeft);
+            value = Tag == EitherType.Left ? ((Left<TLeft, TRight>)this).Value : default;
             return Tag == EitherType.Left;
         }
 
@@ -48,7 +48,7 @@ namespace CSharpx
         /// parameter.</summary>
         public bool MatchRight(out TRight value)
         {
-            value = Tag == EitherType.Right ? ((Right<TLeft, TRight>)this).Value : default(TRight);
+            value = Tag == EitherType.Right ? ((Right<TLeft, TRight>)this).Value : default;
             return Tag == EitherType.Right;
         }
         #endregion
@@ -255,7 +255,7 @@ namespace CSharpx
         /// <summary>Extracts the element out of <c>Left</c> and returns a default value (or <c>noneValue</c>
         /// when given) if it is in form of <c>Right</c>.</summary>
         public static TLeft FromLeft<TLeft, TRight>(this Either<TLeft, TRight> either,
-            TLeft noneValue = default(TLeft))
+            TLeft noneValue = default)
         {
             if (either == null) throw new ArgumentNullException(nameof(either));
 
@@ -278,7 +278,7 @@ namespace CSharpx
         /// <summary>Extracts the element out of <c>Left</c> and returns a default (or <c>noneValue</c>
         /// when given) value if it is in form of<c>Right</c>.</summary>
         public static TRight FromRight<TLeft, TRight>(this Either<TLeft, TRight> either,
-            TRight noneValue = default(TRight))
+            TRight noneValue = default)
         {
             if (either == null) throw new ArgumentNullException(nameof(either));
 

@@ -56,7 +56,7 @@ public class FSharpResultExtensionsSpecs
         var outcome = sut.Map(x => x / 0.5);
 
         outcome.IsOk.Should().BeFalse();
-        outcome.ResultValue.Should().Be(default(double));
+        outcome.ResultValue.Should().Be(default);
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
@@ -80,7 +80,7 @@ public class FSharpResultExtensionsSpecs
         var outcome = sut.Bind(x => FSharpResult<double, string>.NewOk(x / 0.5));
 
         outcome.IsOk.Should().BeFalse();
-        outcome.ResultValue.Should().Be(default(double));
+        outcome.ResultValue.Should().Be(default);
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]

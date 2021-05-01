@@ -26,7 +26,7 @@ public class EitherSpecs
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
     public void Shoud_build_Right(int value)
     {
-        if (value == default(int)) return; // Skip default values
+        if (value == default) return; // Skip default values
 
         var outcome = Either.Right<string, int>(value);
 
