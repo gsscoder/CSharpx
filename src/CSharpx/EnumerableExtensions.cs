@@ -107,20 +107,18 @@ namespace CSharpx
         {
             var index = -1;
             var endIndex = startIndex + count;
-            using (var iter = source.GetEnumerator())
-            {
-                // yield the first part of the sequence
-                while (iter.MoveNext() && ++index < startIndex) {
-                    yield return iter.Current;
-                }
-                // skip the next part (up to count elements)
-                while (++index < endIndex && iter.MoveNext()) {
-                    continue;
-                }
-                // yield the remainder of the sequence
-                while (iter.MoveNext()) {
-                    yield return iter.Current;
-                }
+            using var iter = source.GetEnumerator();
+            // yield the first part of the sequence
+            while (iter.MoveNext() && ++index < startIndex) {
+                yield return iter.Current;
+            }
+            // skip the next part (up to count elements)
+            while (++index < endIndex && iter.MoveNext()) {
+                continue;
+            }
+            // yield the remainder of the sequence
+            while (iter.MoveNext()) {
+                yield return iter.Current;
             }
         }
         #endregion
@@ -176,13 +174,14 @@ namespace CSharpx
                 elements[e.Key] = e.Value;
             }
 
-            switch (count) {
-                case 1: return folder1(elements[0]);
-                case 2: return folder2(elements[0], elements[1]);
-                case 3: return folder3(elements[0], elements[1], elements[2]);
-                case 4: return folder4(elements[0], elements[1], elements[2], elements[3]);
-                default: throw new NotSupportedException();
-            }
+            return count switch
+            {
+                1 => folder1(elements[0]),
+                2 => folder2(elements[0], elements[1]),
+                3 => folder3(elements[0], elements[1], elements[2]),
+                4 => folder4(elements[0], elements[1], elements[2], elements[3]),
+                _ => throw new NotSupportedException(),
+            };
         }
 
         static readonly Func<int, int, Exception> OnFolderSourceSizeErrorSelector = OnFolderSourceSizeError;
@@ -210,15 +209,14 @@ namespace CSharpx
 
         static IEnumerable<TResult> PairwiseImpl<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TSource, TResult> resultSelector)
         {
-            using (var e = source.GetEnumerator()) {
-                if (!e.MoveNext()) {
-                    yield break;
-                }
-                var previous = e.Current;
-                while (e.MoveNext()) {
-                    yield return resultSelector(previous, e.Current);
-                    previous = e.Current;
-                }
+            using var e = source.GetEnumerator();
+            if (!e.MoveNext()) {
+                yield break;
+            }
+            var previous = e.Current;
+            while (e.MoveNext()) {
+                yield return resultSelector(previous, e.Current);
+                previous = e.Current;
             }
         }
         #endregion
@@ -260,6 +258,9 @@ namespace CSharpx
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
+
             return source.DistinctBy(keySelector, null);
         }
 
@@ -319,11 +320,9 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            using (var e = source.GetEnumerator()) {
-                return e.MoveNext()
-                    ? Maybe.Just(e.Current)
-                    : Maybe.Nothing<T>();
-            }
+            using var e = source.GetEnumerator(); return e.MoveNext()
+    ? Maybe.Just(e.Current)
+    : Maybe.Nothing<T>();
         }
 
         /// <summary>Safe function that returns Just(last element) or <c>Nothing</c>.</summary>
@@ -331,12 +330,11 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            using (var e = source.GetEnumerator()) {
-                if (!e.MoveNext()) return Maybe.Nothing<T>();
-                T result = e.Current;
-                while (e.MoveNext()) result = e.Current;
-                return Maybe.Just(result);
-            }
+            using var e = source.GetEnumerator();
+            if (!e.MoveNext()) return Maybe.Nothing<T>();
+            T result = e.Current;
+            while (e.MoveNext()) result = e.Current;
+            return Maybe.Just(result);
         }
 
         /// <summary>Turns an empty sequence to <c>Nothing</c>, otherwise Just(sequence).</summary>
@@ -344,11 +342,10 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            using (var e = source.GetEnumerator()) {
-                return e.MoveNext()
-                    ? Maybe.Just(source)
-                    : Maybe.Nothing<IEnumerable<T>>();
-            }
+            using var e = source.GetEnumerator();
+            return e.MoveNext()
+                ? Maybe.Just(source)
+                : Maybe.Nothing<IEnumerable<T>>();
         }
 
         /// <summary>Applies a function to each element of the source sequence and returns a new
@@ -375,14 +372,12 @@ namespace CSharpx
         public static Maybe<TSource> FirstOrNothing<TSource>(this IEnumerable<TSource> source) {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            var list = source as IList<TSource>;
-            if (list != null) {
+            if (source is IList<TSource> list) {
                 if (list.Count > 0) return Maybe.Just(list[0]);
             }
             else {
-                using (IEnumerator<TSource> e = source.GetEnumerator()) {
-                    if (e.MoveNext()) return Maybe.Just(e.Current);
-                }
+                using IEnumerator<TSource> e = source.GetEnumerator();
+                if (e.MoveNext()) return Maybe.Just(e.Current);
             }
             return Maybe.Nothing<TSource>();
         }
@@ -406,20 +401,18 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            var list = source as IList<TSource>;
-            if (list != null) {
+            if (source is IList<TSource> list) {
                 int count = list.Count;
                 if (count > 0) return Maybe.Just(list[count - 1]);
             }
             else {
-                using (IEnumerator<TSource> e = source.GetEnumerator()) {
-                    if (e.MoveNext()) {
-                        TSource result;
-                        do {
-                            result = e.Current;
-                        } while (e.MoveNext());
-                        return Maybe.Just(result);
-                    }
+                using IEnumerator<TSource> e = source.GetEnumerator();
+                if (e.MoveNext()) {
+                    TSource result;
+                    do {
+                        result = e.Current;
+                    } while (e.MoveNext());
+                    return Maybe.Just(result);
                 }
             }
             return Maybe.Nothing<TSource>();
@@ -445,19 +438,17 @@ namespace CSharpx
         public static Maybe<TSource> SingleOrNothing<TSource>(this IEnumerable<TSource> source) {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            var list = source as IList<TSource>;
-            if (list != null) {
+            if (source is IList<TSource> list) {
                 switch (list.Count) {
                     case 0: return Maybe.Nothing<TSource>();
                     case 1: return Maybe.Just(list[0]);
                 }
             }
             else {
-                using (IEnumerator<TSource> e = source.GetEnumerator()) {
-                    if (!e.MoveNext()) return Maybe.Nothing<TSource>();
-                    TSource result = e.Current;
-                    if (!e.MoveNext()) return Maybe.Just(result);
-                }
+                using IEnumerator<TSource> e = source.GetEnumerator();
+                if (!e.MoveNext()) return Maybe.Nothing<TSource>();
+                TSource result = e.Current;
+                if (!e.MoveNext()) return Maybe.Just(result);
             }
             return Maybe.Nothing<TSource>();
         }
@@ -477,11 +468,12 @@ namespace CSharpx
                     checked { count++; }
                 }
             }
-            switch (count) {
-                case 0: return Maybe.Nothing<TSource>();
-                case 1: return result;
-            }
-            throw new InvalidOperationException("Sequence contains more than one element");
+            return count switch
+            {
+                0 => Maybe.Nothing<TSource>(),
+                1 => result,
+                _ => throw new InvalidOperationException("Sequence contains more than one element"),
+            };
         }
 
         /// <summary> Returns the element at a specified index in a sequence as <c>Just</c> or <c>Nothing</c>
@@ -490,17 +482,15 @@ namespace CSharpx
             if (source == null) throw new ArgumentNullException(nameof(source));
 
             if (index >= 0) {
-                var list = source as IList<TSource>;
-                if (list != null) {
+                if (source is IList<TSource> list) {
                     if (index < list.Count) return Maybe.Just(list[index]);
                 }
                 else {
-                    using (IEnumerator<TSource> e = source.GetEnumerator()) {
-                        while (true) {
-                            if (!e.MoveNext()) break;
-                            if (index == 0) return Maybe.Just(e.Current);
-                            index--;
-                        }
+                    using IEnumerator<TSource> e = source.GetEnumerator();
+                    while (true) {
+                        if (!e.MoveNext()) break;
+                        if (index == 0) return Maybe.Just(e.Current);
+                        index--;
                     }
                 }
             }
@@ -529,14 +519,13 @@ namespace CSharpx
 
             return _(); IEnumerable<T> _()
             {
-                using (var e = source.GetEnumerator()) {
-                    if (!e.MoveNext()) {
-                        throw new ArgumentException(
-                            "The input sequence has an insufficient number of elements.");
-                    }
-                    while (e.MoveNext()) {
-                        yield return e.Current;
-                    }
+                using var e = source.GetEnumerator();
+                if (!e.MoveNext()) {
+                    throw new ArgumentException(
+                        "The input sequence has an insufficient number of elements.");
+                }
+                while (e.MoveNext()) {
+                    yield return e.Current;
                 }
             }
         }
@@ -567,17 +556,16 @@ namespace CSharpx
 
             return _(); IEnumerable<T[]> _()
             {
-                using (var e = source.GetEnumerator()) {
-                    while (e.MoveNext()) {
-                        var result = new T[chunkSize];
-                        result[0] = e.Current;
-                        var i = 1;
-                        while (i < chunkSize && e.MoveNext()) {
-                            result[i] = e.Current;
-                            i++;
-                        }
-                        yield return i == chunkSize? result : SubArray(result, 0, i);
+                using var e = source.GetEnumerator();
+                while (e.MoveNext()) {
+                    var result = new T[chunkSize];
+                    result[0] = e.Current;
+                    var i = 1;
+                    while (i < chunkSize && e.MoveNext()) {
+                        result[i] = e.Current;
+                        i++;
                     }
+                    yield return i == chunkSize ? result : SubArray(result, 0, i);
                 }
             }
 
@@ -651,14 +639,13 @@ namespace CSharpx
         }
 
         /// <summary>Captures the current state of a sequence.</summary>
-        public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
-        {
-            switch (source) {
-                case null                        : throw new ArgumentNullException(nameof(source));
-                case MaterializedEnumerable<T> _ : return source;
-                default : return new MaterializedEnumerable<T>(source);
-            }
-        }
+        public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source) =>
+            source switch
+            {
+                null => throw new ArgumentNullException(nameof(source)),
+                MaterializedEnumerable<T> _ => source,
+                _ => new MaterializedEnumerable<T>(source),
+            };
         #endregion
 
         /// <summary>Flattens a sequence by one level.</summary>
