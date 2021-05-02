@@ -33,6 +33,8 @@ File:Maybe.cs Internal
 ```
 - **Paket** will alter your `csproj` file adding a `Compile` item, so you need to set `EnableDefaultCompileItems` property to `false`. At this point, every other source file must be handled in the same way. For more detailed informations please read [Paket Documentation](https://fsprojects.github.io/Paket/github-dependencies.html).
 
+Source code uses **C#** language version 8.0 features.
+
 ## Targets
 
 - .NET Standard 2.0
@@ -170,6 +172,7 @@ static Unit Print(string value)
 
 - `Maybe<T>` type implemented as a `struct`.
 - `Either<TLeft, TRight>` type implemented as a `struct`.
+- Code refactored for C# 8.0.
 
 ## Related Projects
 
