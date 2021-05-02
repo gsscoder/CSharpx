@@ -107,10 +107,12 @@ namespace CSharpx
         /// with a tupled value. </summary>
         public static Maybe<(T, U)> Merge<T, U>(Maybe<T> first, Maybe<U> second)
         {
-            if (first.MatchJust(out T value1) && second.MatchJust(out U value2)) {
-                return Just((value1, value2));
-            }
-            return Nothing<(T, U)>();
+            U value2 = default;
+            return (first.MatchJust(out T value1) && second.MatchJust(out value2)) switch
+            {
+                true => Just((value1, value2)),
+                _ => Nothing<(T, U)>()
+            };
         }
 
         /// <summary>Executes the given function on a <c>Just</c> success or returns a <c>Nothing</c>.</summary>
