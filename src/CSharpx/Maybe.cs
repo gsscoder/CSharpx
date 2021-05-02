@@ -286,13 +286,12 @@ namespace CSharpx
 
         /// <summary>Extracts the element out of <c>Just</c> or throws an exception if it is form of
         /// <c>Nothing</c>.</summary>
-        public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
-        {
-            if (maybe.MatchJust(out T value)) {
-                return value;
-            }
-            throw exceptionToThrow ?? new Exception("The value is empty.");
-        }
+        public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null) =>
+            maybe.MatchJust(out T value) switch
+            {
+                true => value,
+                _ => throw exceptionToThrow ?? new Exception("The value is empty.")
+            };
 
         #region
         /// <summary>Returns an empty sequence when given <c>Nothing</c> or a singleton sequence in
