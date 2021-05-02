@@ -67,6 +67,9 @@ namespace CSharpx
         #endregion
     }
 
+#if !CSX_EITHER_INTERNAL
+    public
+#endif
     static class Either
     {
         #region Value Case Constructors
