@@ -17,8 +17,7 @@ public class EitherSpecs
 
             var outcome = Either.Left<string, int>(value);
 
-            outcome.Should().NotBeNull()
-                .And.BeOfType<Left<string, int>>();
+            outcome.IsLeft().Should().BeTrue();
             outcome.FromLeft().Should().Be(value);
         });
     }
@@ -30,8 +29,7 @@ public class EitherSpecs
 
         var outcome = Either.Right<string, int>(value);
 
-        outcome.Should().NotBeNull()
-            .And.BeOfType<Right<string, int>>();
+        outcome.IsRight().Should().BeTrue();
         outcome.FromRight().Should().Be(value);
     }
 
