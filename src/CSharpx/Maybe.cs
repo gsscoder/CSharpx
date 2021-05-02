@@ -131,13 +131,12 @@ namespace CSharpx
 #if !CSX_REM_EITHER_FUNC
         /// <summary>Maps <c>Either</c> right value to <c>Just</c>, otherwise returns
         /// <c>Nothing</c>.</summary>
-        public static Maybe<TRight> FromEither<TLeft, TRight>(Either<TLeft, TRight> either)
-        {
-            if (either.Tag == EitherType.Right) {
-                return Just(either.FromRight());
-            }
-            return Nothing<TRight>();
-        }
+        public static Maybe<TRight> FromEither<TLeft, TRight>(Either<TLeft, TRight> either) =>
+            (either.Tag == EitherType.Right) switch
+            {
+                true => Just(either.FromRight()),
+                _ => Nothing<TRight>()
+            };
 #endif
     }
 
