@@ -11,11 +11,13 @@ and set other preferences.
 
 If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way.
 
-Project that includes **CSharpx**:
+OSS project that includes **CSharpx**:
 - [PickAll](https://github.com/gsscoder/pickall)
 - [Tagger](https://github.com/gsscoder/tagger)
 - [Integrity](https://github.com/gsscoder/integrity)
 - [Command Line Parser Library](https://github.com/commandlineparser/commandline)
+
+**CSharpx** is also used with success in various closed source project.
 
 ## Reference
 
@@ -40,18 +42,19 @@ File:Maybe.cs Internal
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.7.3
+$ dotnet add package CSharpx --version 2.8.0-preview.1
 ```
 
 ## Versions
 
-- The latest version on NuGet is [2.7.3](https://www.nuget.org/packages/CSharpx/2.7.3) (stable).
-- The latest version of source code is 2.7.3 (stable).
+- The letest version on NuGet is [2.8.0-preview.1](https://www.nuget.org/packages/CSharpx/2.8.0-preview.1).
+- The latest stable version on NuGet is [2.7.3](https://www.nuget.org/packages/CSharpx/2.7.3).
 
 ## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
 
 - Encapsulates an optional value that can contain a value or being empty.
 - C# native implementation of F# `'T option` / Haskell `data Maybe a = Just a | Nothing` type.
+
 ```csharp
 var greet = true;
 var value = greet ? Maybe.Return("world") : Maybe.Nothing<string>();
@@ -59,7 +62,9 @@ value.Match(
     who => Console.WriteLine($"hello {who}!"),
     () => Environment.Exit(1));
 ```
+
 - Supports LINQ syntax:
+
 ```csharp
 var result1 = Maybe.Just(30);
 var result2 = Maybe.Just(10);
@@ -74,6 +79,7 @@ var sum = from r1 in result1
 
 var value = sum.FromJust(); // outcome: 40
 ```
+
 - See [RailwaySharp](https://github.com/gsscoder/railwaysharp) for a complete railway-oriented programming library.
 
 ## [Either](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Either.cs)
@@ -162,11 +168,8 @@ static Unit Print(string value)
 
 ## Latest Changes
 
-- LINQ `...OrDefault()` methods implemented using `Maybe` as return value.
-- `Maybe.Just<T>` must return `Maybe<T>`.
-- Added `To(Upper/Lower)FirstLetter` to `StringExtensions`.
-- Added `Replicate` to `CharExtensions`.
-- Added random string generator (`StringUtil.Generate`).
+- `Maybe<T>` type implemented as a `struct`.
+- `Either<TLeft, TRight>` type implemented as a `struct`.
 
 ## Related Projects
 
