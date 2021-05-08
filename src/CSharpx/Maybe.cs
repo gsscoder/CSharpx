@@ -58,9 +58,11 @@ namespace CSharpx
 
         /// <summary>Determines whether this instance and another specified <c>Maybe</c> object have the same value.</summary>
         public bool Equals(Maybe<T> other) =>
-            other.Tag == MaybeType.Just
-                ? _value.Equals(other._value)
-                : true;
+            other.Tag != MaybeType.Just || _value.Equals(other._value);
+
+        public static bool operator ==(Maybe<T> left, Maybe<T> right) => left.Equals(right);
+
+        public static bool operator !=(Maybe<T> left, Maybe<T> right) => !left.Equals(right);
 
         /// <summary>Serves as the default hash function.</summary>
         public override int GetHashCode() =>
