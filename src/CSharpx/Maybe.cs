@@ -30,7 +30,7 @@ namespace CSharpx
     struct Maybe<T> : IEquatable<Maybe<T>>
     {
 #if DEBUG
-        public
+        internal
 #endif
         readonly T _value;
 
@@ -52,11 +52,7 @@ namespace CSharpx
                 "Tag", BindingFlags.Public | BindingFlags.Instance).GetValue(other);
             if (otherTag != Tag) return false;
             if (otherTag == MaybeType.Nothing && Tag == MaybeType.Nothing) return true;
-#if !DEBUG
             var otherField = otherType.GetField("_value", BindingFlags.NonPublic | BindingFlags.Instance);
-#else
-            var otherField = otherType.GetField("_value", BindingFlags.Public | BindingFlags.Instance);
-#endif
             return otherField.GetValue(other).Equals(_value);
         }
 
