@@ -8,10 +8,12 @@ using CSharpx;
 
 public class MaybeSpecs
 {
+    static Random _random = new CryptoRandom();
+
     [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
     public void Shoud_build_Just(int value)
     {
-        if (value == default) return;// Skip default values
+        if (value == default) return; // Skip default values
 
         var outcome = Maybe.Just(value);
 
@@ -189,7 +191,109 @@ public class MaybeSpecs
         var number = new CryptoRandom().Next();
         var outcome = Maybe.Try(() => number / value);
 
-        if (value == 0) outcome.Should().NotBeNull().And.BeEquivalentTo(Maybe.Nothing<int>());
-        else outcome.Should().NotBeNull().And.BeEquivalentTo(Maybe.Just(number));
+        if (value == 0) outcome.Tag.Should().Be(MaybeType.Nothing);
+        else outcome.Should().NotBeNull().And.Match<Maybe<int>>(x =>
+            x.Tag == MaybeType.Just &&
+            x._value == number);
+    }
+
+    [Fact]
+    public void Nothing_wrapping_same_type_are_equals()
+    {
+        var sut1 = Maybe.Nothing<int>();
+        var sut2 = Maybe.Nothing<int>();
+
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Nothing_wrapping_same_type_compared_as_object_are_equals()
+    {
+        var sut1 = Maybe.Nothing<int>();
+        object sut2 = Maybe.Nothing<int>();
+
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Nothing_wrapping_different_type_are_different()
+    {
+        var sut1 = Maybe.Nothing<int>();
+        var sut2 = Maybe.Nothing<string>();
+
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeFalse();
+    }
+
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void Maybe_of_different_type_are_not_equals(int value)
+    {
+        if (value == default) return; // Skip default values
+
+        var sut1 = Maybe.Nothing<int>();
+        var sut2 = Maybe.Return(value);
+
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeFalse();
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void Maybe_of_different_type_compared_as_object_are_not_equals(int value)
+    {
+        if (value == default) return; // Skip default values
+
+        var sut1 = Maybe.Nothing<int>();
+        object sut2 = Maybe.Return(value);
+
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeFalse();
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void Maybe_with_different_values_are_not_equals(int value)
+    {
+        if (value == default) return; // Skip default values
+
+        var sut1 = Maybe.Return(value);
+        var otherValue = _random.Next();
+        var sut2 = Maybe.Return(otherValue == value ? otherValue / 2 : otherValue);
+
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeFalse();
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void Maybe_with_identical_values_are_equals(int value)
+    {
+        if (value == default) return; // Skip default values
+
+        var sut1 = Maybe.Return(value);
+        var sut2 = Maybe.Return(value);
+
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeTrue();
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void Maybe_with_identical_values_compared_as_object_are_equals(int value)
+    {
+        if (value == default) return; // Skip default values
+
+        var sut1 = Maybe.Return(value);
+        object sut2 = Maybe.Return(value);
+
+        var outcome = sut1.Equals(sut2);
+
+        outcome.Should().BeTrue();
     }
 }

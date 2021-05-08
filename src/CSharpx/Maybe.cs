@@ -4,6 +4,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace CSharpx
 {
@@ -26,8 +27,11 @@ namespace CSharpx
 #if !CSX_MAYBE_INTERNAL
     public
 #endif
-    struct Maybe<T>
+    struct Maybe<T> : IEquatable<Maybe<T>>
     {
+#if DEBUG
+        public
+#endif
         readonly T _value;
 
         internal Maybe(T value)
@@ -38,6 +42,35 @@ namespace CSharpx
 
         /// <summary>Type discriminator.</summary>
         public MaybeType Tag { get; private set; }
+
+        /// <summary>Determines whether this instance and another specified <c>Maybe</c> object have the same value.</summary>
+        public override bool Equals(object other)
+        {
+            var otherType = other.GetType();
+            if (otherType != GetType()) return false;
+            var otherTag = (MaybeType)otherType.GetProperty(
+                "Tag", BindingFlags.Public | BindingFlags.Instance).GetValue(other);
+            if (otherTag != Tag) return false;
+            if (otherTag == MaybeType.Nothing && Tag == MaybeType.Nothing) return true;
+#if !DEBUG
+            var otherField = otherType.GetField("_value", BindingFlags.NonPublic | BindingFlags.Instance);
+#else
+            var otherField = otherType.GetField("_value", BindingFlags.Public | BindingFlags.Instance);
+#endif
+            return otherField.GetValue(other).Equals(_value);
+        }
+
+        /// <summary>Determines whether this instance and another specified <c>Maybe</c> object have the same value.</summary>
+        public bool Equals(Maybe<T> other) =>
+            other.Tag == MaybeType.Just
+                ? _value.Equals(other._value)
+                : true;
+
+        /// <summary>Serves as the default hash function.</summary>
+        public override int GetHashCode() =>
+            Tag == MaybeType.Nothing
+                ? ToString().GetHashCode()
+                : _value.GetHashCode();
 
         public override string ToString()
         {
@@ -50,7 +83,7 @@ namespace CSharpx
             };
         }
 
-        #region Basic Match Methods
+#region Basic Match Methods
         /// <summary>Matches a value returning <c>true</c> and value itself via an output
         /// parameter.</summary>
         public bool MatchJust(out T value)
@@ -61,9 +94,9 @@ namespace CSharpx
 
         /// <summary>Matches an empty value returning <c>true</c>.</summary>
         public bool MatchNothing() => Tag == MaybeType.Nothing;
-        #endregion
+#endregion
     }
-    #endregion
+#endregion
 
     /// <summary>Provides static methods for manipulating <c>Maybe</c>.</summary>
 #if !CSX_MAYBE_INTERNAL
@@ -71,15 +104,15 @@ namespace CSharpx
 #endif
     static class Maybe
     {
-        #region Value Case Constructors
+#region Value Case Constructors
         /// <summary>Builds the empty case of <c>Maybe</c>.</summary>
         public static Maybe<T> Nothing<T>() => new Maybe<T>();
 
         /// <summary>Builds the case when <c>Maybe</c> contains a value.</summary>
         public static Maybe<T> Just<T>(T value) => new Maybe<T>(value);
-        #endregion
+#endregion
 
-        #region Monad
+#region Monad
         /// <summary>Injects a value into the monadic <c>Maybe</c> type.</summary>
         public static Maybe<T> Return<T>(T value) => Equals(value, default(T)) ? Nothing<T>() : Just(value);
 
@@ -91,9 +124,9 @@ namespace CSharpx
 
             return maybe.MatchJust(out T value) ? onJust(value) : Nothing<U>();
         }
-        #endregion
+#endregion
 
-        #region Functor
+#region Functor
         /// <summary>Transforms a <c>Maybe</c> value by using a specified mapping function.</summary>
         public static Maybe<U> Map<T, U>(Maybe<T> maybe, Func<T, U> onJust)
         {
@@ -101,7 +134,7 @@ namespace CSharpx
 
             return maybe.MatchJust(out T value) ? Just(onJust(value)) : Nothing<U>();
         }
-        #endregion
+#endregion
 
         /// <summary>If both <c>Maybe</c> values contain a value, it merges them into a <c>Maybe</c>
         /// with a tupled value. </summary>
@@ -146,7 +179,7 @@ namespace CSharpx
 #endif
     static class MaybeExtensions
     {
-        #region Alternative Match Methods
+#region Alternative Match Methods
         /// <summary>Provides pattern matching using <c>System.Action</c> delegates.</summary>
         public static void Match<T>(this Maybe<T> maybe, Action<T> onJust, Action onNothing)
         {
@@ -188,9 +221,9 @@ namespace CSharpx
             value2 = default;
             return false;
         }
-        #endregion
+#endregion
 
-        #region Monad
+#region Monad
         /// <summary>Equivalent to monadic <c>Return</c> operation. Builds a <c>Just</c> value in case
         /// <c>value</c> is different from its default.
         /// </summary>
@@ -207,7 +240,7 @@ namespace CSharpx
         /// <summary>Unwraps a value applying a function o returns another value on fail.</summary>
         public static U Return<T, U>(this Maybe<T> maybe, Func<T, U> onJust, U @default) =>
             maybe.MatchJust(out T value) ? onJust(value) : @default;
-        #endregion
+#endregion
 
         /// <summary>This is a version of map which can throw out the value. If contains a <c>Just</c>
         /// executes a mapping function over it, in case of <c>Nothing</c> returns <c>@default</c>.</summary>
@@ -227,7 +260,7 @@ namespace CSharpx
             return maybe.MatchJust(out T value) ? onJust(value) : @default();
         }
 
-        #region LINQ Operators
+#region LINQ Operators
         /// <summary>Map operation compatible with LINQ.</summary>
         public static Maybe<TResult> Select<TSource, TResult>(this Maybe<TSource> maybe,
             Func<TSource, TResult> selector) => Maybe.Map(maybe, selector);
@@ -250,9 +283,9 @@ namespace CSharpx
             }
             return Maybe.Nothing<TSource>();
         }
-        #endregion
+#endregion
 
-        #region Do Semantic
+#region Do Semantic
         /// <summary>If contains a value executes a <c>System.Action<c> delegate over it.</summary>
         public static void Do<T>(this Maybe<T> maybe, Action<T> action)
         {
@@ -268,7 +301,7 @@ namespace CSharpx
 
             if (maybe.MatchJust(out T value1, out U value2)) action(value1, value2);
         }
-        #endregion
+#endregion
 
         /// <summary>Returns <c>true</c> if it is in form of <c>Nothing</c>.</summary>
         public static bool IsNothing<T>(this Maybe<T> maybe) => maybe.Tag == MaybeType.Nothing;
@@ -293,7 +326,7 @@ namespace CSharpx
                 _ => throw exceptionToThrow ?? new Exception("The value is empty.")
             };
 
-        #region
+#region
         /// <summary>Returns an empty sequence when given <c>Nothing</c> or a singleton sequence in
         /// case of <c>Just</c>.</summary>
         public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> maybe)
@@ -345,6 +378,6 @@ namespace CSharpx
                 }
             }
         }
-        #endregion
+#endregion
     }
 }

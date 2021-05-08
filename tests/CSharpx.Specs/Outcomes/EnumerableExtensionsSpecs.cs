@@ -17,7 +17,8 @@ public class EnumerableExtensionsSpecs
     {
         var outcome = values.TryHead();
 
-        outcome.Should().BeEquivalentTo(Maybe.Just(values.ElementAt(0)));
+        outcome.Should().Match<Maybe<int>>(x =>
+            x.Tag == MaybeType.Just && x._value == values.ElementAt(0));
     }
 
     [Fact]
@@ -25,7 +26,7 @@ public class EnumerableExtensionsSpecs
     {
         var outcome = Enumerable.Empty<int>().TryHead();
 
-        outcome.Should().BeEquivalentTo(Maybe.Nothing<int>());
+        outcome.Tag.Should().Be(MaybeType.Nothing);
     }
     #endregion
 
@@ -36,7 +37,8 @@ public class EnumerableExtensionsSpecs
     {
         var outcome = values.TryLast();
 
-        outcome.Should().BeEquivalentTo(Maybe.Just(values.Last()));
+        outcome.Should().Match<Maybe<int>>(x =>
+            x.Tag == MaybeType.Just && x._value == values.Last());
     }
 
     [Fact]
@@ -44,7 +46,7 @@ public class EnumerableExtensionsSpecs
     {
         var outcome = Enumerable.Empty<int>().TryLast();
 
-        outcome.Should().BeEquivalentTo(Maybe.Nothing<int>());
+        outcome.Tag.Should().Be(MaybeType.Nothing);
     }
     #endregion
 
@@ -54,7 +56,7 @@ public class EnumerableExtensionsSpecs
     {
         var outcome = Enumerable.Empty<int>().ToMaybe();
 
-        outcome.Should().BeEquivalentTo(Maybe.Nothing<IEnumerable<int>>());
+        outcome.Should().Match<Maybe<IEnumerable<int>>>(x => x.Tag == MaybeType.Nothing);
     }
 
     [Property(Arbitrary = new[] { typeof(ArbitraryListOfIntegers) })]
@@ -62,7 +64,7 @@ public class EnumerableExtensionsSpecs
     {
         var outcome = values.ToMaybe();
 
-        outcome.Should().BeEquivalentTo(Maybe.Just(values));
+        outcome.Tag.Should().Be(MaybeType.Just);
     }
     #endregion
 
