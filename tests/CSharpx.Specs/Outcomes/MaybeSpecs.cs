@@ -197,6 +197,16 @@ public class MaybeSpecs
             x._value == number);
     }
 
+    [Property(Arbitrary = new[] { typeof(ArbitraryIntegers) })]
+    public void Should_return_false_when_a_Maybe_is_compared_to_null(int value)
+    {
+        var sut = Maybe.Return(value);
+
+        var outcome = sut.Equals(null);
+
+        outcome.Should().BeFalse();
+    }
+
     [Fact]
     public void Nothing_wrapping_same_type_are_equals()
     {

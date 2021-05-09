@@ -46,6 +46,7 @@ namespace CSharpx
         /// <summary>Determines whether this instance and another specified <c>Maybe</c> object have the same value.</summary>
         public override bool Equals(object other)
         {
+            if (other == null) return false;
             var otherType = other.GetType();
             if (otherType != GetType()) return false;
             var otherTag = (MaybeType)otherType.GetProperty(
