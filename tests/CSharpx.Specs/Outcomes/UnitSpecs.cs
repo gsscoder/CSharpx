@@ -25,4 +25,15 @@ public class UnitSpecs
         
         outcome.Should().Be(0);
     }
+
+    [Fact]
+    public void Do_executes_a_delegate_and_returns_Unit_value()
+    {
+        var evidence = 0;
+
+        var outcome = Unit.Do(() => evidence++);
+
+        evidence.Should().Be(1);
+        outcome.Should().Be(Unit.Default);
+    }
 }
