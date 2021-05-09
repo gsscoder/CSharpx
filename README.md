@@ -44,12 +44,12 @@ Source code uses **C#** language version 8.0 features.
 
 If you prefer, you can install it via NuGet:
 ```sh
-$ dotnet add package CSharpx --version 2.8.0-preview.3
+$ dotnet add package CSharpx --version 2.8.0-preview.4
 ```
 
 ## Versions
 
-- The letest version on NuGet is [2.8.0-preview.3](https://www.nuget.org/packages/CSharpx/2.8.0-preview.3).
+- The letest version on NuGet is [2.8.0-preview.4](https://www.nuget.org/packages/CSharpx/2.8.0-preview.4).
 - The latest stable version on NuGet is [2.7.3](https://www.nuget.org/packages/CSharpx/2.7.3).
 
 ## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
@@ -157,14 +157,8 @@ static int Main(string[] args)
     var sentence = "this is a sentence";;
     return (from _ in
             from word in sentence.Split()
-            select Print(word)
+            select Unit.Do(() => Console.WriteLine(word))
             select 0).Distinct().Single();
-}
-
-static Unit Print(string value)
-{
-    Console.WriteLine(value);
-    return Unit.Default;
 }
 ```
 
