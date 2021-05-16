@@ -179,31 +179,30 @@ namespace CSharpx
     static class MaybeExtensions
     {
 #region Alternative Match Methods
-        /// <summary>Provides pattern matching using <c>System.Action</c> delegates.</summary>
-        public static void Match<T>(this Maybe<T> maybe, Action<T> onJust, Action onNothing)
+        /// <summary>Provides pattern matching using <c>System.Func</c> delegates.</summary>
+        public static Unit Match<T>(this Maybe<T> maybe,
+            Func<T, Unit> onJust, Func<Unit> onNothing)
         {
             if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
 
-            if (maybe.MatchJust(out T value)) {
-                onJust(value);
-                return;
-            }
-            onNothing();
+            return maybe.MatchJust(out T value) switch {
+                true => onJust(value),
+                _    => onNothing()
+            };
         }
 
-        /// <summary>Provides pattern matching using <c>System.Action</c> delegates over a <c>Maybe</c>
+        /// <summary>Provides pattern matching using <c>System.Func</c> delegates over a <c>Maybe</c>
         /// with tupled wrapped value.</summary>
-        public static void Match<T, U>(this Maybe<(T, U)> maybe,
-            Action<T, U> onJust, Action onNothing)
+        public static Unit Match<T, U>(this Maybe<(T, U)> maybe,
+            Func<T, U, Unit> onJust, Func<Unit> onNothing)
         {
             if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
             if (onJust == null) throw new ArgumentNullException(nameof(onJust));
 
-            if (maybe.MatchJust(out T value1, out U value2)) {
-                onJust(value1, value2);
-                return;
-            }
-            onNothing();
+            return maybe.MatchJust(out T value1, out U value2) switch {
+                true => onJust(value1, value2),
+                _    => onNothing()
+            };
         }
 
         /// <summary>Matches a value returning <c>true</c> and the tupled value itself via two output

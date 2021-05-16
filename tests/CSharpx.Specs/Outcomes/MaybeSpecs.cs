@@ -149,8 +149,8 @@ public class MaybeSpecs
         int? outcome1 = null;
         int? outcome2 = null;
         sut.Match(
-            (value1, value2) => { outcome1 = value1; outcome2 = value2; },
-            () => { });
+            (value1, value2) => Unit.Do(() => { outcome1 = value1; outcome2 = value2; }),
+            () => Unit.Default);
         outcome1.Should().NotBeNull().And.Be(value);
         outcome2.Should().NotBeNull().And.Be(value / 2);
     }

@@ -43,6 +43,7 @@ Source code uses **C#** language version 8.0 features.
 ## Install via NuGet
 
 If you prefer, you can install it via NuGet:
+
 ```sh
 $ dotnet add package CSharpx --version 2.8.0-preview.4
 ```
@@ -60,7 +61,7 @@ $ dotnet add package CSharpx --version 2.8.0-preview.4
 
 ```csharp
 var greet = true;
-var value = greet ? Maybe.Return("world") : Maybe.Nothing<string>();
+var value = greet ? "world".ToMaybe() : Maybe.Nothing<string>();
 value.Match(
     who => Console.WriteLine($"hello {who}!"),
     () => Environment.Exit(1));
@@ -97,6 +98,7 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 ## [FSharpResultExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/FSharpResultExtensions.cs)
 
 - Convenient extension methods to consume `FSharpResult<T, TError>` in simple and functional way from **C#**.
+
 ```csharp
 // pattern match like
 var result = Query.GetStockQuote("ORCL");
@@ -108,11 +110,13 @@ var result = Query.GetIndex(".DJI");
 result.Map(
     quote => CurrencyConverter.Change(quote.Price, "$", "€"));
 ```
+
 - Blog [post](https://gsscoder.github.io/consuming-fsharp-results-in-c/) about it.
 
 ## [StringExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Strings.cs#L34)
 
 - General purpose string manipulation extensions.
+
 ```csharp
 Console.WriteLine(
     "I want to change a word".ApplyAt(4, word => word.Mangle()));
@@ -128,6 +132,7 @@ Console.WriteLine(
 - Most useful extension methods from [MoreLINQ](https://github.com/morelinq/MoreLINQ).
 - Some of these reimplemnted (e.g. `Choose` using `Maybe`):
 - **LINQ** `...OrDefault` implemented with `Maybe` type as return value.
+
 ```csharp
 var numbers = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 var evens = numbers.Choose(x => x % 2 == 0
@@ -135,7 +140,9 @@ var evens = numbers.Choose(x => x % 2 == 0
                                 : Maybe.Nothing<int>());
 // outcome: {0, 2, 4, 6, 8}
 ```
+
 - With other useful methods too:
+
 ```CSharp
 var sequence = new int[] {0, 1, 2, 3, 4}.Intersperse(5);
 // outcome: {0, 5, 1, 5, 2, 5, 3, 5, 4}
@@ -146,11 +153,13 @@ var sequence = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.ChunkBySize(3);
 var maybeFirst = new int[] {0, 1, 2}.FirstOrNothing(x => x == 1)
 // outcome: Just(1)
 ```
+
 - [Tests](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx.Specs/Outcomes/EnumerableExtensionsSpecs.cs) cover only new and modified extension methods.
 
 ## [Unit](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Unit.cs)
 
 - `Unit` is similar to `void` but, since it's a *real* type. `void` is not, in fact you can't declare a variable of that type. `Unit` allows the use functions without a result in a computation (*functional style*). It's essentially **F#** `unit` and **Haskell** `Unit`.
+
 ```csharp
 // prints each word and returns 0 to the shell
 static int Main(string[] args)
