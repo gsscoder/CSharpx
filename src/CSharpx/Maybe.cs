@@ -284,20 +284,26 @@ namespace CSharpx
 #endregion
 
 #region Do Semantic
-        /// <summary>If contains a value executes a <c>System.Action<c> delegate over it.</summary>
-        public static void Do<T>(this Maybe<T> maybe, Action<T> action)
+        /// <summary>If contains a value executes a <c>System.Func<c> delegate over it.</summary>
+        public static Unit Do<T>(this Maybe<T> maybe, Func<T, Unit> func)
         {
-            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (func == null) throw new ArgumentNullException(nameof(func));
 
-            if (maybe.MatchJust(out T value)) action(value);
+            return maybe.MatchJust(out T value) switch {
+                true => func(value),
+                _ => Unit.Default
+            };
         }
 
-        /// <summary>If contans a value executes a <c>System.Action<c> delegate over it.</summary>
-        public static void Do<T, U>(this Maybe<(T, U)> maybe, Action<T, U> action)
+        /// <summary>If contans a value executes a <c>System.Func<c> delegate over it.</summary>
+        public static Unit Do<T, U>(this Maybe<(T, U)> maybe, Func<T, U, Unit> func)
         {
-            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (func == null) throw new ArgumentNullException(nameof(func));
 
-            if (maybe.MatchJust(out T value1, out U value2)) action(value1, value2);
+            return maybe.MatchJust(out T value1, out U value2) switch {
+                true => func(value1, value2),
+                _ => Unit.Default
+            };
         }
 #endregion
 
