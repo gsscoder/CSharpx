@@ -1,3 +1,5 @@
+// requires: Unit.cs
+
 //#define CSX_MAYBE_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 //#define CSX_REM_EITHER_FUNC // Uncomment or define at build time to remove dependency to Either.cs.
 
@@ -140,8 +142,8 @@ namespace CSharpx
         public static Maybe<(T, U)> Merge<T, U>(Maybe<T> first, Maybe<U> second)
         {
             U value2 = default;
-            return (first.MatchJust(out T value1) && second.MatchJust(out value2)) switch
-            {
+            return (first.MatchJust(out T value1) &&
+                    second.MatchJust(out value2)) switch {
                 true => Just((value1, value2)),
                 _ => Nothing<(T, U)>()
             };
@@ -153,10 +155,10 @@ namespace CSharpx
             if (func == null) throw new ArgumentException(nameof(func));
 
             try {
-                return Maybe.Just(func());
+                return Just(func());
             }
             catch {
-                return Maybe.Nothing<T>();
+                return Nothing<T>();
             }
         }
 
@@ -330,7 +332,7 @@ namespace CSharpx
                 _ => throw exceptionToThrow ?? new Exception("The value is empty.")
             };
 
-#region
+#region Sequences
         /// <summary>Returns an empty sequence when given <c>Nothing</c> or a singleton sequence in
         /// case of <c>Just</c>.</summary>
         public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> maybe)
