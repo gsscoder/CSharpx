@@ -49,6 +49,7 @@ $ dotnet add package CSharpx --version 2.8.0-preview.4
 
 ## Versions
 
+- In `develop` branch source code may be different also from latest preview.
 - The letest version on NuGet is [2.8.0-preview.4](https://www.nuget.org/packages/CSharpx/2.8.0-preview.4).
 - The latest stable version on NuGet is [2.7.3](https://www.nuget.org/packages/CSharpx/2.7.3).
 
