@@ -8,7 +8,7 @@ namespace CSharpx
 
 #if !CSX_RESULT_INTERNAL
     public
-#endif    
+#endif
     enum ResultType
     {
         Success,
@@ -22,7 +22,7 @@ namespace CSharpx
     {
 #if DEBUG
         internal
-#endif        
+#endif
         readonly string _error;
 
         internal Result(string error)
@@ -49,5 +49,23 @@ namespace CSharpx
 
         public static Result Success => new Result();
 #endregion
+    }
+
+#if !CSX_RESULT_INTERNAL
+    public
+#endif
+    static class ResultExtensions
+    {
+        public static Unit Match(this Result result,
+            Func<Unit> onSuccess, Func<string, Unit> onFailure)
+        {
+            if (onSuccess == null) throw new ArgumentNullException(nameof(onSuccess));
+            if (onFailure == null) throw new ArgumentNullException(nameof(onFailure));
+
+            return result.MatchFailure(out string error) switch {
+                true => onFailure(error),
+                _    => onSuccess() 
+            };
+        }    
     }
 }
