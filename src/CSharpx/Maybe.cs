@@ -185,6 +185,7 @@ namespace CSharpx
         public static Unit Match<T>(this Maybe<T> maybe,
             Func<T, Unit> onJust, Func<Unit> onNothing)
         {
+            if (onJust == null) throw new ArgumentNullException(nameof(onJust));
             if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
 
             return maybe.MatchJust(out T value) switch {
@@ -198,8 +199,8 @@ namespace CSharpx
         public static Unit Match<T, U>(this Maybe<(T, U)> maybe,
             Func<T, U, Unit> onJust, Func<Unit> onNothing)
         {
-            if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
             if (onJust == null) throw new ArgumentNullException(nameof(onJust));
+            if (onNothing == null) throw new ArgumentNullException(nameof(onNothing));
 
             return maybe.MatchJust(out T value1, out U value2) switch {
                 true => onJust(value1, value2),
