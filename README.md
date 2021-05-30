@@ -100,8 +100,7 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 ## [Result](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Result.cs)
 
-- Represents a value that can be a success or a failure in form an error string.
-- It's like a `bool` that uses an error string as `false`.
+- Represents a value that can be a success or a failure in form a type that can contains a custom error message and optionally one or more exceptions.
 
 ```csharp
 Result ValidateArtifact(string path)
@@ -111,7 +110,7 @@ Result ValidateArtifact(string path)
         artifact = ArtifactManager.Load(path);
     }
     catch (IOException e) {
-        return Result.Failure($"Unable to load artifcat {path}:\n{e.Message}");
+        return Result.Failure($"Unable to load artifcat {path}:\n{e.Message}", exception: e);
     }
     return artifact.CheckIntegrity() switch {
         Integrity.Healthy => Result.Success(),
