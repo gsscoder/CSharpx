@@ -83,10 +83,10 @@ namespace CSharpx
                 ? CSharpx.Either.Right<TError, T>(result.ResultValue)
                 : CSharpx.Either.Left<TError, T>(result.ErrorValue);
 
-        // Takes a result and maps it with okFunc if it is a success, otherwise it maps it with
-        // errorFunc.
+        /// <summary>Takes a result and maps it with okFunc if it is a success, otherwise it maps it with
+        /// errorFunc.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static TResult Either<T, TError, TResult>(
+        public static TResult Either<T, TError, TResult>(
             Func<T, TResult> okFunc,
             Func<TError, TResult> errorFunc,
             FSharpResult<T, TError> result)
@@ -100,10 +100,10 @@ namespace CSharpx
             return errorFunc(result.ErrorValue);
         }
 
-        // If the result is a success it executes the given function on the value. Otherwise the
-        // exisiting error is returned.
+        /// <summary>If the result is a success it executes the given function on the value. Otherwise the
+        /// exisiting error is returned.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static FSharpResult<T, TError> Bind<TValue, T, TError>(
+        public static FSharpResult<T, TError> Bind<TValue, T, TError>(
             Func<TValue, FSharpResult<T, TError>> func,
             FSharpResult<TValue, TError> result)
         {
@@ -116,10 +116,10 @@ namespace CSharpx
                 return Either(okFunc, errorFunc, result);
         }
 
-        // If the wrapped function is a success and the given result is a success the function is
-        // applied on the value.  Otherwise the exisiting error is returned.
+        /// <summary>If the wrapped function is a success and the given result is a success the function is
+        /// applied on the value.  Otherwise the exisiting error is returned.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static FSharpResult<T, TError> Apply<TValue, T, TError>(
+        public static FSharpResult<T, TError> Apply<TValue, T, TError>(
             FSharpResult<Func<TValue, T>, TError> wrappedFunc,
             FSharpResult<TValue, TError> result
         )
@@ -131,9 +131,9 @@ namespace CSharpx
             return FSharpResult<T, TError>.NewError(result.ErrorValue);
         }
 
-        // Lifts a function into a result container and applies it on the given result.
+        /// <summary>Lifts a function into a result container and applies it on the given result.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static FSharpResult<T, TError> Lift<TValue, T, TError>(
+        public static FSharpResult<T, TError> Lift<TValue, T, TError>(
             Func<TValue, T> func,
             FSharpResult<TValue, TError> result) =>
             Apply(FSharpResult<Func<TValue, T>, TError>.NewOk(func), result);
