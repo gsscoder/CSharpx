@@ -98,6 +98,28 @@ var value = sum.FromJust(); // outcome: 40
 - If you want a more complete implementation of this kind of types, please check my **C#** port of [Chessie](https://github.com/fsprojects/Chessie),
 named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
+## [Result](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Result.cs)
+
+- Represents a value that can be a success or a failure in form an error string.
+- It's like a `bool` that uses an error string as `false`.
+
+```csharp
+Result ValidateArtifact(string path)
+{
+    Artifact artifact;
+    try {
+        artifact = ArtifactManager.Load(path);
+    }
+    catch (IOException e) {
+        return Result.Failure($"Unable to load artifcat {path}:\n{e.Message}");
+    }
+    return artifact.CheckIntegrity() switch {
+        Integrity.Healthy => Result.Success(),
+        _                 => Result.Failure("Artifact integrity is compromised")
+    };
+}
+```
+
 ## [FSharpResultExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/FSharpResultExtensions.cs)
 
 - Convenient extension methods to consume `FSharpResult<T, TError>` in simple and functional way from **C#**.
@@ -116,7 +138,7 @@ result.Map(
 
 - Blog [post](https://gsscoder.github.io/consuming-fsharp-results-in-c/) about it.
 
-## [StringExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Strings.cs#L34)
+## [StringExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Strings.cs#L53)
 
 - General purpose string manipulation extensions.
 
