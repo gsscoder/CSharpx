@@ -1,4 +1,4 @@
-//#define CSX_CRYPTORAND_INTERNAL // Uncomment or define at build time to set SetOnce<T> accessibility to internal.
+//#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 namespace CSharpx
 {
     /// <summary>A thread safe random number generator based on the RNGCryptoServiceProvider.</summary>
-    #if !CSX_CRYPTORAND_INTERNAL
+    #if !CSX_TYPES_INTERNAL
     public
     #endif
     class CryptoRandom : Random

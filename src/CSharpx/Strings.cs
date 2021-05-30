@@ -1,5 +1,5 @@
-//#define CSX_STRINGS_INTERNAL // Uncomment or define at build time to set accessibility to internal.
-//#define CSX_REM_CRYPTORAND // Uncomment or define at build time to remove dependency to CryptoRandom.cs.
+//requires: CryptoRandom.cs
+//#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 using System.Text;
@@ -9,16 +9,13 @@ using System.Linq;
 
 namespace CSharpx
 {
-#if !CSX_STRINGS_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class StringUtil
     {
-    #if CSX_REM_CRYPTORAND
-        static readonly Random _random = new Random();
-    #else
         static readonly Random _random = new CryptoRandom();
-    #endif
+
         const string _chars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>Generates a random string of given length.</summary>
@@ -31,7 +28,7 @@ namespace CSharpx
         }
     }
 
-#if !CSX_STRINGS_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class CharExtensions
@@ -53,16 +50,12 @@ namespace CSharpx
         }
     }
 
-#if !CSX_STRINGS_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class StringExtensions
     {
-    #if CSX_REM_CRYPTORAND
-        static readonly Random _random = new Random();
-    #else
         static readonly Random _random = new CryptoRandom();
-    #endif
         static string[] _mangleChars =
             {"!", "\"", "£", "$", "%", "&", "/", "(", ")", "=", "?", "^", "[", "]", "*", "@", "°",
              "#", "§", ",", ";", ".", ":", "-", "_"};

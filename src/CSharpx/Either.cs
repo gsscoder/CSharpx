@@ -1,5 +1,5 @@
-//#define CSX_EITHER_INTERNAL // Uncomment or define at build time to set accessibility to internal.
-//#define CSX_REM_MAYBE_FUNC // Uncomment or define at build time to remove dependency to Maybe.cs.
+//requires: Maybe.cs
+//#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ namespace CSharpx
 {
     #region Either Type
     /// <summary>Discriminator for <c>Either</c>.</summary>
-#if !CSX_EITHER_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     enum EitherType
@@ -19,7 +19,7 @@ namespace CSharpx
         Right
     }
 
-#if !CSX_EITHER_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     /// <summary>The <c>Either</c> type represents values with two possibilities: a value of type
@@ -67,7 +67,7 @@ namespace CSharpx
         #endregion
     }
 
-#if !CSX_EITHER_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class Either
@@ -150,7 +150,6 @@ namespace CSharpx
         /// stores the exception in <c>Left</c>.</summary>
         public static Either<Exception, TRight> Cast<TRight>(object obj) => Either.Try(() => (TRight)obj);
 
-#if !CSX_REM_MAYBE_FUNC
         /// <summary>Converts a <c>Just</c> value to a <c>Right</c> and a <c>Nothing</c> value to a
         /// <c>Left</c>.</summary>
         public static Either<TLeft, TRight> FromMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
@@ -160,12 +159,11 @@ namespace CSharpx
             }
             return Either.Left<TLeft, TRight>(left);
         }
-#endif
 
         static TLeft GetLeft<TLeft, TRight>(this Either<TLeft, TRight> either) => either.FromLeft();
     }
 
-#if !CSX_EITHER_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class EitherExtensions

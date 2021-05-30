@@ -1,7 +1,5 @@
-//#define CSX_ENUM_INTERNAL // Uncomment or define at build time to set accessibility to internal.
-//#define CSX_REM_MAYBE_FUNC // Uncomment or define at build time to remove dependency to Maybe.cs.
-//#define CSX_REM_UNIT_FUNC // Uncomment or define at build time to remove dependency to Unit.cs.
-//#define CSX_REM_CRYPTORAND // Uncomment or define at build time to remove dependency to CryptoRandom.cs.
+//requires: Unit.cs, Either.cs, CryptoRandom.cs
+//#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 using System.Collections;
@@ -13,7 +11,7 @@ using LinqEnumerable = System.Linq.Enumerable;
 
 namespace CSharpx
 {
-#if !CSX_ENUM_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class EnumerableExtensions
@@ -314,15 +312,14 @@ namespace CSharpx
         }
         #endregion
 
-       #if !CSX_REM_MAYBE_FUNC
         /// <summary>Safe function that returns Just(first element) or <c>Nothing</c>.</summary>
         public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
             using var e = source.GetEnumerator(); return e.MoveNext()
-    ? Maybe.Just(e.Current)
-    : Maybe.Nothing<T>();
+                ? Maybe.Just(e.Current)
+                : Maybe.Nothing<T>();
         }
 
         /// <summary>Safe function that returns Just(last element) or <c>Nothing</c>.</summary>
@@ -496,9 +493,7 @@ namespace CSharpx
             }
             return Maybe.Nothing<TSource>();
         }
-        #endif
 
-        #if !CSX_REM_UNIT_FUNC
         /// <summary>Immediately executes the given action on each element in the source sequence.</summary>
         public static Unit ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
@@ -510,7 +505,6 @@ namespace CSharpx
             }
             return Unit.Default;
         }
-        #endif
 
         /// <summary>Return everything except first element and throws exception if empty.</summary>
         public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
@@ -595,13 +589,9 @@ namespace CSharpx
         /// <summary>Selects a random element.</summary>
         public static T Choice<T>(this IEnumerable<T> source)
         {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+            if (source == null) throw new ArgumentNullException(nameof(source));
 
-        #if CSX_REM_CRYPTORAND
-            var index = new Random().Next(source.Count() - 1);
-        #else
             var index = new CryptoRandom().Next(source.Count() - 1);
-        #endif
             return source.ElementAt(index);
         }
 

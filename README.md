@@ -12,6 +12,7 @@ and set other preferences.
 If you can't customize it enough using compiler directives, please tell me or fork it and do it in your way.
 
 OSS project that includes **CSharpx**:
+
 - [PickAll](https://github.com/gsscoder/pickall)
 - [Tagger](https://github.com/gsscoder/tagger)
 - [Integrity](https://github.com/gsscoder/integrity)
@@ -32,6 +33,8 @@ github gsscoder/csharpx src/csharpx/Maybe.cs
 File:Maybe.cs Internal
 ```
 - **Paket** will alter your `csproj` file adding a `Compile` item, so you need to set `EnableDefaultCompileItems` property to `false`. At this point, every other source file must be handled in the same way. For more detailed informations please read [Paket Documentation](https://fsprojects.github.io/Paket/github-dependencies.html).
+
+Conditional compilation constants of previous version are semplified to one. `CSX_TYPES_INTERNAL` if set allows you to set visibility to internal.
 
 Source code uses **C#** language version 8.0 features.
 

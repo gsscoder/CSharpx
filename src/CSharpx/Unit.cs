@@ -1,4 +1,4 @@
-//#define CSX_UNIT_INTERNAL // Uncomment or define at build time to set accessibility to internal.
+//#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 
@@ -7,7 +7,7 @@ namespace CSharpx
     /// <summary>The <c>Unit</c> type is a type that indicates the absence of a specific value; the
     /// <c>Unit</c> type has only a single value, which acts as a placeholder when no other value
     /// exists or is needed.</summary>
-#if !CSX_UNIT_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     struct Unit : IComparable

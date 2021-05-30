@@ -1,12 +1,13 @@
 
-//#define CSX_RESULT_INTERNAL // Uncomment or define at build time to set accessibility to internal.
+//requires: Unit.cs
+//#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 
 namespace CSharpx
 {
 
-#if !CSX_RESULT_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     enum ResultType
@@ -15,7 +16,7 @@ namespace CSharpx
         Failure
     }
 
-#if !CSX_RESULT_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif    
     struct Result
@@ -51,7 +52,7 @@ namespace CSharpx
 #endregion
     }
 
-#if !CSX_RESULT_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class ResultExtensions

@@ -1,7 +1,5 @@
-// requires: Unit.cs
-
-//#define CSX_MAYBE_INTERNAL // Uncomment or define at build time to set accessibility to internal.
-//#define CSX_REM_EITHER_FUNC // Uncomment or define at build time to remove dependency to Either.cs.
+//requires: Unit.cs, Either.cs
+//#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 using System.Text;
@@ -12,7 +10,7 @@ namespace CSharpx
 {
     #region Maybe Type
     /// <summary>Discriminator for <c>Maybe</c>.</summary>
-#if !CSX_MAYBE_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     enum MaybeType
@@ -26,7 +24,7 @@ namespace CSharpx
     /// <summary>The <c>Maybe</c> type models an optional value. A value of type <c>Maybe</c> either
     /// contains a value (represented as <c>Just</c> a), or it is empty (represented as
     /// <c>Nothing</c>).</summary>
-#if !CSX_MAYBE_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     struct Maybe<T> : IEquatable<Maybe<T>>
@@ -100,7 +98,7 @@ namespace CSharpx
 #endregion
 
     /// <summary>Provides static methods for manipulating <c>Maybe</c>.</summary>
-#if !CSX_MAYBE_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class Maybe
@@ -162,7 +160,6 @@ namespace CSharpx
             }
         }
 
-#if !CSX_REM_EITHER_FUNC
         /// <summary>Maps <c>Either</c> right value to <c>Just</c>, otherwise returns
         /// <c>Nothing</c>.</summary>
         public static Maybe<TRight> FromEither<TLeft, TRight>(Either<TLeft, TRight> either) =>
@@ -171,11 +168,10 @@ namespace CSharpx
                 true => Just(either.FromRight()),
                 _ => Nothing<TRight>()
             };
-#endif
     }
 
     /// <summary>Provides convenience extension methods for <c>Maybe</c>.</summary>
-#if !CSX_MAYBE_INTERNAL
+#if !CSX_TYPES_INTERNAL
     public
 #endif
     static class MaybeExtensions
