@@ -71,16 +71,14 @@ namespace CSharpx
                 ? ToString().GetHashCode()
                 : _value.GetHashCode();
 
-        public override string ToString()
-        {
-            return Tag switch {
+        public override string ToString() =>
+            Tag switch {
                 MaybeType.Just => new StringBuilder("Just(")
-                                  .Append(_value)
-                                  .Append(")")
-                                  .ToString(),
+                                      .Append(_value)
+                                      .Append(")")
+                                      .ToString(),
                 _ => "<Nothing>"
             };
-        }
 
 #region Basic Match Methods
         /// <summary>Matches a value returning <c>true</c> and value itself via an output
