@@ -62,5 +62,81 @@ public class ResultSpecs
             outcome._error.Should().Be(
                 new Error($"custom message {value}", new[] {new Exception(message: $"exception message {value}")}));
         });
-    }    
+    }
+
+    [Fact]
+    public void Result_of_type_Success_are_equal()
+    {
+        var result1 = CSharpx.Result.Success;
+        var result2 = CSharpx.Result.Success;
+        
+        var outcome = result1.Equals(result2);
+
+        outcome.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Result_of_type_Failure_with_same_error_are_equal()
+    {
+        var result1 = CSharpx.Result.Failure("something gone wrong", new Exception("here a trouble"));
+        var result2 = CSharpx.Result.Failure("something gone wrong", new Exception("here a trouble"));
+        
+        var outcome = result1.Equals(result2);
+
+        outcome.Should().BeTrue();
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Result_of_type_Failure_with_different_error_strings_are_not_equal(string[] values)
+    {
+        values.ForEach(value =>
+        {
+            if (value == null) return;  // Skip null values
+
+            var result1 = CSharpx.Result.Failure(
+                value, new Exception("here a trouble"));
+            var result2 = CSharpx.Result.Failure(
+                $"{value}{StringUtil.Generate(3)}", new Exception("here a trouble"));
+        
+            var outcome = result1.Equals(result2);
+
+            outcome.Should().BeFalse();
+        });
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Result_of_type_Failure_with_different_exceptions_are_not_equal(string[] values)
+    {
+        values.ForEach(value =>
+        {
+            if (value == null) return;  // Skip null values
+
+            var result1 = CSharpx.Result.Failure(
+                "something gone wrong", new Exception(value));
+            var result2 = CSharpx.Result.Failure(
+                "something gone wrong", new Exception($"{value}{StringUtil.Generate(3)}"));
+        
+            var outcome = result1.Equals(result2);
+
+            outcome.Should().BeFalse();
+        });
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Result_of_type_Failure_with_different_errors_are_not_equal(string[] values)
+    {
+        values.ForEach(value =>
+        {
+            if (value == null) return;  // Skip null values
+
+            var result1 = CSharpx.Result.Failure(
+                value, new Exception(value));
+            var result2 = CSharpx.Result.Failure(
+                $"{value}{StringUtil.Generate(3)}", new Exception($"{value}{StringUtil.Generate(3)}"));
+        
+            var outcome = result1.Equals(result2);
+
+            outcome.Should().BeFalse();
+        });
+    }
 }

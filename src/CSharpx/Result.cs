@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace CSharpx
 {
@@ -79,7 +81,7 @@ namespace CSharpx
 #if !CSX_TYPES_INTERNAL
     public
 #endif    
-    struct Result
+    struct Result : IEquatable<Result>
     {
 #if DEBUG
         internal
@@ -93,6 +95,40 @@ namespace CSharpx
         }
 
         public ResultType Tag { get; private set; }
+
+        public override bool Equals(object other)
+        {
+            if (other == null) return false;
+            var otherType = other.GetType();
+            if (otherType != GetType()) return false;
+            var otherTag = (ResultType)otherType.GetProperty(
+                "Tag", BindingFlags.Public | BindingFlags.Instance).GetValue(other);
+            if (otherTag != Tag) return false;
+            if (otherTag == ResultType.Success && Tag == ResultType.Success) return true;
+            var otherField = otherType.GetField("_error", BindingFlags.NonPublic | BindingFlags.Instance);
+            return otherField.GetValue(other).Equals(_error);
+        }
+
+        public bool Equals(Result other) =>
+            other.Tag != ResultType.Failure || _error.Equals(other._error);
+
+        public static bool operator ==(Result left, Result right) => left.Equals(right);
+
+        public static bool operator !=(Result left, Result right) => !left.Equals(right);
+
+        public override int GetHashCode() =>
+            Tag == ResultType.Success
+                ? ToString().GetHashCode()
+                : _error.GetHashCode();
+
+        public override string ToString() =>
+            Tag switch {
+                ResultType.Success => "<Success>",
+                _                  => new StringBuilder("Failure(")
+                                      .Append(_error)
+                                      .Append(")")
+                                      .ToString()
+            };
 
 #region Basic Match Methods
         public bool MatchFailure(out Error error)
