@@ -38,7 +38,7 @@ namespace CSharpx
             IsRandomPoolEnabled = enableRandomPool;
         }
 
-        private void InitBuffer()
+        void InitBuffer()
         {
             if (IsRandomPoolEnabled) {
                 if (_buffer == null || _buffer.Length != 512) {
