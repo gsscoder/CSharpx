@@ -1,4 +1,4 @@
-//requires: Maybe.cs
+//reguires: Unit.cs, Maybe.cs
 //#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
@@ -180,17 +180,16 @@ namespace CSharpx
         #endregion
 
         #region Alternative Match Method
-        public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either,
-            Action<TLeft> ifLeft, Action<TRight> ifRight)
+        public static Unit Match<TLeft, TRight>(this Either<TLeft, TRight> either,
+            Func<TLeft, Unit> onLeft, Func<TRight, Unit> onRight)
         {
-            if (ifLeft == null) throw new ArgumentNullException(nameof(ifLeft));
-            if (ifRight == null) throw new ArgumentNullException(nameof(ifRight));
+            if (onLeft == null) throw new ArgumentNullException(nameof(onLeft));
+            if (onRight == null) throw new ArgumentNullException(nameof(onRight));
 
-            if (either.MatchLeft(out TLeft left)) {
-                ifLeft(left);
-                return;
-            }
-            ifRight(either.FromRight());
+            return either.MatchRight(out TRight right) switch {
+                true => onRight(right),
+                _ =>    onLeft(either.FromLeft())
+            };
         }
         #endregion
 
