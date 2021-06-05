@@ -188,7 +188,7 @@ var maybeFirst = new int[] {0, 1, 2}.FirstOrNothing(x => x == 1)
 // prints each word and returns 0 to the shell
 static int Main(string[] args)
 {
-    var sentence = "this is a sentence";;
+    var sentence = "this is a sentence";
     return (from _ in
             from word in sentence.Split()
             select Unit.Do(() => Console.WriteLine(word))
@@ -202,6 +202,7 @@ static int Main(string[] args)
 - `Either<TLeft, TRight>` type implemented as a `struct`.
 - Code refactored for C# 8.0.
 - Implemented `IEquatable<T>` for `Maybe<T>` type.
+- No public methods return `void` but `Unit` type.
 
 ## Related Projects
 
