@@ -1,5 +1,4 @@
-
-//requires: Unit.cs
+//requires: Unit.cs, Maybe.cs
 //#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
@@ -25,16 +24,18 @@ namespace CSharpx
 #endif   
     struct Error : IEquatable<Error>
     {
+        readonly Lazy<ExceptionEqualityComparer> _comparer => new Lazy<ExceptionEqualityComparer>(
+            () => new ExceptionEqualityComparer());
+        Exception _exception;
         public string Message { get; private set; }
-        public IEnumerable<Exception> Exceptions { get; private set; }
+        public Maybe<Exception> Exception => _exception.ToMaybe();
 
-        internal Error(string message, IEnumerable<Exception> exceptions)
+        internal Error(string message, Exception exception)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-            if (exceptions == null) throw new ArgumentNullException(nameof(exceptions));
 
             Message = message;
-            Exceptions = exceptions;
+            _exception = exception;
         }
 
         public override bool Equals(object other)
@@ -43,19 +44,21 @@ namespace CSharpx
             if (other.GetType() != typeof(Error)) return false;
             var otherError = (Error)other;
             return otherError.Message.Equals(Message) &&
-                   Enumerable.SequenceEqual(otherError.Exceptions, Exceptions, new ExceptionEqualityComparer());
+                   _comparer.Value.Equals(otherError._exception, _exception);
         }
 
         public bool Equals(Error other) =>
-            other.Message.Equals(Message) &&
-            Enumerable.SequenceEqual(other.Exceptions, Exceptions, new ExceptionEqualityComparer());
+            other.Message.Equals(Message)  &&
+                    _comparer.Value.Equals(other._exception, _exception);
 
         public static bool operator ==(Error left, Error right) => left.Equals(right);
 
         public static bool operator !=(Error left, Error right) => !left.Equals(right);
 
         override public int GetHashCode() =>
-            Message.GetHashCode() + (from e in Exceptions select e.GetHashCode()).Sum();
+            _exception == null
+                ? Message.GetHashCode()
+                : Message.GetHashCode() ^ _exception.GetHashCode();
 
         sealed class ExceptionEqualityComparer : IEqualityComparer<Exception>
         {
@@ -130,6 +133,19 @@ namespace CSharpx
                                       .ToString()
             };
 
+#region Value Case Constructors
+        public static Result Failure(string error) => new Result(
+            new Error(error, null));
+
+        public static Result Failure(string error, Exception exception) => new Result(
+            new Error(error, exception));
+
+        public static Result Failure(Exception exception) => new Result(
+            new Error(string.Empty, null));
+
+        public static Result Success => new Result();
+#endregion
+
 #region Basic Match Methods
         public bool MatchFailure(out Error error)
         {
@@ -138,25 +154,6 @@ namespace CSharpx
         }
 
         public bool MatchSuccess() => Tag == ResultType.Success;
-#endregion
-
-#region Value Case Constructors
-        public static Result Failure(string error) => new Result(
-            new Error(error, Enumerable.Empty<Exception>()));
-
-        public static Result Failure(string error, Exception exception) => new Result(
-            new Error(error, new[] {exception}));
-
-       public static Result Failure(string error, params Exception[] exceptions) => new Result(
-            new Error(error, exceptions));
-
-        public static Result Failure(Exception exception) => new Result(
-            new Error(string.Empty, new[] {exception}));
-
-       public static Result Failure(params Exception[] exceptions) => new Result(
-            new Error(string.Empty, exceptions));            
-
-        public static Result Success => new Result();
 #endregion
     }
 
@@ -190,15 +187,27 @@ namespace CSharpx
         }
 
         public static Unit Match(this Result result,
+            Func<Unit> onSuccess, Func<Maybe<Exception>, Unit> onFailure)
+        {
+            if (onSuccess == null) throw new ArgumentNullException(nameof(onSuccess));
+            if (onFailure == null) throw new ArgumentNullException(nameof(onFailure));
+
+            return result.MatchFailure(out Error error) switch {
+                true => onFailure(error.Exception),
+                _    => onSuccess() 
+            };
+        }
+
+        public static Unit Match(this Result result,
             Func<Unit> onSuccess, Func<Exception, Unit> onFailure)
         {
             if (onSuccess == null) throw new ArgumentNullException(nameof(onSuccess));
             if (onFailure == null) throw new ArgumentNullException(nameof(onFailure));
 
             return result.MatchFailure(out Error error) switch {
-                true => onFailure(error.Exceptions.First()),
+                true => onFailure(error.Exception.FromJust()),
                 _    => onSuccess() 
             };
-        }        
+        }
     }
 }

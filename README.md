@@ -100,14 +100,13 @@ named [RailwaySharp](https://github.com/gsscoder/railwaysharp).
 
 ## [Result](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Result.cs)
 
-- Represents a value that can be a success or a failure in form a type that can contains a custom error message and optionally one or more exceptions.
+- Represents a value that can be a success or a failure in form a type that can contains a custom error message and optionally an exception.
 
 ```csharp
-Result ValidateArtifact(string path)
+Result ValidateArtifact(Artifact artifact)
 {
-    Artifact artifact;
     try {
-        artifact = ArtifactManager.Load(path);
+        artifact = ArtifactManager.Load(artifact.Path);
     }
     catch (IOException e) {
         return Result.Failure($"Unable to load artifcat {path}:\n{e.Message}", exception: e);
@@ -117,6 +116,12 @@ Result ValidateArtifact(string path)
         _                 => Result.Failure("Artifact integrity is compromised")
     };
 }
+
+if (ValidateArtifact(artifact).MatchFailure(out Error error)) {
+    _logger.LogError(error.Exception.FromJust(), error.Message);
+    Environment.Exit(1);
+}
+// do something useful with artifact
 ```
 
 ## [FSharpResultExtensions](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/FSharpResultExtensions.cs)

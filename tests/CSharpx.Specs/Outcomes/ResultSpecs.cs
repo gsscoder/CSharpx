@@ -18,9 +18,9 @@ public class ResultSpecs
             if (value == null) return;  // Skip null values
 
             var outcome = new Error(
-                $"custom message {value}", new[] {new Exception(message: $"exception message {value}")}).Equals(
+                $"custom message {value}", new Exception($"exception message {value}")).Equals(
                           new Error(
-                $"custom message {value}", new[] {new Exception(message: $"exception message {value}")}));
+                $"custom message {value}", new Exception($"exception message {value}")));
 
             outcome.Should().BeTrue();
         });
@@ -44,7 +44,7 @@ public class ResultSpecs
             var outcome = CSharpx.Result.Failure(value);
 
             outcome.Tag.Should().Be(CSharpx.ResultType.Failure);
-            outcome._error.Should().Be(new Error(value, Enumerable.Empty<Exception>()));
+            outcome._error.Should().Be(new Error(value, null));
         });
     }
 
@@ -56,11 +56,11 @@ public class ResultSpecs
             if (value == null) return;  // Skip null values
 
             var outcome = CSharpx.Result.Failure($"custom message {value}",
-                new Exception(message: $"exception message {value}"));
+                new Exception($"exception message {value}"));
 
             outcome.Tag.Should().Be(CSharpx.ResultType.Failure);
             outcome._error.Should().Be(
-                new Error($"custom message {value}", new[] {new Exception(message: $"exception message {value}")}));
+                new Error($"custom message {value}", new Exception($"exception message {value}")));
         });
     }
 
