@@ -139,4 +139,62 @@ public class ResultSpecs
             outcome.Should().BeFalse();
         });
     }
+
+    [Fact]
+    public void Should_match_Success()
+    {
+        var result = CSharpx.Result.Success;
+
+        var outcome = result.MatchSuccess();
+
+        outcome.Should().BeTrue();
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Should_match_Failure(string[] values)
+    {
+        values.ForEach(value =>
+        {
+            if (value == null) return;  // Skip null values
+
+            var result = CSharpx.Result.Failure(value, new Exception("here a trouble"));
+
+            var outcome = result.MatchFailure(out Error outcome1);
+
+            outcome.Should().BeTrue();
+            outcome1.Should().Be(new Error(value, new Exception("here a trouble")));
+        });
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Should_match_Failure_with_message_only(string[] values)
+    {
+        values.ForEach(value =>
+        {
+            if (value == null) return;  // Skip null values
+
+            var result = CSharpx.Result.Failure(value);
+
+            var outcome = result.MatchFailure(out Error outcome1);
+
+            outcome.Should().BeTrue();
+            outcome1.Should().Be(new Error(value, null));
+        });
+    }
+
+    [Property(Arbitrary = new[] { typeof(ArbitraryListOfStrings) })]
+    public void Should_match_Failure_with_exception_only(string[] values)
+    {
+        values.ForEach(value =>
+        {
+            if (value == null) return;  // Skip null values
+
+            var result = CSharpx.Result.Failure(new Exception(value));
+
+            var outcome = result.MatchFailure(out Error outcome1);
+
+            outcome.Should().BeTrue();
+            outcome1.Should().Be(new Error(string.Empty, new Exception(value)));
+        });
+    }    
 }

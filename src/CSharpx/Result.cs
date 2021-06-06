@@ -141,7 +141,7 @@ namespace CSharpx
             new Error(error, exception));
 
         public static Result Failure(Exception exception) => new Result(
-            new Error(string.Empty, null));
+            new Error(string.Empty, exception));
 
         public static Result Success => new Result();
 #endregion
