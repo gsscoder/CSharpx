@@ -72,10 +72,10 @@ namespace CSharpx
                 return true;
             }
 
-            public int GetHashCode(Exception e)
+            public int GetHashCode(Exception exception)
             {
-                var hash = e.Message.GetHashCode();
-                if (e.InnerException != null) hash ^= e.InnerException.Message.GetHashCode();
+                var hash = exception.Message.GetHashCode();
+                if (exception.InnerException != null) hash ^= exception.InnerException.Message.GetHashCode();
                 return hash;
             }
         }
@@ -139,9 +139,6 @@ namespace CSharpx
 
         public static Result Failure(string error, Exception exception) => new Result(
             new Error(error, exception));
-
-        public static Result Failure(Exception exception) => new Result(
-            new Error(string.Empty, exception));
 
         public static Result Success => new Result();
 #endregion
