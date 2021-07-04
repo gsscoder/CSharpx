@@ -26,10 +26,14 @@ It allows also source inclusion in other projects. Just one or more files in you
 
 **paket.dependencies**
 ```
-github gsscoder/csharpx src/csharpx/Maybe.cs 
+github gsscoder/csharpx src/CSharpx/Unit.cs 
+github gsscoder/csharpx src/CSharpx/Either.cs 
+github gsscoder/csharpx src/CSharpx/Maybe.cs 
 ```
 **paket.references** (if you've a directory called `Internal`)
 ```
+File:Unit.cs Internal
+File:Either.cs Internal
 File:Maybe.cs Internal
 ```
 - **Paket** will alter your `csproj` file adding a `Compile` item, so you need to set `EnableDefaultCompileItems` property to `false`. At this point, every other source file must be handled in the same way. For more detailed informations please read [Paket Documentation](https://fsprojects.github.io/Paket/github-dependencies.html).
@@ -118,7 +122,8 @@ Result ValidateArtifact(Artifact artifact)
 }
 
 if (ValidateArtifact(artifact).MatchFailure(out Error error)) {
-    _logger.LogError(error.Exception.FromJust(), error.Message);
+    //Error::ToString creates a string with message and exception details
+    _logger.LogError(error.Exception.FromJust(), error.ToString());
     Environment.Exit(1);
 }
 // do something useful with artifact
