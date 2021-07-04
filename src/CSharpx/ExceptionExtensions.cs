@@ -8,7 +8,7 @@ namespace CSharpx
 #endif
     static class ExceptionExtensions
     {
-        public static string Format(this Exception exception)
+        public static string ToStringEx(this Exception exception)
         {
             var builder = new StringBuilder(capacity: 256);
             builder.AppendLine(exception.Message);
