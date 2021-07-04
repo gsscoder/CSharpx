@@ -1,9 +1,8 @@
-//requires: Unit.cs, Maybe.cs
+//requires: ExceptionExtensions.cs, Unit.cs, Maybe.cs
 //#define CSX_TYPES_INTERNAL // Uncomment or define at build time to set accessibility to internal.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -55,10 +54,17 @@ namespace CSharpx
 
         public static bool operator !=(Error left, Error right) => !left.Equals(right);
 
-        override public int GetHashCode() =>
+        public override int GetHashCode() =>
             _exception == null
                 ? Message.GetHashCode()
                 : Message.GetHashCode() ^ _exception.GetHashCode();
+
+        public override string ToString() => Exception.IsJust()
+            ? new StringBuilder(capacity: 256)
+                .AppendLine($"{Message}:")
+                .AppendLine(Exception.FromJust().ToStringEx())
+                .ToString()
+            : Message;
 
         sealed class ExceptionEqualityComparer : IEqualityComparer<Exception>
         {
@@ -127,10 +133,7 @@ namespace CSharpx
         public override string ToString() =>
             Tag switch {
                 ResultType.Success => "<Success>",
-                _                  => new StringBuilder("Failure(")
-                                      .Append(_error)
-                                      .Append(")")
-                                      .ToString()
+                _                  => _error.ToString()
             };
 
 #region Value Case Constructors
