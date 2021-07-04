@@ -48,13 +48,13 @@ Source code uses **C#** language version 8.0 features.
 If you prefer, you can install it via NuGet:
 
 ```sh
-$ dotnet add package CSharpx --version 2.8.0-rc.1
+$ dotnet add package CSharpx --version 2.8.0-rc.2
 ```
 
 ## Versions
 
 - In `develop` branch source code may be different also from latest preview.
-- The letest version on NuGet is [2.8.0-rc.1](https://www.nuget.org/packages/CSharpx/2.8.0-rc.1).
+- The letest version on NuGet is [2.8.0-rc.2](https://www.nuget.org/packages/CSharpx/2.8.0-rc.2).
 - The latest stable version on NuGet is [2.7.3](https://www.nuget.org/packages/CSharpx/2.7.3).
 
 ## [Maybe](https://github.com/gsscoder/CSharpx/blob/master/src/CSharpx/Maybe.cs)
